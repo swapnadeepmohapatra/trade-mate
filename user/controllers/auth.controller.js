@@ -1,8 +1,5 @@
 import generateJWTTokenAndSetCookie from "../utils/generateToken.js";
-import { v4 as uuidv4 } from "uuid";
-
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import bcrypt from "bcrypt";
 
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -14,7 +11,7 @@ export const signup = async (req, res) => {
   }
 
   try {
-    const user = await prisma.user.findFirst({
+    const user = await req.prisma.user.findFirst({
       where: {
         email,
       },
@@ -25,20 +22,27 @@ export const signup = async (req, res) => {
         .json({ success: false, error: "User already exists" });
     }
 
-    const salt = uuidv4();
+    const hashedPassword = await bcrypt.hash(password, 15);
 
-    const newUser = await prisma.user.create({
+    const newUser = await req.prisma.user.create({
       data: {
         name,
         email,
-        password,
-        salt,
+        password: hashedPassword,
       },
     });
 
-    generateJWTTokenAndSetCookie(newUser.id, salt, res);
+    generateJWTTokenAndSetCookie(newUser.id, res);
 
-    res.status(201).json({ success: true, body: { user: newUser } });
+    res.status(201).json({
+      success: true,
+      body: {
+        user: {
+          ...newUser,
+          password: undefined,
+        },
+      },
+    });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -47,14 +51,11 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await prisma.user.findFirst({
+    const user = await req.prisma.user.findFirst({
       where: {
         email,
-        password,
       },
     });
-
-    console.log(user);
 
     if (!user) {
       return res
@@ -62,9 +63,20 @@ export const login = async (req, res) => {
         .json({ success: false, error: "Invalid credentials" });
     }
 
-    generateJWTTokenAndSetCookie(user.id, user.salt, res);
+    const passwordMatch = await bcrypt.compare(password, user?.password || "");
 
-    res.status(200).json({ success: true, body: { user } });
+    if (!passwordMatch) {
+      return res.status(400).json({ success: false, error: "Invalid Pasword" });
+    }
+
+    generateJWTTokenAndSetCookie(user.id, res);
+
+    res
+      .status(200)
+      .json({
+        success: true,
+        body: { user: { ...user, password: undefined } },
+      });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }

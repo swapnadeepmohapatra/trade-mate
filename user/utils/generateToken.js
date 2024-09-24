@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "./config.js";
 
-const generateJWTTokenAndSetCookie = (userId, salt, res) => {
-  const token = jwt.sign({ userId }, `${JWT_SECRET}${salt}`, {
+const generateJWTTokenAndSetCookie = (userId, res) => {
+  const token = jwt.sign({ userId }, JWT_SECRET, {
     expiresIn: "1d",
     algorithm: "HS256",
   });
