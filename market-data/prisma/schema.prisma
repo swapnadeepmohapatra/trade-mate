@@ -1,0 +1,34 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+generator typegraphql {
+    provider = "typegraphql-prisma"
+    output   = "./../node_modules/@generated/type-graphql"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model MarketData {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    exch        String
+    exchType    String
+    scripCode   Int
+    name        String
+    expiry      String
+    scripType   String
+    strikeRate  String
+    fullName    String
+    tickSize    Float
+    lotSize     Int
+    qtyLimit    Int
+    multiplier  Int
+    symbolRoot  String
+    bocoAllowed String
+    isin        String
+    scripData   String
+    series      String
+}
