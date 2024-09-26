@@ -1,5 +1,5 @@
-import { Box, Container, Heading, Text, useColorMode } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { Stack, useColorMode } from "@chakra-ui/react";
 import Hero from "./components/hero";
 import Navbar from "./components/navbar";
 
@@ -13,10 +13,10 @@ function Home() {
   }, [colorMode, toggleColorMode]);
 
   return (
-    <Box>
+    <Stack>
       <Navbar />
       <Hero />
-    </Box>
+    </Stack>
   );
 }
 
