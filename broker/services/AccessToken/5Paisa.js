@@ -18,7 +18,7 @@ export const getAccessTokenFor5Paisa = async (prisma, RequestToken, State) => {
       },
     });
 
-    const accessToken = await makeAccessTokenRequest(
+    const { AccessToken, ClientCode } = await makeAccessTokenRequest(
       RequestToken,
       brokerDetails
     );
@@ -26,9 +26,10 @@ export const getAccessTokenFor5Paisa = async (prisma, RequestToken, State) => {
     const session = await prisma.session.create({
       data: {
         userId: user.id,
-        accessToken: accessToken,
+        accessToken: AccessToken,
         requestToken: RequestToken,
         brokerId: brokerDetails.id,
+        clientCode: ClientCode,
       },
     });
 
@@ -36,7 +37,7 @@ export const getAccessTokenFor5Paisa = async (prisma, RequestToken, State) => {
       throw new Error("Invalid RequestToken or State");
     }
 
-    return accessToken;
+    return ClientCode;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -70,7 +71,10 @@ const makeAccessTokenRequest = async (RequestToken, brokerDetails) => {
       throw new Error("Token Expired");
     }
 
-    return result.body.AccessToken;
+    return {
+      AccessToken: result.body.AccessToken,
+      ClientCode: result.body.ClientCode,
+    };
   } catch (error) {
     throw new Error(error.message);
   }

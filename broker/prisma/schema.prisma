@@ -30,6 +30,7 @@ model Session {
   accessToken  String
   requestToken String
   brokerId     String @db.ObjectId
+  clientCode   String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

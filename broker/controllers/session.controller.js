@@ -30,8 +30,6 @@ export const getAccessToken = async (req, res) => {
   try {
     const { RequestToken, State, provider } = req.body;
 
-    console.log({ RequestToken, State, provider });
-
     if (!RequestToken || !State || !provider) {
       return res
         .status(400)
