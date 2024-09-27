@@ -1,5 +1,14 @@
 import React from "react";
-import { Stack, Heading, Button, Box } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Stack,
+  Tag,
+  TagLabel,
+  TagLeftIcon,
+} from "@chakra-ui/react";
+import { FaUser } from "react-icons/fa";
 
 function Navbar() {
   return (
@@ -13,11 +22,19 @@ function Navbar() {
       <Stack direction="row" alignItems="center" padding={4}>
         <Heading>TradeMate</Heading>
         <Stack direction="row" flex={1} justifyContent={"center"}>
-          <Button>Home</Button>
-          <Button>Portfolio</Button>
+          <Button colorScheme="primary">Home</Button>
+          <Button colorScheme="gray">Portfolio</Button>
           <Button>News</Button>
         </Stack>
-        <Button>Connect Broker</Button>
+        <Tag
+          size={"lg"}
+          borderRadius="full"
+          variant="solid"
+          colorScheme="surfaceMixed"
+        >
+          <TagLeftIcon boxSize="12px" as={FaUser}></TagLeftIcon>
+          <TagLabel>Swapnadeep</TagLabel>
+        </Tag>
       </Stack>
     </>
   );

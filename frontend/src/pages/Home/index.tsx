@@ -1,21 +1,24 @@
+import { Stack } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useEffect } from "react";
-import { Stack, useColorMode } from "@chakra-ui/react";
-import Hero from "./components/hero";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 
 function Home() {
-  const { colorMode, toggleColorMode } = useColorMode();
-
   useEffect(() => {
-    if (colorMode !== "dark") {
-      toggleColorMode();
-    }
-  }, [colorMode, toggleColorMode]);
-
+    axios
+      .get("http://localhost:8080/api/auth/user", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <Stack>
       <Navbar />
-      <Hero />
     </Stack>
   );
 }

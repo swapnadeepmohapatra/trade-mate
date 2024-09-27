@@ -53,7 +53,7 @@ function Login() {
       console.log(data);
 
       if (data.success === true) {
-        navigate("/");
+        navigate("/home");
       }
     } catch (error) {
       console.log(error);
