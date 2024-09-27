@@ -13,6 +13,27 @@ export const get5PaisaHoldings = async (prisma, userId) => {
     },
   });
 
+  const holdings = await prisma.holdings.findFirst({
+    where: {
+      userId,
+      broker: {
+        name: "5Paisa",
+      },
+    },
+  });
+
+  if (holdings) {
+    const data = await prisma.holding.findMany({
+      where: {
+        id: {
+          in: holdings.holdingIds,
+        },
+      },
+    });
+
+    return data;
+  }
+
   const broker = await prisma.broker.findFirst({
     where: {
       name: "5Paisa",
@@ -39,6 +60,42 @@ export const get5PaisaHoldings = async (prisma, userId) => {
   );
 
   const data = await response.json();
+
+  if (data.body.Message === "Success") {
+    await prisma.holding.deleteMany({
+      where: {
+        userId,
+        broker: {
+          name: "5Paisa",
+        },
+      },
+    });
+
+    await prisma.holding.createMany({
+      data: data.body.Data.map((holding) => ({
+        userId,
+        brokerId: broker.id,
+        ...holding,
+      })),
+    });
+
+    const res = await prisma.holding.findMany({
+      where: {
+        userId,
+        brokerId: broker.id,
+      },
+    });
+
+    await prisma.holdings.create({
+      data: {
+        userId,
+        brokerId: broker.id,
+        holdings: {
+          connect: res.map((holding) => ({ id: holding.id })),
+        },
+      },
+    });
+  }
 
   return data.body.Data;
 };

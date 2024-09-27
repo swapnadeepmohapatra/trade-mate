@@ -8,6 +8,8 @@ export const getHoldings = async (req, res) => {
 
     res.status(200).json({ success: true, body: { holdings } });
   } catch (error) {
+    console.log(error);
+
     res.status(400).json({ success: false, error: error.message });
   }
 };
