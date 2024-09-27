@@ -39,7 +39,6 @@ for (const route in privateRoutes) {
 
               res.end();
             } else {
-              console.log(req.headers.cookie);
               const decoded = decode(req.headers.cookie);
 
               proxyReq.setHeader("user", JSON.stringify(decoded));
