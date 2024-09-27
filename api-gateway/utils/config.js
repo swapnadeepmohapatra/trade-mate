@@ -5,11 +5,14 @@ dotenv.config();
 export const PORT = process.env.PORT || 8080;
 
 export const publicRoutes = {
-  "/api/auth": "http://localhost:4001/auth",
+  "/api/auth/login": "http://localhost:4001/auth/login",
+  "/api/auth/logout": "http://localhost:4001/auth/logout",
+  "/api/auth/signup": "http://localhost:4001/auth/signup",
 };
 
 export const privateRoutes = {
   "/api/market-data": "http://localhost:4000",
+  "/api/auth": "http://localhost:4001/auth",
 };
 
 export const JWT_SECRET = process.env.JWT_SECRET;
