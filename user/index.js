@@ -2,6 +2,7 @@ import express from "express";
 import authRouter from "./routes/auth.route.js";
 import sessionRouter from "./routes/session.route.js";
 import { PrismaClient } from "@prisma/client";
+import { authMiddleware, prismaMiddleware } from "./middleware/index.js";
 
 const prisma = new PrismaClient();
 
@@ -13,23 +14,9 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use(
-  "/auth",
-  (req, res, next) => {
-    req.prisma = prisma;
-    next();
-  },
-  authRouter
-);
+app.use("/auth", prismaMiddleware, authMiddleware, authRouter);
 
-app.use(
-  "/session",
-  (req, res, next) => {
-    req.prisma = prisma;
-    next();
-  },
-  sessionRouter
-);
+app.use("/session", prismaMiddleware, authMiddleware, sessionRouter);
 
 const PORT = process.env.PORT || 4001;
 

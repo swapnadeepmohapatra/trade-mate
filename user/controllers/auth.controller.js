@@ -71,12 +71,10 @@ export const login = async (req, res) => {
 
     generateJWTTokenAndSetCookie(user.id, res);
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        body: { user: { ...user, password: undefined } },
-      });
+    res.status(200).json({
+      success: true,
+      body: { user: { ...user, password: undefined } },
+    });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -84,4 +82,26 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   res.clearCookie("jwt").status(200).json({ success: true });
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const user = await req.prisma.user.findFirst({
+      where: {
+        id: req.user.userId,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      body: {
+        user: {
+          ...user,
+          password: undefined,
+        },
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
 };
