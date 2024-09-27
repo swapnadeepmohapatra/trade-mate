@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    allowedHeaders: ["Content-Type"],
+    allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie"],
     origin: "http://localhost:3000",
   })
 );
@@ -39,7 +39,9 @@ for (const route in privateRoutes) {
 
               res.end();
             } else {
+              console.log(req.headers.cookie);
               const decoded = decode(req.headers.cookie);
+
               proxyReq.setHeader("user", JSON.stringify(decoded));
               proxyReq.removeHeader("cookie");
             }

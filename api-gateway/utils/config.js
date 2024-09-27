@@ -12,7 +12,7 @@ export const publicRoutes = {
 
 export const privateRoutes = {
   "/api/market-data": "http://localhost:4000",
-  "/api/auth": "http://localhost:4001/auth",
+  "/api/auth/user": "http://localhost:4001/auth/user",
 };
 
 export const JWT_SECRET = process.env.JWT_SECRET;

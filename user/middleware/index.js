@@ -1,3 +1,8 @@
+import { PrismaClient } from "@prisma/client";
+import { decode } from "jsonwebtoken";
+
+const prisma = new PrismaClient();
+
 export const prismaMiddleware = async (req, res, next) => {
   req.prisma = prisma;
   next();

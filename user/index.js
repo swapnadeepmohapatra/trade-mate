@@ -1,10 +1,7 @@
 import express from "express";
 import authRouter from "./routes/auth.route.js";
 import sessionRouter from "./routes/session.route.js";
-import { PrismaClient } from "@prisma/client";
 import { authMiddleware, prismaMiddleware } from "./middleware/index.js";
-
-const prisma = new PrismaClient();
 
 const app = express();
 
