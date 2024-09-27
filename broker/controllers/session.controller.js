@@ -1,5 +1,5 @@
-import { getOAuthLinkForProvider } from "../brokers/OAuthLink/index.js";
-import { getAccessTokenForProvider } from "../brokers/AccessToken/index.js";
+import { getOAuthLinkForProvider } from "../services/OAuthLink/index.js";
+import { getAccessTokenForProvider } from "../services/AccessToken/index.js";
 
 export const getOAuthLink = async (req, res) => {
   try {
@@ -16,7 +16,8 @@ export const getOAuthLink = async (req, res) => {
     const oAuthLink = await getOAuthLinkForProvider(
       req.prisma,
       provider,
-      redirect
+      redirect,
+      req.user.userId
     );
 
     res.status(200).json({ success: true, body: { oAuthLink } });
@@ -27,9 +28,11 @@ export const getOAuthLink = async (req, res) => {
 
 export const getAccessToken = async (req, res) => {
   try {
-    const { RequestToken, State } = req.body;
+    const { RequestToken, State, provider } = req.body;
 
-    if (!RequestToken || !State) {
+    console.log({ RequestToken, State, provider });
+
+    if (!RequestToken || !State || !provider) {
       return res
         .status(400)
         .json({ success: false, error: "RequestToken and State are required" });
@@ -37,7 +40,7 @@ export const getAccessToken = async (req, res) => {
 
     const accessToken = await getAccessTokenForProvider(
       req.prisma,
-      "5Paisa",
+      provider,
       RequestToken,
       State
     );
