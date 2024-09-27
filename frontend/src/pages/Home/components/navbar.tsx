@@ -20,21 +20,23 @@ function Navbar() {
         alignSelf={"center"}
       />
       <Stack direction="row" alignItems="center" padding={4}>
-        <Heading>TradeMate</Heading>
+        <Heading flex={1}>TradeMate</Heading>
         <Stack direction="row" flex={1} justifyContent={"center"}>
           <Button colorScheme="primary">Home</Button>
           <Button colorScheme="gray">Portfolio</Button>
           <Button>News</Button>
         </Stack>
-        <Tag
-          size={"lg"}
-          borderRadius="full"
-          variant="solid"
-          colorScheme="surfaceMixed"
-        >
-          <TagLeftIcon boxSize="12px" as={FaUser}></TagLeftIcon>
-          <TagLabel>Swapnadeep</TagLabel>
-        </Tag>
+        <Stack flex={1} alignItems={"flex-end"}>
+          <Tag
+            size={"lg"}
+            borderRadius="full"
+            variant="solid"
+            colorScheme="surfaceMixed"
+          >
+            <TagLeftIcon boxSize="12px" as={FaUser}></TagLeftIcon>
+            <TagLabel>Swapnadeep</TagLabel>
+          </Tag>
+        </Stack>
       </Stack>
     </>
   );

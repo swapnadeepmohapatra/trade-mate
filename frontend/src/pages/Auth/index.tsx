@@ -1,24 +1,40 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { get5PaisaAccessToken } from "../../services/broker";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 
 function Auth() {
-  // http://localhost:3000/auth?RequestToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUyMjYxNjcwIiwicm9sZSI6IldDZ3BiYkhIeDF1Q1lhV3ZDUHRLMFRWUjR1TmRVbGtBIiwibmJmIjoxNzI3MjAyMTI5LCJleHAiOjE3MjcyMDIxNTksImlhdCI6MTcyNzIwMjEyOX0.lVHBKY7GBHu-ogDEo8V5Iv4POyFybU0fwrkVUfs_mag&state=urse1
-
   const { search } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const getAccessToken = async (requestToken: string, state: string) => {
+      try {
+        const response = await get5PaisaAccessToken(requestToken, state);
+        console.log(response);
+        navigate("/home");
+      } catch (error) {}
+    };
+
     const urlParams = new URLSearchParams(search);
     const requestToken = urlParams.get("RequestToken");
     const state = urlParams.get("state");
 
     console.log(requestToken, state);
-  }, [search]);
+    getAccessToken(requestToken ?? "", state ?? "");
+
+    return () => {};
+  }, [search, navigate]);
 
   return (
-    <div>
-      Auth
-      <p>{JSON.stringify(search)}</p>
-    </div>
+    <Flex alignItems={"center"} justifyContent={"center"} height={"100vh"}>
+      <Box>
+        <Heading textAlign={"center"}>
+          Success! You have successfully authenticated with 5Paisa. You are now
+          being redirected back to the app...
+        </Heading>
+      </Box>
+    </Flex>
   );
 }
 

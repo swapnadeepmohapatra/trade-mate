@@ -1,7 +1,8 @@
-import { Stack } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useEffect } from "react";
+import { Divider, Stack } from "@chakra-ui/react";
+import axios from "axios";
 import Navbar from "./components/Navbar";
+import LinkBroker from "./components/LinkBroker";
 
 function Home() {
   useEffect(() => {
@@ -19,6 +20,8 @@ function Home() {
   return (
     <Stack>
       <Navbar />
+      <Divider />
+      <LinkBroker />
     </Stack>
   );
 }

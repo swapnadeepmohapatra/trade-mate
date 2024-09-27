@@ -11,13 +11,15 @@ function Navbar() {
         alignSelf={"center"}
       />
       <Stack direction="row" alignItems="center" padding={4}>
-        <Heading>TradeMate</Heading>
+        <Heading flex={1}>TradeMate</Heading>
         <Stack direction="row" flex={1} justifyContent={"center"}>
           <Button>Home</Button>
           <Button>Portfolio</Button>
           <Button>News</Button>
         </Stack>
-        <Button>Connect Broker</Button>
+        <Stack flex={1} justifyContent={"flex-end"} alignItems={"flex-end"}>
+          <Button>Connect Broker</Button>
+        </Stack>
       </Stack>
     </>
   );
