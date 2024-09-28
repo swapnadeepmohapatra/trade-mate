@@ -22,8 +22,8 @@ function Navbar() {
       <Stack direction="row" alignItems="center" padding={4}>
         <Heading flex={1}>TradeMate</Heading>
         <Stack direction="row" flex={1} justifyContent={"center"}>
-          <Button colorScheme="primary">Home</Button>
-          <Button colorScheme="gray">Portfolio</Button>
+          <Button colorScheme="gray">Home</Button>
+          <Button colorScheme="primary">Portfolio</Button>
           <Button>News</Button>
         </Stack>
         <Stack flex={1} alignItems={"flex-end"}>

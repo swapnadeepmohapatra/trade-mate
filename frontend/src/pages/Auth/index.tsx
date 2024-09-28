@@ -10,8 +10,7 @@ function Auth() {
   useEffect(() => {
     const getAccessToken = async (requestToken: string, state: string) => {
       try {
-        const response = await get5PaisaAccessToken(requestToken, state);
-        console.log(response);
+        await get5PaisaAccessToken(requestToken, state);
         navigate("/home");
       } catch (error) {}
     };
@@ -20,7 +19,6 @@ function Auth() {
     const requestToken = urlParams.get("RequestToken");
     const state = urlParams.get("state");
 
-    console.log(requestToken, state);
     getAccessToken(requestToken ?? "", state ?? "");
 
     return () => {};
