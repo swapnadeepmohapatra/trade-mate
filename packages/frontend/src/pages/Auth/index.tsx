@@ -12,7 +12,9 @@ function Auth() {
       try {
         await get5PaisaAccessToken(requestToken, state);
         navigate("/home");
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     const urlParams = new URLSearchParams(search);

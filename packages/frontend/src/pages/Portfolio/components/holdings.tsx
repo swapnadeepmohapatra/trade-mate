@@ -2,8 +2,16 @@ import { Card, CardBody, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { getHoldings } from "../../../services/portfolio";
 
+interface Holding {
+  Symbol: string;
+  FullName: string;
+  Quantity: number;
+  AvgRate: number;
+  CurrentPrice: number;
+}
+
 function Holdings() {
-  const [holdings, setHoldings] = useState([]);
+  const [holdings, setHoldings] = useState<Holding[]>([]);
 
   useEffect(() => {
     getHoldings().then((data) => {
@@ -17,7 +25,7 @@ function Holdings() {
       {JSON.stringify(holdings)}
       {holdings.length === 0 && <h1>No holdings</h1>}
       {holdings.length &&
-        holdings.map((holding: any, index) => {
+        holdings.map((holding: Holding, index) => {
           return (
             <Card
               key={index}

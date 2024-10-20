@@ -62,7 +62,7 @@ function Login() {
           message: data.response.data.error,
         });
       }
-    } catch (error) {
+    } catch {
       setError({
         email: false,
         password: false,
