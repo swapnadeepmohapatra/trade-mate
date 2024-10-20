@@ -5,6 +5,8 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@eslint/js": "^9.13.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
@@ -13,7 +15,9 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.1",
     "globals": "^15.11.0",
+    "husky": "^9.1.6",
     "lerna": "^8.1.8",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "typescript-eslint": "^8.10.0"
   },
@@ -22,6 +26,18 @@
     "start": "lerna run start",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint -- --fix",
-    "format": "lerna run format"
+    "format": "lerna run format",
+    "prepare": "husky"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
