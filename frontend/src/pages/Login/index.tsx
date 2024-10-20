@@ -23,6 +23,7 @@ function Login() {
   const [error, setError] = useState({
     email: false,
     password: false,
+    message: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +43,7 @@ function Login() {
       setError({
         email: !state.email,
         password: !state.password,
+        message: "dsa",
       });
 
       setIsLoading(false);
@@ -50,13 +52,22 @@ function Login() {
 
     try {
       const data = await login(state.email, state.password);
-      console.log(data);
 
       if (data.success === true) {
         navigate("/home");
+      } else {
+        setError({
+          email: false,
+          password: false,
+          message: data.response.data.error,
+        });
       }
     } catch (error) {
-      console.log(error);
+      setError({
+        email: false,
+        password: false,
+        message: "Something went wrong. Please try again later.",
+      });
     }
 
     setIsLoading(false);
@@ -74,6 +85,12 @@ function Login() {
           <Text textAlign="center" fontSize="md" color="alphaWhite.400">
             Log in to your account
           </Text>
+
+          {error.message && (
+            <Text color="red.500" textAlign="center" marginBottom={4}>
+              {error.message}
+            </Text>
+          )}
 
           <form onSubmit={handleSubmit}>
             <Stack>

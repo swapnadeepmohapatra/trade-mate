@@ -8,6 +8,7 @@ export const publicRoutes = {
   "/api/auth/login": "http://localhost:4001/auth/login",
   "/api/auth/logout": "http://localhost:4001/auth/logout",
   "/api/auth/signup": "http://localhost:4001/auth/signup",
+  "/api/news": "http://localhost:4003/news",
 };
 
 export const privateRoutes = {
