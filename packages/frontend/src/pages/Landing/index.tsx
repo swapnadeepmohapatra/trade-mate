@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Stack, useColorMode } from "@chakra-ui/react";
 import Hero from "./components/hero";
-import Navbar from "./components/navbar";
+import Navbar from "../../components/Navbar";
 
 function Landing() {
   const { colorMode, toggleColorMode } = useColorMode();

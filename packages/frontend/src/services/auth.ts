@@ -48,3 +48,14 @@ export const logout = async () => {
     return error;
   }
 };
+
+export const getUser = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/auth/user`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

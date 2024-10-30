@@ -9,8 +9,11 @@ import {
   TagLabel,
   Text,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 function Hero() {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Stack maxWidth="2xl" marginTop={40}>
@@ -53,6 +56,9 @@ function Hero() {
           size={"lg"}
           alignSelf={"center"}
           marginTop={16}
+          onClick={() => {
+            navigate("/home");
+          }}
         >
           Connect Broker
         </Button>

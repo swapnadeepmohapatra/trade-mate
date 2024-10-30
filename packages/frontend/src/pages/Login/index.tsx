@@ -11,8 +11,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { login } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserContext";
 
 function Login() {
   const [state, setState] = useState({
@@ -30,6 +30,8 @@ function Login() {
 
   const navigate = useNavigate();
 
+  const { loginUser } = useUserContext();
+
   const handleInputChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setState({ ...state, [type]: e.target.value });
@@ -43,7 +45,7 @@ function Login() {
       setError({
         email: !state.email,
         password: !state.password,
-        message: "dsa",
+        message: "Please fill in all the fields.",
       });
 
       setIsLoading(false);
@@ -51,7 +53,7 @@ function Login() {
     }
 
     try {
-      const data = await login(state.email, state.password);
+      const data = await loginUser(state.email, state.password);
 
       if (data.success === true) {
         navigate("/home");
@@ -59,7 +61,8 @@ function Login() {
         setError({
           email: false,
           password: false,
-          message: data.response.data.error,
+          // message: data.response.data.error,
+          message: "Invalid email or password.",
         });
       }
     } catch {

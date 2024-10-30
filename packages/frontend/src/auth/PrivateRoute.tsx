@@ -1,14 +1,17 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
 
 interface PrivateRouteProps {
   Component: React.FC;
 }
 
-const PrivateRoute = ({ Component }: PrivateRouteProps) => {
-  const isAuthenticated = false; // Replace with actual authentication check
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ Component }) => {
+  const { user, loading } = useUserContext();
 
-  return isAuthenticated ? <Component /> : <Navigate to="/login" />;
+  if (loading) return <div>Loading...</div>;
+
+  return user ? <Component /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

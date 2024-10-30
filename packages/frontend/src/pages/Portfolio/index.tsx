@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar from "../Home/components/Navbar";
 import { Divider, Stack } from "@chakra-ui/react";
 import Holdings from "./components/holdings";
+import Navbar from "../../components/Navbar";
 
 function Portfolio() {
   return (
