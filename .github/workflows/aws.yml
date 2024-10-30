@@ -25,7 +25,7 @@ jobs:
         run: npm run build
 
       - name: List build directory
-        run: ls -la ./build # Verify the build directory contents
+        run: ls -la ./packages/frontend/build # Verify the build directory contents
 
       - name: Deploy to EC2
         env:
@@ -39,9 +39,9 @@ jobs:
           chmod 600 /tmp/my-key.pem
 
           # Check if the build directory exists before transferring
-          if [ -d "./build" ]; then
+          if [ -d "./packages/frontend/build" ]; then
             # Transfer files to the EC2 instance
-            scp -o StrictHostKeyChecking=no -i /tmp/my-key.pem -r ./build/* ec2-user@$INSTANCE_IP:/var/www/html/
+            scp -o StrictHostKeyChecking=no -i /tmp/my-key.pem -r ./packages/frontend/build/* ec2-user@$INSTANCE_IP:/var/www/html/
           else
             echo "Build directory not found!"
             exit 1  # Exit with an error if the build directory does not exist
