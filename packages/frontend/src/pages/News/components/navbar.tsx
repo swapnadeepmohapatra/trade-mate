@@ -1,7 +1,10 @@
 import React from "react";
 import { Stack, Heading, Button, Box } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -13,9 +16,28 @@ function Navbar() {
       <Stack direction="row" alignItems="center" padding={4}>
         <Heading flex={1}>TradeMate</Heading>
         <Stack direction="row" flex={1} justifyContent={"center"}>
-          <Button>Home</Button>
-          <Button>Portfolio</Button>
-          <Button colorScheme="primary">News</Button>
+          <Button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Home
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/portfolio");
+            }}
+          >
+            Portfolio
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/news");
+            }}
+            colorScheme="primary"
+          >
+            News
+          </Button>
         </Stack>
         <Stack flex={1} justifyContent={"flex-end"} alignItems={"flex-end"}>
           <Button>Connect Broker</Button>

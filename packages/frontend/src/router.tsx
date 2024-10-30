@@ -7,6 +7,7 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
 import News from "./pages/News";
+import PrivateRoute from "./auth/PrivateRoute";
 
 function App() {
   return (
@@ -16,9 +17,12 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/news" element={<News />} />
+        <Route path="/home" element={<PrivateRoute Component={Home} />} />
+        <Route
+          path="/portfolio"
+          element={<PrivateRoute Component={Portfolio} />}
+        />
+        <Route path="/news" element={<PrivateRoute Component={News} />} />
       </Routes>
     </Router>
   );

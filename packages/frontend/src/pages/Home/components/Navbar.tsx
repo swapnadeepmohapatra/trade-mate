@@ -9,8 +9,11 @@ import {
   TagLeftIcon,
 } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -22,9 +25,29 @@ function Navbar() {
       <Stack direction="row" alignItems="center" padding={4}>
         <Heading flex={1}>TradeMate</Heading>
         <Stack direction="row" flex={1} justifyContent={"center"}>
-          <Button colorScheme="gray">Home</Button>
-          <Button colorScheme="primary">Portfolio</Button>
-          <Button>News</Button>
+          <Button
+            colorScheme="gray"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Home
+          </Button>
+          <Button
+            colorScheme="primary"
+            onClick={() => {
+              navigate("/portfolio");
+            }}
+          >
+            Portfolio
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/news");
+            }}
+          >
+            News
+          </Button>
         </Stack>
         <Stack flex={1} alignItems={"flex-end"}>
           <Tag
