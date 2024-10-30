@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm install
@@ -31,14 +31,17 @@ jobs:
           INSTANCE_IP: ${{ secrets.INSTANCE_IP }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
+          # Save the SSH key to a temporary file
+          echo "$SSH_KEY" > /tmp/my-key.pem
+          chmod 600 /tmp/my-key.pem
+
           # Transfer files to the EC2 instance
-          scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./build ec2-user@$INSTANCE_IP:/tmp/build
-      
-          # SSH into EC2 and move files to the appropriate directory
-          ssh -o StrictHostKeyChecking=no -i $SSH_KEY ec2-user@$INSTANCE_IP << 'EOF'
-            sudo rm -rf /var/www/html/*
-            sudo mv /tmp/build/* /var/www/html/
-            sudo chown -R nginx:nginx /var/www/html
+          scp -o StrictHostKeyChecking=no -i /tmp/my-key.pem -r ./build/* ec2-user@$INSTANCE_IP:/var/www/html/
+
+          # SSH into EC2 and restart Nginx
+          ssh -o StrictHostKeyChecking=no -i /tmp/my-key.pem ec2-user@$INSTANCE_IP << 'EOF'
             sudo systemctl restart nginx
           EOF
 
+          # Cleanup
+          rm /tmp/my-key.pem
