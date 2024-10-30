@@ -7,6 +7,10 @@ import {
   Tag,
   TagLabel,
   TagLeftIcon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,7 +19,7 @@ import { useUserContext } from "../contexts/UserContext";
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useUserContext();
+  const { user, logoutUser } = useUserContext();
 
   return (
     <>
@@ -57,15 +61,22 @@ function Navbar() {
         </Stack>
         {user ? (
           <Stack flex={1} alignItems={"flex-end"}>
-            <Tag
-              size={"lg"}
-              borderRadius="full"
-              variant="solid"
-              colorScheme="surfaceMixed"
-            >
-              <TagLeftIcon boxSize="12px" as={FaUser}></TagLeftIcon>
-              <TagLabel>{user?.name}</TagLabel>
-            </Tag>
+            <Menu>
+              <MenuButton>
+                <Tag
+                  size={"lg"}
+                  borderRadius="full"
+                  variant="solid"
+                  colorScheme="surfaceMixed"
+                >
+                  <TagLeftIcon boxSize="12px" as={FaUser}></TagLeftIcon>
+                  <TagLabel>{user?.name}</TagLabel>
+                </Tag>
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
           </Stack>
         ) : (
           <Stack flex={1} justifyContent={"flex-end"} alignItems={"flex-end"}>
