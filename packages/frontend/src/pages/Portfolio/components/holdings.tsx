@@ -15,7 +15,7 @@ function Holdings() {
 
   useEffect(() => {
     getHoldings().then((data) => {
-      setHoldings(data.body.holdings);
+      setHoldings(data?.body?.holdings || []);
     });
   }, []);
 

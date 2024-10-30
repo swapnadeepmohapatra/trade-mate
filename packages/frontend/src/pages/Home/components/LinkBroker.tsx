@@ -16,11 +16,21 @@ import AngelOneLogo from "../../../images/logos/angel_one_logo.png";
 import UpstoxLogo from "../../../images/logos/upstox.png";
 import KiteLogo from "../../../images/logos/kite.png";
 import KotakLogo from "../../../images/logos/kotak.jpg";
-import { get5PaisaOAuthUrl } from "../../../services/broker";
+import {
+  get5PaisaOAuthUrl,
+  getAngelOneOAuthUrl,
+} from "../../../services/broker";
 
 function LinkBroker() {
-  const getUrl = async () => {
+  const get5PaisaUrl = async () => {
     const response = await get5PaisaOAuthUrl();
+    console.log(response);
+
+    window.location.href = response.body.oAuthLink;
+  };
+
+  const getAngelOneUrl = async () => {
+    const response = await getAngelOneOAuthUrl();
     console.log(response);
 
     window.location.href = response.body.oAuthLink;
@@ -30,7 +40,7 @@ function LinkBroker() {
     <Container>
       <Grid templateColumns="repeat(2, 1fr)" gap={8}>
         <GridItem>
-          <Box onClick={getUrl}>
+          <Box onClick={get5PaisaUrl}>
             <Card
               backgroundColor="surfaceMixed.200"
               width={"100%"}
@@ -53,7 +63,7 @@ function LinkBroker() {
           </Box>
         </GridItem>
         <GridItem>
-          <Box>
+          <Box onClick={getAngelOneUrl}>
             <Card
               backgroundColor="surfaceMixed.200"
               width={"100%"}

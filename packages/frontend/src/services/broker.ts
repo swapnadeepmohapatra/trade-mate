@@ -39,3 +39,42 @@ export const get5PaisaAccessToken = async (
     return error;
   }
 };
+
+export const getAngelOneOAuthUrl = async () => {
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/session/oauth`,
+      {
+        provider: "AngelOne",
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getAngelOneAccessToken = async (
+  RequestToken: string,
+  State: string
+) => {
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/session/access-token`,
+      {
+        RequestToken,
+        State,
+        provider: "AngelOne",
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
