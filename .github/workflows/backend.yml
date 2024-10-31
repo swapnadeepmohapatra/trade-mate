@@ -35,11 +35,11 @@ jobs:
 
       - name: Copy Files to EC2
         run: |
-          scp -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ./* ec2-user@INSTANCE_IP:/backend/
+          scp -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ./* ec2-user@$INSTANCE_IP:/root/backend
 
       - name: Deploy Node.js Backend
         run: |
-          ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@INSTANCE_IP "cd /backend && npm install && pm2 restart my-backend-app || pm2 start app.js --name my-backend-app"
+          ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$INSTANCE_IP "cd /root/backend && npm install && pm2 restart my-backend-app || pm2 start app.js --name my-backend-app"
 
       - name: Clean Up
         run: |
