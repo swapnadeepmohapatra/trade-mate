@@ -22,6 +22,17 @@ jobs:
         run: |
           npm install
 
+      - name: Save key file to EC2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          INSTANCE_IP: ${{ secrets.INSTANCE_IP }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          # Save the SSH key to a temporary file
+          echo "$SSH_KEY" > /tmp/my-key.pem
+          chmod 600 /tmp/my-key.pem
+
       - name: Copy Files to EC2
         run: |
           scp -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ./* ec2-user@YOUR_INSTANCE_IP:/backend/
