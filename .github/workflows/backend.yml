@@ -37,15 +37,14 @@ jobs:
           # Check if the build directory exists before transferring
           if [ -d "./packages/api-gateway" ]; then
             # Transfer files to the EC2 instance
-            scp -o StrictHostKeyChecking=no -i /tmp/my-key.pem -r ./* ec2-user@$INSTANCE_IP:/var/www/html/
+            scp -o StrictHostKeyChecking=no -i /tmp/my-key.pem -r ./* ec2-user@$INSTANCE_IP:/var/www/backend/
           else
             echo "Directory not found!"
             exit 1  # Exit with an error if the build directory does not exist
           fi
 
           # SSH into EC2 and restart the backend server
-          # ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$INSTANCE_IP "cd /var/www/html/ && npm install && pm2 restart my-backend-app || pm2 start app.js --name my-backend-app"
-          ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$INSTANCE_IP "cd /var/www/html/"
+          ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$INSTANCE_IP "cd /var/www/backend/"
 
           # Cleanup
           rm -f /tmp/my-key.pem
