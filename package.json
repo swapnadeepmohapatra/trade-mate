@@ -35,7 +35,8 @@
     "lint:fix": "lerna run lint -- --fix",
     "format": "lerna run format",
     "prepare": "husky",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "backend:start": "lerna run backend:start"
   },
   "husky": {
     "hooks": {
