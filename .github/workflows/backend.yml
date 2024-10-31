@@ -44,7 +44,8 @@ jobs:
           fi
 
           # SSH into EC2 and restart the backend server
-          ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$INSTANCE_IP "cd /var/www/html/ && npm install && pm2 restart my-backend-app || pm2 start app.js --name my-backend-app"
+          # ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$INSTANCE_IP "cd /var/www/html/ && npm install && pm2 restart my-backend-app || pm2 start app.js --name my-backend-app"
+          ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$INSTANCE_IP "cd /var/www/html/"
 
           # Cleanup
           rm -f /tmp/my-key.pem
