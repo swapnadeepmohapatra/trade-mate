@@ -32,3 +32,88 @@ model MarketData {
     scripData   String
     series      String
 }
+
+model User {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    email    String @unique
+    name     String
+    password String
+
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    Session   Session[]
+    Holding   Holding[]
+    Holdings  Holdings[]
+}
+
+model Session {
+    id           String @id @default(auto()) @map("_id") @db.ObjectId
+    userId       String @db.ObjectId
+    accessToken  String
+    requestToken String
+    brokerId     String @db.ObjectId
+    clientCode   String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user   User   @relation(fields: [userId], references: [id])
+    broker Broker @relation(fields: [brokerId], references: [id])
+}
+
+model Broker {
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    name          String
+    appName       String
+    userId        String
+    appSource     String
+    userPassword  String
+    userKey       String
+    encryptionKey String
+
+    Session  Session[]
+    Holding  Holding[]
+    Holdings Holdings[]
+}
+
+model Holding {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    userId   String @db.ObjectId
+    brokerId String @db.ObjectId
+
+    AvgRate         Float
+    BseCode         Int
+    CurrentPrice    Float
+    DPQty           Int
+    Exch            String
+    ExchType        String
+    FullName        String
+    NseCode         Int
+    POASigned       String
+    PoolQty         Int
+    Quantity        Int
+    ScripMultiplier Int
+    Symbol          String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user       User      @relation(fields: [userId], references: [id])
+    broker     Broker    @relation(fields: [brokerId], references: [id])
+    Holdings   Holdings? @relation(fields: [holdingsId], references: [id])
+    holdingsId String?   @db.ObjectId
+}
+
+model Holdings {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    userId   String @db.ObjectId
+    brokerId String @db.ObjectId
+
+    holdings Holding[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user   User   @relation(fields: [userId], references: [id])
+    broker Broker @relation(fields: [brokerId], references: [id])
+}

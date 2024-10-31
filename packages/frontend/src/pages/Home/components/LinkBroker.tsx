@@ -16,9 +16,11 @@ import AngelOneLogo from "../../../images/logos/angel_one_logo.png";
 import UpstoxLogo from "../../../images/logos/upstox.png";
 import KiteLogo from "../../../images/logos/kite.png";
 import KotakLogo from "../../../images/logos/kotak.jpg";
+import HdfcSkyLogo from "../../../images/logos/hdfc_sky.jpeg";
 import {
   get5PaisaOAuthUrl,
   getAngelOneOAuthUrl,
+  getHdfcSkyOAuthUrl,
 } from "../../../services/broker";
 
 function LinkBroker() {
@@ -31,6 +33,13 @@ function LinkBroker() {
 
   const getAngelOneUrl = async () => {
     const response = await getAngelOneOAuthUrl();
+    console.log(response);
+
+    window.location.href = response.body.oAuthLink;
+  };
+
+  const getHdfcSkyUrl = async () => {
+    const response = await getHdfcSkyOAuthUrl();
     console.log(response);
 
     window.location.href = response.body.oAuthLink;
@@ -81,6 +90,31 @@ function LinkBroker() {
                   />
                   <Text textAlign={"center"}>
                     Connect your Angel One Account
+                  </Text>
+                </Stack>
+              </CardBody>
+            </Card>
+          </Box>
+        </GridItem>
+        <GridItem>
+          <Box onClick={getHdfcSkyUrl}>
+            <Card
+              backgroundColor="surfaceMixed.200"
+              width={"100%"}
+              borderColor="surfaceMixed.400"
+              borderWidth={1}
+              cursor={"pointer"}
+            >
+              <CardBody>
+                <Stack alignItems={"center"}>
+                  <Image
+                    src={HdfcSkyLogo}
+                    alt="angel_one"
+                    height={120}
+                    borderRadius={10}
+                  />
+                  <Text textAlign={"center"}>
+                    Connect your HDFC Sky Account
                   </Text>
                 </Stack>
               </CardBody>

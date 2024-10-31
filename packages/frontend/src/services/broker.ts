@@ -78,3 +78,42 @@ export const getAngelOneAccessToken = async (
     return error;
   }
 };
+
+export const getHdfcSkyOAuthUrl = async () => {
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/session/oauth`,
+      {
+        provider: "HdfcSky",
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getHdfcSkyAccessToken = async (
+  RequestToken: string,
+  State: string
+) => {
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/session/access-token`,
+      {
+        RequestToken,
+        State,
+        provider: "HdfcSky",
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
