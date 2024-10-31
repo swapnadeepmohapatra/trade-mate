@@ -518,19 +518,9 @@ type Mutation {
   createOneMarketData(data: MarketDataCreateInput!): MarketData!
   deleteManyMarketData(where: MarketDataWhereInput): AffectedRowsOutput!
   deleteOneMarketData(where: MarketDataWhereUniqueInput!): MarketData
-  updateManyMarketData(
-    data: MarketDataUpdateManyMutationInput!
-    where: MarketDataWhereInput
-  ): AffectedRowsOutput!
-  updateOneMarketData(
-    data: MarketDataUpdateInput!
-    where: MarketDataWhereUniqueInput!
-  ): MarketData
-  upsertOneMarketData(
-    create: MarketDataCreateInput!
-    update: MarketDataUpdateInput!
-    where: MarketDataWhereUniqueInput!
-  ): MarketData!
+  updateManyMarketData(data: MarketDataUpdateManyMutationInput!, where: MarketDataWhereInput): AffectedRowsOutput!
+  updateOneMarketData(data: MarketDataUpdateInput!, where: MarketDataWhereUniqueInput!): MarketData
+  upsertOneMarketData(create: MarketDataCreateInput!, update: MarketDataUpdateInput!, where: MarketDataWhereUniqueInput!): MarketData!
 }
 
 input NestedFloatFilter {
@@ -619,47 +609,13 @@ input NestedStringWithAggregatesFilter {
 }
 
 type Query {
-  aggregateMarketData(
-    cursor: MarketDataWhereUniqueInput
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): AggregateMarketData!
-  findFirstMarketData(
-    cursor: MarketDataWhereUniqueInput
-    distinct: [MarketDataScalarFieldEnum!]
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): MarketData
-  findFirstMarketDataOrThrow(
-    cursor: MarketDataWhereUniqueInput
-    distinct: [MarketDataScalarFieldEnum!]
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): MarketData
-  findManyMarketData(
-    cursor: MarketDataWhereUniqueInput
-    distinct: [MarketDataScalarFieldEnum!]
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): [MarketData!]!
+  aggregateMarketData(cursor: MarketDataWhereUniqueInput, orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): AggregateMarketData!
+  findFirstMarketData(cursor: MarketDataWhereUniqueInput, distinct: [MarketDataScalarFieldEnum!], orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): MarketData
+  findFirstMarketDataOrThrow(cursor: MarketDataWhereUniqueInput, distinct: [MarketDataScalarFieldEnum!], orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): MarketData
+  findManyMarketData(cursor: MarketDataWhereUniqueInput, distinct: [MarketDataScalarFieldEnum!], orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): [MarketData!]!
   findUniqueMarketData(where: MarketDataWhereUniqueInput!): MarketData
   findUniqueMarketDataOrThrow(where: MarketDataWhereUniqueInput!): MarketData
-  groupByMarketData(
-    by: [MarketDataScalarFieldEnum!]!
-    having: MarketDataScalarWhereWithAggregatesInput
-    orderBy: [MarketDataOrderByWithAggregationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): [MarketDataGroupBy!]!
+  groupByMarketData(by: [MarketDataScalarFieldEnum!]!, having: MarketDataScalarWhereWithAggregatesInput, orderBy: [MarketDataOrderByWithAggregationInput!], skip: Int, take: Int, where: MarketDataWhereInput): [MarketDataGroupBy!]!
 }
 
 enum QueryMode {
