@@ -1,6 +1,7 @@
 import { getOAuthLinkFor5Paisa } from "./5Paisa.js";
 import { getOAuthLinkForAngelOne } from "./AngelOne.js";
 import { getOAuthLinkForHfdcSky } from "./HdfcSky.js";
+import { getOAuthLinkForUpstox } from "./Upstox.js";
 
 export const getOAuthLinkForProvider = async (
   prisma,
@@ -18,6 +19,10 @@ export const getOAuthLinkForProvider = async (
 
   if (provider === "HdfcSky") {
     return await getOAuthLinkForHfdcSky(prisma, redirect, userId);
+  }
+
+  if (provider === "Upstox") {
+    return await getOAuthLinkForUpstox(prisma, redirect, userId);
   }
 
   throw new Error("Provider not found");

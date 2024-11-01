@@ -10,6 +10,7 @@ import News from "./pages/News";
 import PrivateRoute from "./auth/PrivateRoute";
 import AngelOneAuth from "./pages/Auth/AngelOne";
 import HdfcSkyAuth from "./pages/Auth/HdfcSky";
+import UpstoxAuth from "./pages/Auth/Upstox";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/auth/angel-one" element={<AngelOneAuth />} />
         <Route path="/auth/hdfc-sky" element={<HdfcSkyAuth />} />
+        <Route path="/auth/upstox" element={<UpstoxAuth />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<PrivateRoute Component={Home} />} />

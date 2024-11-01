@@ -22,6 +22,7 @@ import {
   get5PaisaOAuthUrl,
   getAngelOneOAuthUrl,
   getHdfcSkyOAuthUrl,
+  getUpstoxOAuthUrl,
 } from "../../../services/broker";
 
 function LinkBroker() {
@@ -41,6 +42,13 @@ function LinkBroker() {
 
   const getHdfcSkyUrl = async () => {
     const response = await getHdfcSkyOAuthUrl();
+    console.log(response);
+
+    window.location.href = response.body.oAuthLink;
+  };
+
+  const getUpstoxUrl = async () => {
+    const response = await getUpstoxOAuthUrl();
     console.log(response);
 
     window.location.href = response.body.oAuthLink;
@@ -123,6 +131,29 @@ function LinkBroker() {
           </Box>
         </GridItem>
         <GridItem>
+          <Box onClick={getUpstoxUrl}>
+            <Card
+              backgroundColor="surfaceMixed.200"
+              width={"100%"}
+              borderColor="surfaceMixed.400"
+              borderWidth={1}
+              cursor={"pointer"}
+            >
+              <CardBody>
+                <Stack alignItems={"center"}>
+                  <Image
+                    src={UpstoxLogo}
+                    alt="angel_one"
+                    height={120}
+                    borderRadius={10}
+                  />
+                  <Text textAlign={"center"}>Connect your Upstox Account</Text>
+                </Stack>
+              </CardBody>
+            </Card>
+          </Box>
+        </GridItem>
+        <GridItem>
           <Box>
             <Card
               backgroundColor="surfaceMixed.200"
@@ -188,29 +219,6 @@ function LinkBroker() {
                     borderRadius={10}
                   />
                   <Text textAlign={"center"}>Connect your Kite Account</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={UpstoxLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>Connect your Upstox Account</Text>
                 </Stack>
               </CardBody>
             </Card>

@@ -1,6 +1,7 @@
 import { getAccessTokenFor5Paisa } from "./5Paisa.js";
 import { getAccessTokenForAngelOne } from "./AngelOne.js";
 import { getAccessTokenForHdfcSky } from "./HdfcSky.js";
+import { getAccessTokenForUpstox } from "./Upstox.js";
 
 export const getAccessTokenForProvider = async (
   prisma,
@@ -18,6 +19,10 @@ export const getAccessTokenForProvider = async (
 
   if (provider === "HdfcSky") {
     return await getAccessTokenForHdfcSky(prisma, RequestToken, State);
+  }
+
+  if (provider === "Upstox") {
+    return await getAccessTokenForUpstox(prisma, RequestToken, State);
   }
 
   throw new Error("Provider not found");

@@ -117,3 +117,42 @@ export const getHdfcSkyAccessToken = async (
     return error;
   }
 };
+
+export const getUpstoxOAuthUrl = async () => {
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/session/oauth`,
+      {
+        provider: "Upstox",
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getUpstoxAccessToken = async (
+  RequestToken: string,
+  State: string
+) => {
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/session/access-token`,
+      {
+        RequestToken,
+        State,
+        provider: "Upstox",
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
