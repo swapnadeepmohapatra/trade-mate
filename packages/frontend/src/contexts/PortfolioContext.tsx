@@ -40,60 +40,60 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   useEffect(() => {
+    const applyFilters = () => {
+      let filtered =
+        symbolFilter.trim() !== ""
+          ? holdings.filter((holding) =>
+              holding.Symbol.toLowerCase().includes(
+                symbolFilter.toLowerCase().trim()
+              )
+            )
+          : [...holdings];
+
+      switch (sortOption) {
+        case "quantityAsc":
+          filtered = filtered.sort((a, b) => a.Quantity - b.Quantity);
+          break;
+        case "quantityDesc":
+          filtered = filtered.sort((a, b) => b.Quantity - a.Quantity);
+          break;
+        case "currentPriceAsc":
+          filtered = filtered.sort((a, b) => a.CurrentPrice - b.CurrentPrice);
+          break;
+        case "currentPriceDesc":
+          filtered = filtered.sort((a, b) => b.CurrentPrice - a.CurrentPrice);
+          break;
+        case "currentValueAsc":
+          filtered = filtered.sort(
+            (a, b) => a.CurrentPrice * a.Quantity - b.CurrentPrice * b.Quantity
+          );
+          break;
+        case "currentValueDesc":
+          filtered = filtered.sort(
+            (a, b) => b.CurrentPrice * b.Quantity - a.CurrentPrice * a.Quantity
+          );
+          break;
+        case "plAsc":
+          filtered = filtered.sort(
+            (a, b) =>
+              (a.CurrentPrice - a.AvgRate) / a.AvgRate -
+              (b.CurrentPrice - b.AvgRate) / b.AvgRate
+          );
+          break;
+        case "plDesc":
+          filtered = filtered.sort(
+            (a, b) =>
+              (b.CurrentPrice - b.AvgRate) / b.AvgRate -
+              (a.CurrentPrice - a.AvgRate) / a.AvgRate
+          );
+          break;
+      }
+
+      setFilteredHoldings(filtered);
+    };
+
     applyFilters();
   }, [symbolFilter, sortOption, holdings]);
-
-  const applyFilters = () => {
-    let filtered =
-      symbolFilter.trim() !== ""
-        ? holdings.filter((holding) =>
-            holding.Symbol.toLowerCase().includes(
-              symbolFilter.toLowerCase().trim()
-            )
-          )
-        : [...holdings];
-
-    switch (sortOption) {
-      case "quantityAsc":
-        filtered = filtered.sort((a, b) => a.Quantity - b.Quantity);
-        break;
-      case "quantityDesc":
-        filtered = filtered.sort((a, b) => b.Quantity - a.Quantity);
-        break;
-      case "currentPriceAsc":
-        filtered = filtered.sort((a, b) => a.CurrentPrice - b.CurrentPrice);
-        break;
-      case "currentPriceDesc":
-        filtered = filtered.sort((a, b) => b.CurrentPrice - a.CurrentPrice);
-        break;
-      case "currentValueAsc":
-        filtered = filtered.sort(
-          (a, b) => a.CurrentPrice * a.Quantity - b.CurrentPrice * b.Quantity
-        );
-        break;
-      case "currentValueDesc":
-        filtered = filtered.sort(
-          (a, b) => b.CurrentPrice * b.Quantity - a.CurrentPrice * a.Quantity
-        );
-        break;
-      case "plAsc":
-        filtered = filtered.sort(
-          (a, b) =>
-            (a.CurrentPrice - a.AvgRate) / a.AvgRate -
-            (b.CurrentPrice - b.AvgRate) / b.AvgRate
-        );
-        break;
-      case "plDesc":
-        filtered = filtered.sort(
-          (a, b) =>
-            (b.CurrentPrice - b.AvgRate) / b.AvgRate -
-            (a.CurrentPrice - a.AvgRate) / a.AvgRate
-        );
-        break;
-    }
-
-    setFilteredHoldings(filtered);
-  };
 
   const setFilter = (symbol: string, sort: string) => {
     setSymbolFilter(symbol);
