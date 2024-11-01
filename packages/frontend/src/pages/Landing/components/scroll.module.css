@@ -1,0 +1,84 @@
+.marquee {
+  --gap: 2rem;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: var(--gap);
+}
+
+.marquee__content {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  gap: var(--gap);
+  min-width: 100%;
+}
+
+.marquee__content img {
+  height: 8rem;
+  width: 100%;
+  object-fit: fill;
+  border-radius: 0.5rem;
+}
+
+.marquee__item {
+  border-radius: 1rem;
+}
+
+.enableAnimation .marquee__content {
+  animation: scroll 16s linear infinite;
+}
+
+.marquee:hover .marquee__content {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+/* 
+ul:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgb(0, 0, 0) 90%
+  );
+  width: 4rem;
+  height: 100%;
+} */
+
+.marquee__fade_start {
+  background: linear-gradient(
+    to right,
+    rgb(0, 0, 0, 1),
+    rgba(255, 255, 255, 0)
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16rem;
+  height: 100%;
+  z-index: 1;
+}
+
+.marquee__fade_end {
+  background: linear-gradient(to left, rgb(0, 0, 0, 1), rgba(255, 255, 255, 0));
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16rem;
+  height: 100%;
+  z-index: 1;
+}

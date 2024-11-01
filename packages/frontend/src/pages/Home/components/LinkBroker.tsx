@@ -17,6 +17,7 @@ import UpstoxLogo from "../../../images/logos/upstox.png";
 import KiteLogo from "../../../images/logos/kite.png";
 import KotakLogo from "../../../images/logos/kotak.jpg";
 import HdfcSkyLogo from "../../../images/logos/hdfc_sky.jpeg";
+import PaytmMoneyLogo from "../../../images/logos/paytm_money.jpg";
 import {
   get5PaisaOAuthUrl,
   getAngelOneOAuthUrl,
@@ -115,6 +116,31 @@ function LinkBroker() {
                   />
                   <Text textAlign={"center"}>
                     Connect your HDFC Sky Account
+                  </Text>
+                </Stack>
+              </CardBody>
+            </Card>
+          </Box>
+        </GridItem>
+        <GridItem>
+          <Box>
+            <Card
+              backgroundColor="surfaceMixed.200"
+              width={"100%"}
+              borderColor="surfaceMixed.400"
+              borderWidth={1}
+              cursor={"pointer"}
+            >
+              <CardBody>
+                <Stack alignItems={"center"}>
+                  <Image
+                    src={PaytmMoneyLogo}
+                    alt="angel_one"
+                    height={120}
+                    borderRadius={10}
+                  />
+                  <Text textAlign={"center"}>
+                    Connect your PayTM Money Account
                   </Text>
                 </Stack>
               </CardBody>
