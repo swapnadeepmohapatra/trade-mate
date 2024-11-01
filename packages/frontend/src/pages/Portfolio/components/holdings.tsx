@@ -47,7 +47,12 @@ function Holdings() {
                       <Text fontSize={"small"} color={"surface.600"}>
                         {holding.Quantity} x {holding.AvgRate}
                       </Text>
-                      <Text> {holding.CurrentPrice * holding.Quantity} </Text>
+                      <Text>
+                        {" "}
+                        {(holding.CurrentPrice * holding.Quantity).toFixed(
+                          2
+                        )}{" "}
+                      </Text>
                     </Flex>
 
                     <Flex gap={2} alignItems={"baseline"}>
@@ -59,7 +64,7 @@ function Holdings() {
                         }
                         fontSize={"small"}
                       >
-                        {holding.CurrentPrice}
+                        {holding.CurrentPrice.toFixed(2)}
                       </Text>
                       <Text
                         color={

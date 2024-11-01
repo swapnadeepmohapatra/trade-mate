@@ -64,8 +64,6 @@ const makeAccessTokenRequest = async (RequestToken, brokerDetails) => {
 
     const result = await response.json();
 
-    console.log(result);
-
     if (result.error === "invalid credentials") {
       throw new Error("Token Expired");
     }
@@ -94,8 +92,6 @@ const getClientCode = async (brokerDetails, AccessToken) => {
     );
 
     const result = await response.json();
-
-    console.log(result);
 
     if (!result.data.client_id) {
       throw new Error("Access Token Expired");

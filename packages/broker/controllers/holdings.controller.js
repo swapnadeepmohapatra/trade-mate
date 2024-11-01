@@ -4,7 +4,7 @@ export const getHoldings = async (req, res) => {
   try {
     const { userId } = req.user;
 
-    const holdings = await getStockHoldings(req.prisma, "5Paisa", userId);
+    const holdings = await getStockHoldings(req.prisma, "HdfcSky", userId);
 
     res.status(200).json({ success: true, body: { holdings } });
   } catch (error) {
