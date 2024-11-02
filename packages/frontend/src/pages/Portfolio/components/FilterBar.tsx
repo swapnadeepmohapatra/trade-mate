@@ -3,7 +3,8 @@ import { Flex, Select, Input, Button } from "@chakra-ui/react";
 import { usePortfolio } from "../../../contexts/PortfolioContext";
 
 const FilterBar: React.FC = () => {
-  const { setFilter, clearFilters } = usePortfolio();
+  const { setFilter, clearFilters, isGroupedByBroker, toggleGroupByBroker } =
+    usePortfolio();
   const [symbolFilter, setSymbolFilter] = useState("");
   const [sortOption, setSortOption] = useState("");
 
@@ -46,11 +47,21 @@ const FilterBar: React.FC = () => {
         <option value="currentPriceDesc">Current Price (High to Low)</option>
         <option value="currentValueAsc">Current Value (Low to High)</option>
         <option value="currentValueDesc">Current Value (High to Low)</option>
+        <option value="plValueAsc">Profit/Loss Value (Low to High)</option>
+        <option value="plValueDesc">Profit/Loss Value (High to Low)</option>
         <option value="plAsc">Profit/Loss % (Low to High)</option>
         <option value="plDesc">Profit/Loss % (High to Low)</option>
       </Select>
       <Button onClick={clearAllFilters} colorScheme="primary" pl={6} pr={6}>
         Clear
+      </Button>
+      <Button
+        onClick={toggleGroupByBroker}
+        colorScheme="primary"
+        pl={12}
+        pr={12}
+      >
+        {isGroupedByBroker ? "Ungroup" : "Group"} by Broker
       </Button>
     </Flex>
   );

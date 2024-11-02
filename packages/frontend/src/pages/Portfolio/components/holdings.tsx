@@ -1,16 +1,54 @@
-import React from "react";
-import { Card, CardBody, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Button,
+  Collapse,
+  Box,
+} from "@chakra-ui/react";
 import HoldingSummary from "./HoldingSummary";
 import FilterBar from "./FilterBar";
 import { usePortfolio } from "../../../contexts/PortfolioContext";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import HoldingCard from "./HoldingCard";
 
 function Holdings() {
-  const { holdings, totalValue, totalCost, totalPL } = usePortfolio();
+  const {
+    holdings,
+    totalValue,
+    totalCost,
+    totalPL,
+    groupedByBroker,
+    isGroupedByBroker,
+  } = usePortfolio();
+
+  const [collapsedBrokers, setCollapsedBrokers] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const [collapsedHoldings, setCollapsedHoldings] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const toggleBrokerCollapse = (brokerId: string) => {
+    setCollapsedBrokers((prevState) => ({
+      ...prevState,
+      [brokerId]: !prevState[brokerId],
+    }));
+  };
+
+  const toggleHoldingCollapse = (holdingId: string) => {
+    setCollapsedHoldings((prevState) => ({
+      ...prevState,
+      [holdingId]: !prevState[holdingId],
+    }));
+  };
 
   return (
     <Stack margin={4}>
       <Heading size={"lg"}>Portfolio</Heading>
-      {JSON.stringify(holdings)}
       {holdings.length === 0 && <h1>No holdings</h1>}
       {holdings.length > 0 && (
         <HoldingSummary
@@ -20,64 +58,57 @@ function Holdings() {
         />
       )}
       {holdings.length > 0 && <FilterBar />}
-      {holdings.map((holding, index) => (
-        <Card
-          key={index}
-          margin={2}
-          background={"surface.200"}
-          borderColor={"surface.400"}
-          borderWidth={1}
-        >
-          <CardBody>
-            <Flex>
-              <Stack flex={1} gap={2}>
-                <Text fontWeight={"600"}>{holding.Symbol}</Text>
-                <Text color={"surface.600"} fontSize={"small"}>
-                  {holding.FullName}
-                </Text>
-              </Stack>
-              <Stack gap={2} alignItems={"flex-end"}>
-                <Flex gap={2} alignItems={"baseline"}>
-                  <Text fontSize={"small"} color={"surface.600"}>
-                    {holding.Quantity.toLocaleString()} x ₹{" "}
-                    {holding.AvgRate.toLocaleString()}
-                  </Text>
-                  <Text>
-                    ₹{" "}
-                    {(holding.CurrentPrice * holding.Quantity).toLocaleString()}
-                  </Text>
-                </Flex>
-                <Flex gap={2} alignItems={"baseline"}>
-                  <Text
-                    color={
-                      holding.CurrentPrice > holding.AvgRate
-                        ? "success.100"
-                        : "error.100"
-                    }
-                    fontSize={"small"}
-                  >
-                    ₹ {holding.CurrentPrice.toLocaleString()}
-                  </Text>
-                  <Text
-                    color={
-                      holding.CurrentPrice > holding.AvgRate
-                        ? "success.100"
-                        : "error.100"
-                    }
-                  >
-                    {(
-                      ((holding.CurrentPrice - holding.AvgRate) /
-                        holding.AvgRate) *
-                      100
-                    ).toLocaleString()}
-                    %
-                  </Text>
-                </Flex>
-              </Stack>
+
+      {!isGroupedByBroker &&
+        holdings.map((holding, index) => (
+          <HoldingCard
+            holding={holding}
+            key={index}
+            collapsedHoldings={collapsedHoldings}
+            toggleHoldingCollapse={toggleHoldingCollapse}
+          />
+        ))}
+
+      {isGroupedByBroker &&
+        Object.entries(groupedByBroker).map(([brokerId, brokerHoldings]) => (
+          <Stack key={brokerId} margin={2}>
+            <Flex
+              gap={2}
+              alignItems={"center"}
+              onClick={() => toggleBrokerCollapse(brokerId)}
+              cursor={"pointer"}
+            >
+              <Flex gap={2} alignItems={"center"}>
+                <Image
+                  src={brokerHoldings[0].broker.imageUrl}
+                  alt={brokerHoldings[0].broker.name}
+                  boxSize={8}
+                  borderRadius={"lg"}
+                />
+                <Heading size={"md"}>{brokerHoldings[0].broker.name}</Heading>
+              </Flex>
+              <Box flex={1} background={"surface.300"} height={0.2} />
+              <Button size="sm" variant="link" colorScheme="mixedSurface">
+                {collapsedBrokers[brokerId] ? (
+                  <MdKeyboardArrowDown size={"1.5em"} />
+                ) : (
+                  <MdKeyboardArrowUp size={"1.5em"} />
+                )}
+              </Button>
             </Flex>
-          </CardBody>
-        </Card>
-      ))}
+
+            <Collapse in={!collapsedBrokers[brokerId]}>
+              {brokerHoldings.map((holding, index) => (
+                <HoldingCard
+                  holding={holding}
+                  key={index}
+                  collapsedHoldings={collapsedHoldings}
+                  toggleHoldingCollapse={toggleHoldingCollapse}
+                />
+              ))}
+            </Collapse>
+          </Stack>
+        ))}
     </Stack>
   );
 }

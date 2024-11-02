@@ -56,6 +56,7 @@ type Broker {
   appSource: String!
   encryptionKey: String!
   id: String!
+  imageUrl: String!
   name: String!
   userId: String!
   userKey: String!
@@ -74,6 +75,7 @@ type BrokerCountAggregate {
   appSource: Int!
   encryptionKey: Int!
   id: Int!
+  imageUrl: Int!
   name: Int!
   userId: Int!
   userKey: Int!
@@ -85,6 +87,7 @@ input BrokerCountOrderByAggregateInput {
   appSource: SortOrder
   encryptionKey: SortOrder
   id: SortOrder
+  imageUrl: SortOrder
   name: SortOrder
   userId: SortOrder
   userKey: SortOrder
@@ -99,6 +102,7 @@ input BrokerCreateInput {
   appSource: String!
   encryptionKey: String!
   id: String
+  imageUrl: String!
   name: String!
   userId: String!
   userKey: String!
@@ -110,6 +114,7 @@ input BrokerCreateManyInput {
   appSource: String!
   encryptionKey: String!
   id: String
+  imageUrl: String!
   name: String!
   userId: String!
   userKey: String!
@@ -156,6 +161,7 @@ input BrokerCreateWithoutHoldingInput {
   appSource: String!
   encryptionKey: String!
   id: String
+  imageUrl: String!
   name: String!
   userId: String!
   userKey: String!
@@ -169,6 +175,7 @@ input BrokerCreateWithoutHoldingsInput {
   appSource: String!
   encryptionKey: String!
   id: String
+  imageUrl: String!
   name: String!
   userId: String!
   userKey: String!
@@ -182,6 +189,7 @@ input BrokerCreateWithoutSessionInput {
   appSource: String!
   encryptionKey: String!
   id: String
+  imageUrl: String!
   name: String!
   userId: String!
   userKey: String!
@@ -196,6 +204,7 @@ type BrokerGroupBy {
   appSource: String!
   encryptionKey: String!
   id: String!
+  imageUrl: String!
   name: String!
   userId: String!
   userKey: String!
@@ -207,6 +216,7 @@ type BrokerMaxAggregate {
   appSource: String
   encryptionKey: String
   id: String
+  imageUrl: String
   name: String
   userId: String
   userKey: String
@@ -218,6 +228,7 @@ input BrokerMaxOrderByAggregateInput {
   appSource: SortOrder
   encryptionKey: SortOrder
   id: SortOrder
+  imageUrl: SortOrder
   name: SortOrder
   userId: SortOrder
   userKey: SortOrder
@@ -229,6 +240,7 @@ type BrokerMinAggregate {
   appSource: String
   encryptionKey: String
   id: String
+  imageUrl: String
   name: String
   userId: String
   userKey: String
@@ -240,6 +252,7 @@ input BrokerMinOrderByAggregateInput {
   appSource: SortOrder
   encryptionKey: SortOrder
   id: SortOrder
+  imageUrl: SortOrder
   name: SortOrder
   userId: SortOrder
   userKey: SortOrder
@@ -254,6 +267,7 @@ input BrokerOrderByWithAggregationInput {
   appSource: SortOrder
   encryptionKey: SortOrder
   id: SortOrder
+  imageUrl: SortOrder
   name: SortOrder
   userId: SortOrder
   userKey: SortOrder
@@ -268,6 +282,7 @@ input BrokerOrderByWithRelationInput {
   appSource: SortOrder
   encryptionKey: SortOrder
   id: SortOrder
+  imageUrl: SortOrder
   name: SortOrder
   userId: SortOrder
   userKey: SortOrder
@@ -284,6 +299,7 @@ enum BrokerScalarFieldEnum {
   appSource
   encryptionKey
   id
+  imageUrl
   name
   userId
   userKey
@@ -298,6 +314,7 @@ input BrokerScalarWhereWithAggregatesInput {
   appSource: StringWithAggregatesFilter
   encryptionKey: StringWithAggregatesFilter
   id: StringWithAggregatesFilter
+  imageUrl: StringWithAggregatesFilter
   name: StringWithAggregatesFilter
   userId: StringWithAggregatesFilter
   userKey: StringWithAggregatesFilter
@@ -311,6 +328,7 @@ input BrokerUpdateInput {
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
   encryptionKey: StringFieldUpdateOperationsInput
+  imageUrl: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   userId: StringFieldUpdateOperationsInput
   userKey: StringFieldUpdateOperationsInput
@@ -321,6 +339,7 @@ input BrokerUpdateManyMutationInput {
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
   encryptionKey: StringFieldUpdateOperationsInput
+  imageUrl: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   userId: StringFieldUpdateOperationsInput
   userKey: StringFieldUpdateOperationsInput
@@ -372,6 +391,7 @@ input BrokerUpdateWithoutHoldingInput {
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
   encryptionKey: StringFieldUpdateOperationsInput
+  imageUrl: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   userId: StringFieldUpdateOperationsInput
   userKey: StringFieldUpdateOperationsInput
@@ -384,6 +404,7 @@ input BrokerUpdateWithoutHoldingsInput {
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
   encryptionKey: StringFieldUpdateOperationsInput
+  imageUrl: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   userId: StringFieldUpdateOperationsInput
   userKey: StringFieldUpdateOperationsInput
@@ -396,6 +417,7 @@ input BrokerUpdateWithoutSessionInput {
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
   encryptionKey: StringFieldUpdateOperationsInput
+  imageUrl: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   userId: StringFieldUpdateOperationsInput
   userKey: StringFieldUpdateOperationsInput
@@ -431,6 +453,7 @@ input BrokerWhereInput {
   appSource: StringFilter
   encryptionKey: StringFilter
   id: StringFilter
+  imageUrl: StringFilter
   name: StringFilter
   userId: StringFilter
   userKey: StringFilter
@@ -448,6 +471,7 @@ input BrokerWhereUniqueInput {
   appSource: StringFilter
   encryptionKey: StringFilter
   id: String
+  imageUrl: StringFilter
   name: StringFilter
   userId: StringFilter
   userKey: StringFilter

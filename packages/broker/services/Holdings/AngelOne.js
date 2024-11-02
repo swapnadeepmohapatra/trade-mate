@@ -105,6 +105,8 @@ export const getAngelOneHoldings = async (prisma, userId) => {
         },
       },
     });
+
+    return res;
   }
 
   return data.data;

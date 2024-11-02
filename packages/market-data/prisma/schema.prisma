@@ -70,6 +70,7 @@ model Broker {
     userPassword  String
     userKey       String
     encryptionKey String
+    imageUrl      String
 
     Session  Session[]
     Holding  Holding[]

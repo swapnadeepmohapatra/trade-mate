@@ -100,6 +100,8 @@ export const getHdfcSkyHoldings = async (prisma, userId) => {
         },
       },
     });
+
+    return res;
   }
 
   return data.data.holdings;

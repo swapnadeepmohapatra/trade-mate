@@ -1,22 +1,32 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getHoldings } from "../services/portfolio";
 
-interface Holding {
+interface Broker {
+  id: string;
+  name: string;
+  imageUrl: string;
+}
+export interface Holding {
   Symbol: string;
   FullName: string;
   Quantity: number;
   AvgRate: number;
   CurrentPrice: number;
+  Exch: string;
+  broker: Broker;
 }
 
 interface PortfolioContextProps {
   holdings: Holding[];
   filteredHoldings: Holding[];
+  groupedByBroker: { [brokerId: string]: Holding[] };
   totalValue: number;
   totalCost: number;
   totalPL: number;
+  isGroupedByBroker: boolean;
   setFilter: (symbolFilter: string, sortOption: string) => void;
   clearFilters: () => void;
+  toggleGroupByBroker: () => void;
 }
 
 const PortfolioContext = createContext<PortfolioContextProps | undefined>(
@@ -30,6 +40,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({
   const [filteredHoldings, setFilteredHoldings] = useState<Holding[]>([]);
   const [symbolFilter, setSymbolFilter] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [isGroupedByBroker, setIsGroupedByBroker] = useState(false);
 
   useEffect(() => {
     getHoldings().then((data) => {
@@ -87,6 +98,20 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({
               (a.CurrentPrice - a.AvgRate) / a.AvgRate
           );
           break;
+        case "plValueAsc":
+          filtered = filtered.sort(
+            (a, b) =>
+              (a.CurrentPrice - a.AvgRate) * a.Quantity -
+              (b.CurrentPrice - b.AvgRate) * b.Quantity
+          );
+          break;
+        case "plValueDesc":
+          filtered = filtered.sort(
+            (a, b) =>
+              (b.CurrentPrice - b.AvgRate) * b.Quantity -
+              (a.CurrentPrice - a.AvgRate) * a.Quantity
+          );
+          break;
       }
 
       setFilteredHoldings(filtered);
@@ -122,6 +147,22 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({
     0
   );
 
+  const groupedByBroker = filteredHoldings.reduce(
+    (acc, holding) => {
+      const brokerId = holding.broker.id;
+      if (!acc[brokerId]) {
+        acc[brokerId] = [];
+      }
+      acc[brokerId].push(holding);
+      return acc;
+    },
+    {} as { [brokerId: string]: Holding[] }
+  );
+
+  const toggleGroupByBroker = () => {
+    setIsGroupedByBroker(!isGroupedByBroker);
+  };
+
   return (
     <PortfolioContext.Provider
       value={{
@@ -132,6 +173,9 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({
         totalPL,
         setFilter,
         clearFilters,
+        groupedByBroker,
+        isGroupedByBroker,
+        toggleGroupByBroker,
       }}
     >
       {children}

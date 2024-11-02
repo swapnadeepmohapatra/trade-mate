@@ -95,6 +95,8 @@ export const get5PaisaHoldings = async (prisma, userId) => {
         },
       },
     });
+
+    return res;
   }
 
   return data.body.Data;

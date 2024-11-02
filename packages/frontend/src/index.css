@@ -18,3 +18,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.StockCard__widget-footer_2Ouda {
+  display: none !important;
+}

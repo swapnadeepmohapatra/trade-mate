@@ -29,6 +29,15 @@ export const getUpstoxHoldings = async (prisma, userId) => {
           in: holdings.holdingIds,
         },
       },
+      include: {
+        broker: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
+      },
     });
 
     return data;
@@ -99,6 +108,8 @@ export const getUpstoxHoldings = async (prisma, userId) => {
         },
       },
     });
+
+    return res;
   }
 
   return data.data.holdings;
