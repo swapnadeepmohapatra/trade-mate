@@ -199,6 +199,17 @@ function Signup() {
                   </FormHelperText>
                 )}
               </FormControl>
+              <Text textAlign={"center"}>
+                Already have an account?{" "}
+                <Text
+                  as="span"
+                  color="primary.500"
+                  cursor="pointer"
+                  onClick={() => navigate("/login")}
+                >
+                  Log in
+                </Text>
+              </Text>
               <Button
                 mt={4}
                 colorScheme="primary"

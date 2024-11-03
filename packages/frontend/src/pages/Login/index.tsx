@@ -125,6 +125,17 @@ function Login() {
                   </FormHelperText>
                 )}
               </FormControl>
+              <Text textAlign={"center"}>
+                Don&apos;t have an account?{" "}
+                <Text
+                  as="span"
+                  color="primary.500"
+                  cursor="pointer"
+                  onClick={() => navigate("/signup")}
+                >
+                  Register
+                </Text>
+              </Text>
               <Button
                 mt={4}
                 colorScheme="primary"
