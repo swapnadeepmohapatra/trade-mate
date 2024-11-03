@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Card,
   CardBody,
   Container,
@@ -10,243 +11,131 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import FivePaisaLogo from "../../../images/logos/5paisa_logo.jpg";
-import GrowwLogo from "../../../images/logos/groww.png";
-import AngelOneLogo from "../../../images/logos/angel_one_logo.png";
-import UpstoxLogo from "../../../images/logos/upstox.png";
-import KiteLogo from "../../../images/logos/kite.png";
-import KotakLogo from "../../../images/logos/kotak.jpg";
-import HdfcSkyLogo from "../../../images/logos/hdfc_sky.jpeg";
-import PaytmMoneyLogo from "../../../images/logos/paytm_money.jpg";
 import {
   get5PaisaOAuthUrl,
+  getAllBrokers,
   getAngelOneOAuthUrl,
   getHdfcSkyOAuthUrl,
+  getOtherBrokersOAuthUrl,
   getUpstoxOAuthUrl,
 } from "../../../services/broker";
+import { MdRefresh } from "react-icons/md";
+
+interface Broker {
+  id: string;
+  name: string;
+  imageUrl: string;
+  createdAt: string;
+}
 
 function LinkBroker() {
-  const get5PaisaUrl = async () => {
-    const response = await get5PaisaOAuthUrl();
-    console.log(response);
+  const [brokers, setBrokers] = useState([]);
 
-    window.location.href = response.body.oAuthLink;
-  };
+  useEffect(() => {
+    getAllBrokers().then((response) => {
+      if (response.success) {
+        setBrokers(response.body.brokers);
+      }
+    });
+  }, []);
 
-  const getAngelOneUrl = async () => {
-    const response = await getAngelOneOAuthUrl();
-    console.log(response);
-
-    window.location.href = response.body.oAuthLink;
-  };
-
-  const getHdfcSkyUrl = async () => {
-    const response = await getHdfcSkyOAuthUrl();
-    console.log(response);
-
-    window.location.href = response.body.oAuthLink;
-  };
-
-  const getUpstoxUrl = async () => {
-    const response = await getUpstoxOAuthUrl();
-    console.log(response);
-
-    window.location.href = response.body.oAuthLink;
+  const getOAuthUrl = async (brokerName: string) => {
+    switch (brokerName) {
+      case "5Paisa": {
+        const fivePaisaResponse = await get5PaisaOAuthUrl();
+        window.location.href = fivePaisaResponse.body.oAuthLink;
+        break;
+      }
+      case "AngelOne": {
+        const angelOneResponse = await getAngelOneOAuthUrl();
+        window.location.href = angelOneResponse.body.oAuthLink;
+        break;
+      }
+      case "HdfcSky": {
+        const hdfcSkyResponse = await getHdfcSkyOAuthUrl();
+        window.location.href = hdfcSkyResponse.body.oAuthLink;
+        break;
+      }
+      case "Upstox": {
+        const upstoxResponse = await getUpstoxOAuthUrl();
+        window.location.href = upstoxResponse.body.oAuthLink;
+        break;
+      }
+      default: {
+        const otherBrokerResponse = await getOtherBrokersOAuthUrl(brokerName);
+        if (otherBrokerResponse?.body?.oAuthLink) {
+          window.location.href = otherBrokerResponse.body.oAuthLink;
+        }
+        break;
+      }
+    }
   };
 
   return (
-    <Container>
-      <Grid templateColumns="repeat(2, 1fr)" gap={8}>
-        <GridItem>
-          <Box onClick={get5PaisaUrl}>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={FivePaisaLogo}
-                    alt="5paisa"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>Connect your 5Paisa Account</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box onClick={getAngelOneUrl}>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={AngelOneLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>
-                    Connect your Angel One Account
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box onClick={getHdfcSkyUrl}>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={HdfcSkyLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>
-                    Connect your HDFC Sky Account
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box onClick={getUpstoxUrl}>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={UpstoxLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>Connect your Upstox Account</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={PaytmMoneyLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>
-                    Connect your PayTM Money Account
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={GrowwLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>Connect your Groww Account</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={KiteLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>Connect your Kite Account</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box>
-            <Card
-              backgroundColor="surfaceMixed.200"
-              width={"100%"}
-              borderColor="surfaceMixed.400"
-              borderWidth={1}
-              cursor={"pointer"}
-            >
-              <CardBody>
-                <Stack alignItems={"center"}>
-                  <Image
-                    src={KotakLogo}
-                    alt="angel_one"
-                    height={120}
-                    borderRadius={10}
-                  />
-                  <Text textAlign={"center"}>Connect your Kotak Account</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Box>
-        </GridItem>
+    <Container maxWidth={"container.lg"} mb={8}>
+      <Grid templateColumns="repeat(3, 1fr)" gap={8} alignItems={"stretch"}>
+        {brokers.map((broker: Broker) => (
+          <GridItem key={broker.id}>
+            <Box height="100%">
+              <Card
+                backgroundColor="surfaceMixed.200"
+                width={"100%"}
+                height="100%"
+                borderColor="surfaceMixed.400"
+                borderWidth={1}
+              >
+                <CardBody>
+                  <Stack alignItems={"center"} justifyContent="space-between">
+                    <Image
+                      src={broker.imageUrl}
+                      alt={broker.name}
+                      height={120}
+                      borderRadius={10}
+                    />
+                    {broker.createdAt ? (
+                      <Stack alignItems={"center"} spacing={4}>
+                        <Text
+                          textAlign={"center"}
+                          fontSize={"xl"}
+                          fontWeight={"semibold"}
+                        >
+                          {broker.name}
+                        </Text>
+                        <Text textAlign={"center"}>
+                          Connected on{" "}
+                          {new Date(broker.createdAt).toLocaleDateString()}
+                        </Text>
+                        <Button
+                          onClick={() => getOAuthUrl(broker.name)}
+                          colorScheme={"primary"}
+                          leftIcon={<MdRefresh size={"1.5em"} />}
+                        >
+                          Refresh
+                        </Button>
+                      </Stack>
+                    ) : (
+                      <Stack alignItems={"center"} spacing={4}>
+                        <Text
+                          textAlign={"center"}
+                          fontSize={"xl"}
+                          fontWeight={"semibold"}
+                        >
+                          {broker.name}
+                        </Text>
+                        <Button
+                          onClick={() => getOAuthUrl(broker.name)}
+                          colorScheme={"primary"}
+                        >
+                          Connect Broker
+                        </Button>
+                      </Stack>
+                    )}
+                  </Stack>
+                </CardBody>
+              </Card>
+            </Box>
+          </GridItem>
+        ))}
       </Grid>
     </Container>
   );

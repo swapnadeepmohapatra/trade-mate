@@ -16,6 +16,7 @@ export const privateRoutes = {
   "/api/auth/user": "http://localhost:4001/auth/user",
   "/api/session": "http://localhost:4002/session",
   "/api/holdings": "http://localhost:4002/holdings",
+  "/api/brokers": "http://localhost:4002/brokers",
 };
 
 export const JWT_SECRET = process.env.JWT_SECRET;

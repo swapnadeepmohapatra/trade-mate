@@ -1,6 +1,17 @@
 import axios from "axios";
 import { BACKEND_URL } from "../utils/keys";
 
+export const getAllBrokers = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/brokers`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const get5PaisaOAuthUrl = async () => {
   try {
     const response = await axios.post(
@@ -146,6 +157,23 @@ export const getUpstoxAccessToken = async (
         RequestToken,
         State,
         provider: "Upstox",
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getOtherBrokersOAuthUrl = async (brokerName: string) => {
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/session/oauth`,
+      {
+        provider: brokerName,
       },
       {
         withCredentials: true,

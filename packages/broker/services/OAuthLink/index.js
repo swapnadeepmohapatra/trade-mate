@@ -25,5 +25,33 @@ export const getOAuthLinkForProvider = async (
     return await getOAuthLinkForUpstox(prisma, redirect, userId);
   }
 
+  if (provider === "Zerodha") {
+    return "https://kite.zerodha.com/connect/login?api_key=kitefront&v";
+  }
+
+  if (provider === "AliceBlue") {
+    return "https://ant.aliceblueonline.com/MFLogin.aspx";
+  }
+
+  if (provider === "Groww") {
+    return "https://groww.in/login";
+  }
+
+  if (provider === "ICICI Direct") {
+    return "https://secure.icicidirect.com/customer/login";
+  }
+
+  if (provider === "Kotak Securities") {
+    return "https://ntrade.kotaksecurities.com/Login";
+  }
+
+  if (provider === "Axis Direct") {
+    return "https://login.axisdirect.in/";
+  }
+
+  if (provider === "PayTMMoney") {
+    return "https://login.paytmmoney.com/";
+  }
+
   throw new Error("Provider not found");
 };
