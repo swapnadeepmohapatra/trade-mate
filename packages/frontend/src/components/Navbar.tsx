@@ -82,6 +82,7 @@ function Navbar() {
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
+                <MenuItem onClick={() => navigate("/margin")}>Margin</MenuItem>
               </MenuList>
             </Menu>
           </Stack>

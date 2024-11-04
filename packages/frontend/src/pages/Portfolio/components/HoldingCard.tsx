@@ -162,7 +162,7 @@ function HoldingCard({
                   </Text>
                   <Text>
                     <Link
-                      href={`https://in.tradingview.com/symbols/${holding.Symbol.split("-").length > 1 ? holding.Symbol.split("-")[0] : holding.Symbol}/`}
+                      href={`https://in.tradingview.com/chart?symbol=${holding.Symbol.split("-").length > 1 ? holding.Symbol.split("-")[0] : holding.Symbol}`}
                       isExternal
                       color={"blue.200"}
                     >

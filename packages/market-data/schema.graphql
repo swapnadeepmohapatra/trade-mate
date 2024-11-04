@@ -27,6 +27,14 @@ type AggregateHoldings {
   _min: HoldingsMinAggregate
 }
 
+type AggregateMargin {
+  _avg: MarginAvgAggregate
+  _count: MarginCountAggregate
+  _max: MarginMaxAggregate
+  _min: MarginMinAggregate
+  _sum: MarginSumAggregate
+}
+
 type AggregateMarketData {
   _avg: MarketDataAvgAggregate
   _count: MarketDataCountAggregate
@@ -48,30 +56,10 @@ type AggregateUser {
 }
 
 type Broker {
-  Holding(
-    cursor: HoldingWhereUniqueInput
-    distinct: [HoldingScalarFieldEnum!]
-    orderBy: [HoldingOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): [Holding!]!
-  Holdings(
-    cursor: HoldingsWhereUniqueInput
-    distinct: [HoldingsScalarFieldEnum!]
-    orderBy: [HoldingsOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingsWhereInput
-  ): [Holdings!]!
-  Session(
-    cursor: SessionWhereUniqueInput
-    distinct: [SessionScalarFieldEnum!]
-    orderBy: [SessionOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: SessionWhereInput
-  ): [Session!]!
+  Holding(cursor: HoldingWhereUniqueInput, distinct: [HoldingScalarFieldEnum!], orderBy: [HoldingOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingWhereInput): [Holding!]!
+  Holdings(cursor: HoldingsWhereUniqueInput, distinct: [HoldingsScalarFieldEnum!], orderBy: [HoldingsOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingsWhereInput): [Holdings!]!
+  Margin(cursor: MarginWhereUniqueInput, distinct: [MarginScalarFieldEnum!], orderBy: [MarginOrderByWithRelationInput!], skip: Int, take: Int, where: MarginWhereInput): [Margin!]!
+  Session(cursor: SessionWhereUniqueInput, distinct: [SessionScalarFieldEnum!], orderBy: [SessionOrderByWithRelationInput!], skip: Int, take: Int, where: SessionWhereInput): [Session!]!
   _count: BrokerCount
   appName: String!
   appSource: String!
@@ -87,6 +75,7 @@ type Broker {
 type BrokerCount {
   Holding(where: HoldingWhereInput): Int!
   Holdings(where: HoldingsWhereInput): Int!
+  Margin(where: MarginWhereInput): Int!
   Session(where: SessionWhereInput): Int!
 }
 
@@ -118,6 +107,7 @@ input BrokerCountOrderByAggregateInput {
 input BrokerCreateInput {
   Holding: HoldingCreateNestedManyWithoutBrokerInput
   Holdings: HoldingsCreateNestedManyWithoutBrokerInput
+  Margin: MarginCreateNestedManyWithoutBrokerInput
   Session: SessionCreateNestedManyWithoutBrokerInput
   appName: String!
   appSource: String!
@@ -154,6 +144,12 @@ input BrokerCreateNestedOneWithoutHoldingsInput {
   create: BrokerCreateWithoutHoldingsInput
 }
 
+input BrokerCreateNestedOneWithoutMarginInput {
+  connect: BrokerWhereUniqueInput
+  connectOrCreate: BrokerCreateOrConnectWithoutMarginInput
+  create: BrokerCreateWithoutMarginInput
+}
+
 input BrokerCreateNestedOneWithoutSessionInput {
   connect: BrokerWhereUniqueInput
   connectOrCreate: BrokerCreateOrConnectWithoutSessionInput
@@ -170,6 +166,11 @@ input BrokerCreateOrConnectWithoutHoldingsInput {
   where: BrokerWhereUniqueInput!
 }
 
+input BrokerCreateOrConnectWithoutMarginInput {
+  create: BrokerCreateWithoutMarginInput!
+  where: BrokerWhereUniqueInput!
+}
+
 input BrokerCreateOrConnectWithoutSessionInput {
   create: BrokerCreateWithoutSessionInput!
   where: BrokerWhereUniqueInput!
@@ -177,6 +178,7 @@ input BrokerCreateOrConnectWithoutSessionInput {
 
 input BrokerCreateWithoutHoldingInput {
   Holdings: HoldingsCreateNestedManyWithoutBrokerInput
+  Margin: MarginCreateNestedManyWithoutBrokerInput
   Session: SessionCreateNestedManyWithoutBrokerInput
   appName: String!
   appSource: String!
@@ -191,6 +193,22 @@ input BrokerCreateWithoutHoldingInput {
 
 input BrokerCreateWithoutHoldingsInput {
   Holding: HoldingCreateNestedManyWithoutBrokerInput
+  Margin: MarginCreateNestedManyWithoutBrokerInput
+  Session: SessionCreateNestedManyWithoutBrokerInput
+  appName: String!
+  appSource: String!
+  encryptionKey: String!
+  id: String
+  imageUrl: String!
+  name: String!
+  userId: String!
+  userKey: String!
+  userPassword: String!
+}
+
+input BrokerCreateWithoutMarginInput {
+  Holding: HoldingCreateNestedManyWithoutBrokerInput
+  Holdings: HoldingsCreateNestedManyWithoutBrokerInput
   Session: SessionCreateNestedManyWithoutBrokerInput
   appName: String!
   appSource: String!
@@ -206,6 +224,7 @@ input BrokerCreateWithoutHoldingsInput {
 input BrokerCreateWithoutSessionInput {
   Holding: HoldingCreateNestedManyWithoutBrokerInput
   Holdings: HoldingsCreateNestedManyWithoutBrokerInput
+  Margin: MarginCreateNestedManyWithoutBrokerInput
   appName: String!
   appSource: String!
   encryptionKey: String!
@@ -298,6 +317,7 @@ input BrokerOrderByWithAggregationInput {
 input BrokerOrderByWithRelationInput {
   Holding: HoldingOrderByRelationAggregateInput
   Holdings: HoldingsOrderByRelationAggregateInput
+  Margin: MarginOrderByRelationAggregateInput
   Session: SessionOrderByRelationAggregateInput
   appName: SortOrder
   appSource: SortOrder
@@ -345,6 +365,7 @@ input BrokerScalarWhereWithAggregatesInput {
 input BrokerUpdateInput {
   Holding: HoldingUpdateManyWithoutBrokerNestedInput
   Holdings: HoldingsUpdateManyWithoutBrokerNestedInput
+  Margin: MarginUpdateManyWithoutBrokerNestedInput
   Session: SessionUpdateManyWithoutBrokerNestedInput
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
@@ -383,6 +404,14 @@ input BrokerUpdateOneRequiredWithoutHoldingsNestedInput {
   upsert: BrokerUpsertWithoutHoldingsInput
 }
 
+input BrokerUpdateOneRequiredWithoutMarginNestedInput {
+  connect: BrokerWhereUniqueInput
+  connectOrCreate: BrokerCreateOrConnectWithoutMarginInput
+  create: BrokerCreateWithoutMarginInput
+  update: BrokerUpdateToOneWithWhereWithoutMarginInput
+  upsert: BrokerUpsertWithoutMarginInput
+}
+
 input BrokerUpdateOneRequiredWithoutSessionNestedInput {
   connect: BrokerWhereUniqueInput
   connectOrCreate: BrokerCreateOrConnectWithoutSessionInput
@@ -401,6 +430,11 @@ input BrokerUpdateToOneWithWhereWithoutHoldingsInput {
   where: BrokerWhereInput
 }
 
+input BrokerUpdateToOneWithWhereWithoutMarginInput {
+  data: BrokerUpdateWithoutMarginInput!
+  where: BrokerWhereInput
+}
+
 input BrokerUpdateToOneWithWhereWithoutSessionInput {
   data: BrokerUpdateWithoutSessionInput!
   where: BrokerWhereInput
@@ -408,6 +442,7 @@ input BrokerUpdateToOneWithWhereWithoutSessionInput {
 
 input BrokerUpdateWithoutHoldingInput {
   Holdings: HoldingsUpdateManyWithoutBrokerNestedInput
+  Margin: MarginUpdateManyWithoutBrokerNestedInput
   Session: SessionUpdateManyWithoutBrokerNestedInput
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
@@ -421,6 +456,21 @@ input BrokerUpdateWithoutHoldingInput {
 
 input BrokerUpdateWithoutHoldingsInput {
   Holding: HoldingUpdateManyWithoutBrokerNestedInput
+  Margin: MarginUpdateManyWithoutBrokerNestedInput
+  Session: SessionUpdateManyWithoutBrokerNestedInput
+  appName: StringFieldUpdateOperationsInput
+  appSource: StringFieldUpdateOperationsInput
+  encryptionKey: StringFieldUpdateOperationsInput
+  imageUrl: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  userId: StringFieldUpdateOperationsInput
+  userKey: StringFieldUpdateOperationsInput
+  userPassword: StringFieldUpdateOperationsInput
+}
+
+input BrokerUpdateWithoutMarginInput {
+  Holding: HoldingUpdateManyWithoutBrokerNestedInput
+  Holdings: HoldingsUpdateManyWithoutBrokerNestedInput
   Session: SessionUpdateManyWithoutBrokerNestedInput
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
@@ -435,6 +485,7 @@ input BrokerUpdateWithoutHoldingsInput {
 input BrokerUpdateWithoutSessionInput {
   Holding: HoldingUpdateManyWithoutBrokerNestedInput
   Holdings: HoldingsUpdateManyWithoutBrokerNestedInput
+  Margin: MarginUpdateManyWithoutBrokerNestedInput
   appName: StringFieldUpdateOperationsInput
   appSource: StringFieldUpdateOperationsInput
   encryptionKey: StringFieldUpdateOperationsInput
@@ -457,6 +508,12 @@ input BrokerUpsertWithoutHoldingsInput {
   where: BrokerWhereInput
 }
 
+input BrokerUpsertWithoutMarginInput {
+  create: BrokerCreateWithoutMarginInput!
+  update: BrokerUpdateWithoutMarginInput!
+  where: BrokerWhereInput
+}
+
 input BrokerUpsertWithoutSessionInput {
   create: BrokerCreateWithoutSessionInput!
   update: BrokerUpdateWithoutSessionInput!
@@ -467,6 +524,7 @@ input BrokerWhereInput {
   AND: [BrokerWhereInput!]
   Holding: HoldingListRelationFilter
   Holdings: HoldingsListRelationFilter
+  Margin: MarginListRelationFilter
   NOT: [BrokerWhereInput!]
   OR: [BrokerWhereInput!]
   Session: SessionListRelationFilter
@@ -485,6 +543,7 @@ input BrokerWhereUniqueInput {
   AND: [BrokerWhereInput!]
   Holding: HoldingListRelationFilter
   Holdings: HoldingsListRelationFilter
+  Margin: MarginListRelationFilter
   NOT: [BrokerWhereInput!]
   OR: [BrokerWhereInput!]
   Session: SessionListRelationFilter
@@ -1399,14 +1458,7 @@ type Holdings {
   broker: Broker!
   brokerId: String!
   createdAt: DateTimeISO!
-  holdings(
-    cursor: HoldingWhereUniqueInput
-    distinct: [HoldingScalarFieldEnum!]
-    orderBy: [HoldingOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): [Holding!]!
+  holdings(cursor: HoldingWhereUniqueInput, distinct: [HoldingScalarFieldEnum!], orderBy: [HoldingOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingWhereInput): [Holding!]!
   id: String!
   updatedAt: DateTimeISO!
   user: User!
@@ -1818,6 +1870,455 @@ input IntWithAggregatesFilter {
   lte: Int
   not: NestedIntWithAggregatesFilter
   notIn: [Int!]
+}
+
+type Margin {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  broker: Broker!
+  brokerId: String!
+  createdAt: DateTimeISO!
+  id: String!
+  updatedAt: DateTimeISO!
+  user: User!
+  userId: String!
+}
+
+type MarginAvgAggregate {
+  AvailableMargin: Float
+  DPFreeStockValue: Float
+  TotalMargin: Float
+  UtilizedMargin: Float
+}
+
+input MarginAvgOrderByAggregateInput {
+  AvailableMargin: SortOrder
+  DPFreeStockValue: SortOrder
+  TotalMargin: SortOrder
+  UtilizedMargin: SortOrder
+}
+
+type MarginCountAggregate {
+  AvailableMargin: Int!
+  DPFreeStockValue: Int!
+  TotalMargin: Int!
+  UtilizedMargin: Int!
+  _all: Int!
+  brokerId: Int!
+  createdAt: Int!
+  id: Int!
+  updatedAt: Int!
+  userId: Int!
+}
+
+input MarginCountOrderByAggregateInput {
+  AvailableMargin: SortOrder
+  DPFreeStockValue: SortOrder
+  TotalMargin: SortOrder
+  UtilizedMargin: SortOrder
+  brokerId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  updatedAt: SortOrder
+  userId: SortOrder
+}
+
+input MarginCreateInput {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  broker: BrokerCreateNestedOneWithoutMarginInput!
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+  user: UserCreateNestedOneWithoutMarginInput!
+}
+
+input MarginCreateManyBrokerInput {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+  userId: String!
+}
+
+input MarginCreateManyBrokerInputEnvelope {
+  data: [MarginCreateManyBrokerInput!]!
+}
+
+input MarginCreateManyInput {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  brokerId: String!
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+  userId: String!
+}
+
+input MarginCreateManyUserInput {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  brokerId: String!
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+}
+
+input MarginCreateManyUserInputEnvelope {
+  data: [MarginCreateManyUserInput!]!
+}
+
+input MarginCreateNestedManyWithoutBrokerInput {
+  connect: [MarginWhereUniqueInput!]
+  connectOrCreate: [MarginCreateOrConnectWithoutBrokerInput!]
+  create: [MarginCreateWithoutBrokerInput!]
+  createMany: MarginCreateManyBrokerInputEnvelope
+}
+
+input MarginCreateNestedManyWithoutUserInput {
+  connect: [MarginWhereUniqueInput!]
+  connectOrCreate: [MarginCreateOrConnectWithoutUserInput!]
+  create: [MarginCreateWithoutUserInput!]
+  createMany: MarginCreateManyUserInputEnvelope
+}
+
+input MarginCreateOrConnectWithoutBrokerInput {
+  create: MarginCreateWithoutBrokerInput!
+  where: MarginWhereUniqueInput!
+}
+
+input MarginCreateOrConnectWithoutUserInput {
+  create: MarginCreateWithoutUserInput!
+  where: MarginWhereUniqueInput!
+}
+
+input MarginCreateWithoutBrokerInput {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+  user: UserCreateNestedOneWithoutMarginInput!
+}
+
+input MarginCreateWithoutUserInput {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  broker: BrokerCreateNestedOneWithoutMarginInput!
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+}
+
+type MarginGroupBy {
+  AvailableMargin: Float!
+  DPFreeStockValue: Float!
+  TotalMargin: Float!
+  UtilizedMargin: Float!
+  _avg: MarginAvgAggregate
+  _count: MarginCountAggregate
+  _max: MarginMaxAggregate
+  _min: MarginMinAggregate
+  _sum: MarginSumAggregate
+  brokerId: String!
+  createdAt: DateTimeISO!
+  id: String!
+  updatedAt: DateTimeISO!
+  userId: String!
+}
+
+input MarginListRelationFilter {
+  every: MarginWhereInput
+  none: MarginWhereInput
+  some: MarginWhereInput
+}
+
+type MarginMaxAggregate {
+  AvailableMargin: Float
+  DPFreeStockValue: Float
+  TotalMargin: Float
+  UtilizedMargin: Float
+  brokerId: String
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+  userId: String
+}
+
+input MarginMaxOrderByAggregateInput {
+  AvailableMargin: SortOrder
+  DPFreeStockValue: SortOrder
+  TotalMargin: SortOrder
+  UtilizedMargin: SortOrder
+  brokerId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  updatedAt: SortOrder
+  userId: SortOrder
+}
+
+type MarginMinAggregate {
+  AvailableMargin: Float
+  DPFreeStockValue: Float
+  TotalMargin: Float
+  UtilizedMargin: Float
+  brokerId: String
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+  userId: String
+}
+
+input MarginMinOrderByAggregateInput {
+  AvailableMargin: SortOrder
+  DPFreeStockValue: SortOrder
+  TotalMargin: SortOrder
+  UtilizedMargin: SortOrder
+  brokerId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  updatedAt: SortOrder
+  userId: SortOrder
+}
+
+input MarginOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input MarginOrderByWithAggregationInput {
+  AvailableMargin: SortOrder
+  DPFreeStockValue: SortOrder
+  TotalMargin: SortOrder
+  UtilizedMargin: SortOrder
+  _avg: MarginAvgOrderByAggregateInput
+  _count: MarginCountOrderByAggregateInput
+  _max: MarginMaxOrderByAggregateInput
+  _min: MarginMinOrderByAggregateInput
+  _sum: MarginSumOrderByAggregateInput
+  brokerId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  updatedAt: SortOrder
+  userId: SortOrder
+}
+
+input MarginOrderByWithRelationInput {
+  AvailableMargin: SortOrder
+  DPFreeStockValue: SortOrder
+  TotalMargin: SortOrder
+  UtilizedMargin: SortOrder
+  broker: BrokerOrderByWithRelationInput
+  brokerId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  updatedAt: SortOrder
+  user: UserOrderByWithRelationInput
+  userId: SortOrder
+}
+
+enum MarginScalarFieldEnum {
+  AvailableMargin
+  DPFreeStockValue
+  TotalMargin
+  UtilizedMargin
+  brokerId
+  createdAt
+  id
+  updatedAt
+  userId
+}
+
+input MarginScalarWhereInput {
+  AND: [MarginScalarWhereInput!]
+  AvailableMargin: FloatFilter
+  DPFreeStockValue: FloatFilter
+  NOT: [MarginScalarWhereInput!]
+  OR: [MarginScalarWhereInput!]
+  TotalMargin: FloatFilter
+  UtilizedMargin: FloatFilter
+  brokerId: StringFilter
+  createdAt: DateTimeFilter
+  id: StringFilter
+  updatedAt: DateTimeFilter
+  userId: StringFilter
+}
+
+input MarginScalarWhereWithAggregatesInput {
+  AND: [MarginScalarWhereWithAggregatesInput!]
+  AvailableMargin: FloatWithAggregatesFilter
+  DPFreeStockValue: FloatWithAggregatesFilter
+  NOT: [MarginScalarWhereWithAggregatesInput!]
+  OR: [MarginScalarWhereWithAggregatesInput!]
+  TotalMargin: FloatWithAggregatesFilter
+  UtilizedMargin: FloatWithAggregatesFilter
+  brokerId: StringWithAggregatesFilter
+  createdAt: DateTimeWithAggregatesFilter
+  id: StringWithAggregatesFilter
+  updatedAt: DateTimeWithAggregatesFilter
+  userId: StringWithAggregatesFilter
+}
+
+type MarginSumAggregate {
+  AvailableMargin: Float
+  DPFreeStockValue: Float
+  TotalMargin: Float
+  UtilizedMargin: Float
+}
+
+input MarginSumOrderByAggregateInput {
+  AvailableMargin: SortOrder
+  DPFreeStockValue: SortOrder
+  TotalMargin: SortOrder
+  UtilizedMargin: SortOrder
+}
+
+input MarginUpdateInput {
+  AvailableMargin: FloatFieldUpdateOperationsInput
+  DPFreeStockValue: FloatFieldUpdateOperationsInput
+  TotalMargin: FloatFieldUpdateOperationsInput
+  UtilizedMargin: FloatFieldUpdateOperationsInput
+  broker: BrokerUpdateOneRequiredWithoutMarginNestedInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  user: UserUpdateOneRequiredWithoutMarginNestedInput
+}
+
+input MarginUpdateManyMutationInput {
+  AvailableMargin: FloatFieldUpdateOperationsInput
+  DPFreeStockValue: FloatFieldUpdateOperationsInput
+  TotalMargin: FloatFieldUpdateOperationsInput
+  UtilizedMargin: FloatFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input MarginUpdateManyWithWhereWithoutBrokerInput {
+  data: MarginUpdateManyMutationInput!
+  where: MarginScalarWhereInput!
+}
+
+input MarginUpdateManyWithWhereWithoutUserInput {
+  data: MarginUpdateManyMutationInput!
+  where: MarginScalarWhereInput!
+}
+
+input MarginUpdateManyWithoutBrokerNestedInput {
+  connect: [MarginWhereUniqueInput!]
+  connectOrCreate: [MarginCreateOrConnectWithoutBrokerInput!]
+  create: [MarginCreateWithoutBrokerInput!]
+  createMany: MarginCreateManyBrokerInputEnvelope
+  delete: [MarginWhereUniqueInput!]
+  deleteMany: [MarginScalarWhereInput!]
+  disconnect: [MarginWhereUniqueInput!]
+  set: [MarginWhereUniqueInput!]
+  update: [MarginUpdateWithWhereUniqueWithoutBrokerInput!]
+  updateMany: [MarginUpdateManyWithWhereWithoutBrokerInput!]
+  upsert: [MarginUpsertWithWhereUniqueWithoutBrokerInput!]
+}
+
+input MarginUpdateManyWithoutUserNestedInput {
+  connect: [MarginWhereUniqueInput!]
+  connectOrCreate: [MarginCreateOrConnectWithoutUserInput!]
+  create: [MarginCreateWithoutUserInput!]
+  createMany: MarginCreateManyUserInputEnvelope
+  delete: [MarginWhereUniqueInput!]
+  deleteMany: [MarginScalarWhereInput!]
+  disconnect: [MarginWhereUniqueInput!]
+  set: [MarginWhereUniqueInput!]
+  update: [MarginUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [MarginUpdateManyWithWhereWithoutUserInput!]
+  upsert: [MarginUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input MarginUpdateWithWhereUniqueWithoutBrokerInput {
+  data: MarginUpdateWithoutBrokerInput!
+  where: MarginWhereUniqueInput!
+}
+
+input MarginUpdateWithWhereUniqueWithoutUserInput {
+  data: MarginUpdateWithoutUserInput!
+  where: MarginWhereUniqueInput!
+}
+
+input MarginUpdateWithoutBrokerInput {
+  AvailableMargin: FloatFieldUpdateOperationsInput
+  DPFreeStockValue: FloatFieldUpdateOperationsInput
+  TotalMargin: FloatFieldUpdateOperationsInput
+  UtilizedMargin: FloatFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  user: UserUpdateOneRequiredWithoutMarginNestedInput
+}
+
+input MarginUpdateWithoutUserInput {
+  AvailableMargin: FloatFieldUpdateOperationsInput
+  DPFreeStockValue: FloatFieldUpdateOperationsInput
+  TotalMargin: FloatFieldUpdateOperationsInput
+  UtilizedMargin: FloatFieldUpdateOperationsInput
+  broker: BrokerUpdateOneRequiredWithoutMarginNestedInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input MarginUpsertWithWhereUniqueWithoutBrokerInput {
+  create: MarginCreateWithoutBrokerInput!
+  update: MarginUpdateWithoutBrokerInput!
+  where: MarginWhereUniqueInput!
+}
+
+input MarginUpsertWithWhereUniqueWithoutUserInput {
+  create: MarginCreateWithoutUserInput!
+  update: MarginUpdateWithoutUserInput!
+  where: MarginWhereUniqueInput!
+}
+
+input MarginWhereInput {
+  AND: [MarginWhereInput!]
+  AvailableMargin: FloatFilter
+  DPFreeStockValue: FloatFilter
+  NOT: [MarginWhereInput!]
+  OR: [MarginWhereInput!]
+  TotalMargin: FloatFilter
+  UtilizedMargin: FloatFilter
+  broker: BrokerRelationFilter
+  brokerId: StringFilter
+  createdAt: DateTimeFilter
+  id: StringFilter
+  updatedAt: DateTimeFilter
+  user: UserRelationFilter
+  userId: StringFilter
+}
+
+input MarginWhereUniqueInput {
+  AND: [MarginWhereInput!]
+  AvailableMargin: FloatFilter
+  DPFreeStockValue: FloatFilter
+  NOT: [MarginWhereInput!]
+  OR: [MarginWhereInput!]
+  TotalMargin: FloatFilter
+  UtilizedMargin: FloatFilter
+  broker: BrokerRelationFilter
+  brokerId: StringFilter
+  createdAt: DateTimeFilter
+  id: String
+  updatedAt: DateTimeFilter
+  user: UserRelationFilter
+  userId: StringFilter
 }
 
 type MarketData {
@@ -2252,102 +2753,52 @@ type Mutation {
   createManyBroker(data: [BrokerCreateManyInput!]!): AffectedRowsOutput!
   createManyHolding(data: [HoldingCreateManyInput!]!): AffectedRowsOutput!
   createManyHoldings(data: [HoldingsCreateManyInput!]!): AffectedRowsOutput!
+  createManyMargin(data: [MarginCreateManyInput!]!): AffectedRowsOutput!
   createManyMarketData(data: [MarketDataCreateManyInput!]!): AffectedRowsOutput!
   createManySession(data: [SessionCreateManyInput!]!): AffectedRowsOutput!
   createManyUser(data: [UserCreateManyInput!]!): AffectedRowsOutput!
   createOneBroker(data: BrokerCreateInput!): Broker!
   createOneHolding(data: HoldingCreateInput!): Holding!
   createOneHoldings(data: HoldingsCreateInput!): Holdings!
+  createOneMargin(data: MarginCreateInput!): Margin!
   createOneMarketData(data: MarketDataCreateInput!): MarketData!
   createOneSession(data: SessionCreateInput!): Session!
   createOneUser(data: UserCreateInput!): User!
   deleteManyBroker(where: BrokerWhereInput): AffectedRowsOutput!
   deleteManyHolding(where: HoldingWhereInput): AffectedRowsOutput!
   deleteManyHoldings(where: HoldingsWhereInput): AffectedRowsOutput!
+  deleteManyMargin(where: MarginWhereInput): AffectedRowsOutput!
   deleteManyMarketData(where: MarketDataWhereInput): AffectedRowsOutput!
   deleteManySession(where: SessionWhereInput): AffectedRowsOutput!
   deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
   deleteOneBroker(where: BrokerWhereUniqueInput!): Broker
   deleteOneHolding(where: HoldingWhereUniqueInput!): Holding
   deleteOneHoldings(where: HoldingsWhereUniqueInput!): Holdings
+  deleteOneMargin(where: MarginWhereUniqueInput!): Margin
   deleteOneMarketData(where: MarketDataWhereUniqueInput!): MarketData
   deleteOneSession(where: SessionWhereUniqueInput!): Session
   deleteOneUser(where: UserWhereUniqueInput!): User
-  updateManyBroker(
-    data: BrokerUpdateManyMutationInput!
-    where: BrokerWhereInput
-  ): AffectedRowsOutput!
-  updateManyHolding(
-    data: HoldingUpdateManyMutationInput!
-    where: HoldingWhereInput
-  ): AffectedRowsOutput!
-  updateManyHoldings(
-    data: HoldingsUpdateManyMutationInput!
-    where: HoldingsWhereInput
-  ): AffectedRowsOutput!
-  updateManyMarketData(
-    data: MarketDataUpdateManyMutationInput!
-    where: MarketDataWhereInput
-  ): AffectedRowsOutput!
-  updateManySession(
-    data: SessionUpdateManyMutationInput!
-    where: SessionWhereInput
-  ): AffectedRowsOutput!
-  updateManyUser(
-    data: UserUpdateManyMutationInput!
-    where: UserWhereInput
-  ): AffectedRowsOutput!
-  updateOneBroker(
-    data: BrokerUpdateInput!
-    where: BrokerWhereUniqueInput!
-  ): Broker
-  updateOneHolding(
-    data: HoldingUpdateInput!
-    where: HoldingWhereUniqueInput!
-  ): Holding
-  updateOneHoldings(
-    data: HoldingsUpdateInput!
-    where: HoldingsWhereUniqueInput!
-  ): Holdings
-  updateOneMarketData(
-    data: MarketDataUpdateInput!
-    where: MarketDataWhereUniqueInput!
-  ): MarketData
-  updateOneSession(
-    data: SessionUpdateInput!
-    where: SessionWhereUniqueInput!
-  ): Session
+  updateManyBroker(data: BrokerUpdateManyMutationInput!, where: BrokerWhereInput): AffectedRowsOutput!
+  updateManyHolding(data: HoldingUpdateManyMutationInput!, where: HoldingWhereInput): AffectedRowsOutput!
+  updateManyHoldings(data: HoldingsUpdateManyMutationInput!, where: HoldingsWhereInput): AffectedRowsOutput!
+  updateManyMargin(data: MarginUpdateManyMutationInput!, where: MarginWhereInput): AffectedRowsOutput!
+  updateManyMarketData(data: MarketDataUpdateManyMutationInput!, where: MarketDataWhereInput): AffectedRowsOutput!
+  updateManySession(data: SessionUpdateManyMutationInput!, where: SessionWhereInput): AffectedRowsOutput!
+  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
+  updateOneBroker(data: BrokerUpdateInput!, where: BrokerWhereUniqueInput!): Broker
+  updateOneHolding(data: HoldingUpdateInput!, where: HoldingWhereUniqueInput!): Holding
+  updateOneHoldings(data: HoldingsUpdateInput!, where: HoldingsWhereUniqueInput!): Holdings
+  updateOneMargin(data: MarginUpdateInput!, where: MarginWhereUniqueInput!): Margin
+  updateOneMarketData(data: MarketDataUpdateInput!, where: MarketDataWhereUniqueInput!): MarketData
+  updateOneSession(data: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  upsertOneBroker(
-    create: BrokerCreateInput!
-    update: BrokerUpdateInput!
-    where: BrokerWhereUniqueInput!
-  ): Broker!
-  upsertOneHolding(
-    create: HoldingCreateInput!
-    update: HoldingUpdateInput!
-    where: HoldingWhereUniqueInput!
-  ): Holding!
-  upsertOneHoldings(
-    create: HoldingsCreateInput!
-    update: HoldingsUpdateInput!
-    where: HoldingsWhereUniqueInput!
-  ): Holdings!
-  upsertOneMarketData(
-    create: MarketDataCreateInput!
-    update: MarketDataUpdateInput!
-    where: MarketDataWhereUniqueInput!
-  ): MarketData!
-  upsertOneSession(
-    create: SessionCreateInput!
-    update: SessionUpdateInput!
-    where: SessionWhereUniqueInput!
-  ): Session!
-  upsertOneUser(
-    create: UserCreateInput!
-    update: UserUpdateInput!
-    where: UserWhereUniqueInput!
-  ): User!
+  upsertOneBroker(create: BrokerCreateInput!, update: BrokerUpdateInput!, where: BrokerWhereUniqueInput!): Broker!
+  upsertOneHolding(create: HoldingCreateInput!, update: HoldingUpdateInput!, where: HoldingWhereUniqueInput!): Holding!
+  upsertOneHoldings(create: HoldingsCreateInput!, update: HoldingsUpdateInput!, where: HoldingsWhereUniqueInput!): Holdings!
+  upsertOneMargin(create: MarginCreateInput!, update: MarginUpdateInput!, where: MarginWhereUniqueInput!): Margin!
+  upsertOneMarketData(create: MarketDataCreateInput!, update: MarketDataUpdateInput!, where: MarketDataWhereUniqueInput!): MarketData!
+  upsertOneSession(create: SessionCreateInput!, update: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session!
+  upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
 input NestedDateTimeFilter {
@@ -2506,252 +2957,55 @@ input NestedStringWithAggregatesFilter {
 }
 
 type Query {
-  aggregateBroker(
-    cursor: BrokerWhereUniqueInput
-    orderBy: [BrokerOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: BrokerWhereInput
-  ): AggregateBroker!
-  aggregateHolding(
-    cursor: HoldingWhereUniqueInput
-    orderBy: [HoldingOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): AggregateHolding!
-  aggregateHoldings(
-    cursor: HoldingsWhereUniqueInput
-    orderBy: [HoldingsOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingsWhereInput
-  ): AggregateHoldings!
-  aggregateMarketData(
-    cursor: MarketDataWhereUniqueInput
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): AggregateMarketData!
-  aggregateSession(
-    cursor: SessionWhereUniqueInput
-    orderBy: [SessionOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: SessionWhereInput
-  ): AggregateSession!
-  aggregateUser(
-    cursor: UserWhereUniqueInput
-    orderBy: [UserOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: UserWhereInput
-  ): AggregateUser!
+  aggregateBroker(cursor: BrokerWhereUniqueInput, orderBy: [BrokerOrderByWithRelationInput!], skip: Int, take: Int, where: BrokerWhereInput): AggregateBroker!
+  aggregateHolding(cursor: HoldingWhereUniqueInput, orderBy: [HoldingOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingWhereInput): AggregateHolding!
+  aggregateHoldings(cursor: HoldingsWhereUniqueInput, orderBy: [HoldingsOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingsWhereInput): AggregateHoldings!
+  aggregateMargin(cursor: MarginWhereUniqueInput, orderBy: [MarginOrderByWithRelationInput!], skip: Int, take: Int, where: MarginWhereInput): AggregateMargin!
+  aggregateMarketData(cursor: MarketDataWhereUniqueInput, orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): AggregateMarketData!
+  aggregateSession(cursor: SessionWhereUniqueInput, orderBy: [SessionOrderByWithRelationInput!], skip: Int, take: Int, where: SessionWhereInput): AggregateSession!
+  aggregateUser(cursor: UserWhereUniqueInput, orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
   broker(where: BrokerWhereUniqueInput!): Broker
-  brokers(
-    cursor: BrokerWhereUniqueInput
-    distinct: [BrokerScalarFieldEnum!]
-    orderBy: [BrokerOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: BrokerWhereInput
-  ): [Broker!]!
-  findFirstBroker(
-    cursor: BrokerWhereUniqueInput
-    distinct: [BrokerScalarFieldEnum!]
-    orderBy: [BrokerOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: BrokerWhereInput
-  ): Broker
-  findFirstBrokerOrThrow(
-    cursor: BrokerWhereUniqueInput
-    distinct: [BrokerScalarFieldEnum!]
-    orderBy: [BrokerOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: BrokerWhereInput
-  ): Broker
-  findFirstHolding(
-    cursor: HoldingWhereUniqueInput
-    distinct: [HoldingScalarFieldEnum!]
-    orderBy: [HoldingOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): Holding
-  findFirstHoldingOrThrow(
-    cursor: HoldingWhereUniqueInput
-    distinct: [HoldingScalarFieldEnum!]
-    orderBy: [HoldingOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): Holding
-  findFirstHoldings(
-    cursor: HoldingsWhereUniqueInput
-    distinct: [HoldingsScalarFieldEnum!]
-    orderBy: [HoldingsOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingsWhereInput
-  ): Holdings
-  findFirstHoldingsOrThrow(
-    cursor: HoldingsWhereUniqueInput
-    distinct: [HoldingsScalarFieldEnum!]
-    orderBy: [HoldingsOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingsWhereInput
-  ): Holdings
-  findFirstMarketData(
-    cursor: MarketDataWhereUniqueInput
-    distinct: [MarketDataScalarFieldEnum!]
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): MarketData
-  findFirstMarketDataOrThrow(
-    cursor: MarketDataWhereUniqueInput
-    distinct: [MarketDataScalarFieldEnum!]
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): MarketData
-  findFirstSession(
-    cursor: SessionWhereUniqueInput
-    distinct: [SessionScalarFieldEnum!]
-    orderBy: [SessionOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: SessionWhereInput
-  ): Session
-  findFirstSessionOrThrow(
-    cursor: SessionWhereUniqueInput
-    distinct: [SessionScalarFieldEnum!]
-    orderBy: [SessionOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: SessionWhereInput
-  ): Session
-  findFirstUser(
-    cursor: UserWhereUniqueInput
-    distinct: [UserScalarFieldEnum!]
-    orderBy: [UserOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: UserWhereInput
-  ): User
-  findFirstUserOrThrow(
-    cursor: UserWhereUniqueInput
-    distinct: [UserScalarFieldEnum!]
-    orderBy: [UserOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: UserWhereInput
-  ): User
-  findManyHoldings(
-    cursor: HoldingsWhereUniqueInput
-    distinct: [HoldingsScalarFieldEnum!]
-    orderBy: [HoldingsOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingsWhereInput
-  ): [Holdings!]!
-  findManyMarketData(
-    cursor: MarketDataWhereUniqueInput
-    distinct: [MarketDataScalarFieldEnum!]
-    orderBy: [MarketDataOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): [MarketData!]!
+  brokers(cursor: BrokerWhereUniqueInput, distinct: [BrokerScalarFieldEnum!], orderBy: [BrokerOrderByWithRelationInput!], skip: Int, take: Int, where: BrokerWhereInput): [Broker!]!
+  findFirstBroker(cursor: BrokerWhereUniqueInput, distinct: [BrokerScalarFieldEnum!], orderBy: [BrokerOrderByWithRelationInput!], skip: Int, take: Int, where: BrokerWhereInput): Broker
+  findFirstBrokerOrThrow(cursor: BrokerWhereUniqueInput, distinct: [BrokerScalarFieldEnum!], orderBy: [BrokerOrderByWithRelationInput!], skip: Int, take: Int, where: BrokerWhereInput): Broker
+  findFirstHolding(cursor: HoldingWhereUniqueInput, distinct: [HoldingScalarFieldEnum!], orderBy: [HoldingOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingWhereInput): Holding
+  findFirstHoldingOrThrow(cursor: HoldingWhereUniqueInput, distinct: [HoldingScalarFieldEnum!], orderBy: [HoldingOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingWhereInput): Holding
+  findFirstHoldings(cursor: HoldingsWhereUniqueInput, distinct: [HoldingsScalarFieldEnum!], orderBy: [HoldingsOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingsWhereInput): Holdings
+  findFirstHoldingsOrThrow(cursor: HoldingsWhereUniqueInput, distinct: [HoldingsScalarFieldEnum!], orderBy: [HoldingsOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingsWhereInput): Holdings
+  findFirstMargin(cursor: MarginWhereUniqueInput, distinct: [MarginScalarFieldEnum!], orderBy: [MarginOrderByWithRelationInput!], skip: Int, take: Int, where: MarginWhereInput): Margin
+  findFirstMarginOrThrow(cursor: MarginWhereUniqueInput, distinct: [MarginScalarFieldEnum!], orderBy: [MarginOrderByWithRelationInput!], skip: Int, take: Int, where: MarginWhereInput): Margin
+  findFirstMarketData(cursor: MarketDataWhereUniqueInput, distinct: [MarketDataScalarFieldEnum!], orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): MarketData
+  findFirstMarketDataOrThrow(cursor: MarketDataWhereUniqueInput, distinct: [MarketDataScalarFieldEnum!], orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): MarketData
+  findFirstSession(cursor: SessionWhereUniqueInput, distinct: [SessionScalarFieldEnum!], orderBy: [SessionOrderByWithRelationInput!], skip: Int, take: Int, where: SessionWhereInput): Session
+  findFirstSessionOrThrow(cursor: SessionWhereUniqueInput, distinct: [SessionScalarFieldEnum!], orderBy: [SessionOrderByWithRelationInput!], skip: Int, take: Int, where: SessionWhereInput): Session
+  findFirstUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
+  findFirstUserOrThrow(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
+  findManyHoldings(cursor: HoldingsWhereUniqueInput, distinct: [HoldingsScalarFieldEnum!], orderBy: [HoldingsOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingsWhereInput): [Holdings!]!
+  findManyMarketData(cursor: MarketDataWhereUniqueInput, distinct: [MarketDataScalarFieldEnum!], orderBy: [MarketDataOrderByWithRelationInput!], skip: Int, take: Int, where: MarketDataWhereInput): [MarketData!]!
   findUniqueHoldings(where: HoldingsWhereUniqueInput!): Holdings
   findUniqueHoldingsOrThrow(where: HoldingsWhereUniqueInput!): Holdings
   findUniqueMarketData(where: MarketDataWhereUniqueInput!): MarketData
   findUniqueMarketDataOrThrow(where: MarketDataWhereUniqueInput!): MarketData
   getBroker(where: BrokerWhereUniqueInput!): Broker
   getHolding(where: HoldingWhereUniqueInput!): Holding
+  getMargin(where: MarginWhereUniqueInput!): Margin
   getSession(where: SessionWhereUniqueInput!): Session
   getUser(where: UserWhereUniqueInput!): User
-  groupByBroker(
-    by: [BrokerScalarFieldEnum!]!
-    having: BrokerScalarWhereWithAggregatesInput
-    orderBy: [BrokerOrderByWithAggregationInput!]
-    skip: Int
-    take: Int
-    where: BrokerWhereInput
-  ): [BrokerGroupBy!]!
-  groupByHolding(
-    by: [HoldingScalarFieldEnum!]!
-    having: HoldingScalarWhereWithAggregatesInput
-    orderBy: [HoldingOrderByWithAggregationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): [HoldingGroupBy!]!
-  groupByHoldings(
-    by: [HoldingsScalarFieldEnum!]!
-    having: HoldingsScalarWhereWithAggregatesInput
-    orderBy: [HoldingsOrderByWithAggregationInput!]
-    skip: Int
-    take: Int
-    where: HoldingsWhereInput
-  ): [HoldingsGroupBy!]!
-  groupByMarketData(
-    by: [MarketDataScalarFieldEnum!]!
-    having: MarketDataScalarWhereWithAggregatesInput
-    orderBy: [MarketDataOrderByWithAggregationInput!]
-    skip: Int
-    take: Int
-    where: MarketDataWhereInput
-  ): [MarketDataGroupBy!]!
-  groupBySession(
-    by: [SessionScalarFieldEnum!]!
-    having: SessionScalarWhereWithAggregatesInput
-    orderBy: [SessionOrderByWithAggregationInput!]
-    skip: Int
-    take: Int
-    where: SessionWhereInput
-  ): [SessionGroupBy!]!
-  groupByUser(
-    by: [UserScalarFieldEnum!]!
-    having: UserScalarWhereWithAggregatesInput
-    orderBy: [UserOrderByWithAggregationInput!]
-    skip: Int
-    take: Int
-    where: UserWhereInput
-  ): [UserGroupBy!]!
+  groupByBroker(by: [BrokerScalarFieldEnum!]!, having: BrokerScalarWhereWithAggregatesInput, orderBy: [BrokerOrderByWithAggregationInput!], skip: Int, take: Int, where: BrokerWhereInput): [BrokerGroupBy!]!
+  groupByHolding(by: [HoldingScalarFieldEnum!]!, having: HoldingScalarWhereWithAggregatesInput, orderBy: [HoldingOrderByWithAggregationInput!], skip: Int, take: Int, where: HoldingWhereInput): [HoldingGroupBy!]!
+  groupByHoldings(by: [HoldingsScalarFieldEnum!]!, having: HoldingsScalarWhereWithAggregatesInput, orderBy: [HoldingsOrderByWithAggregationInput!], skip: Int, take: Int, where: HoldingsWhereInput): [HoldingsGroupBy!]!
+  groupByMargin(by: [MarginScalarFieldEnum!]!, having: MarginScalarWhereWithAggregatesInput, orderBy: [MarginOrderByWithAggregationInput!], skip: Int, take: Int, where: MarginWhereInput): [MarginGroupBy!]!
+  groupByMarketData(by: [MarketDataScalarFieldEnum!]!, having: MarketDataScalarWhereWithAggregatesInput, orderBy: [MarketDataOrderByWithAggregationInput!], skip: Int, take: Int, where: MarketDataWhereInput): [MarketDataGroupBy!]!
+  groupBySession(by: [SessionScalarFieldEnum!]!, having: SessionScalarWhereWithAggregatesInput, orderBy: [SessionOrderByWithAggregationInput!], skip: Int, take: Int, where: SessionWhereInput): [SessionGroupBy!]!
+  groupByUser(by: [UserScalarFieldEnum!]!, having: UserScalarWhereWithAggregatesInput, orderBy: [UserOrderByWithAggregationInput!], skip: Int, take: Int, where: UserWhereInput): [UserGroupBy!]!
   holding(where: HoldingWhereUniqueInput!): Holding
-  holdings(
-    cursor: HoldingWhereUniqueInput
-    distinct: [HoldingScalarFieldEnum!]
-    orderBy: [HoldingOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): [Holding!]!
+  holdings(cursor: HoldingWhereUniqueInput, distinct: [HoldingScalarFieldEnum!], orderBy: [HoldingOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingWhereInput): [Holding!]!
+  margin(where: MarginWhereUniqueInput!): Margin
+  margins(cursor: MarginWhereUniqueInput, distinct: [MarginScalarFieldEnum!], orderBy: [MarginOrderByWithRelationInput!], skip: Int, take: Int, where: MarginWhereInput): [Margin!]!
   session(where: SessionWhereUniqueInput!): Session
-  sessions(
-    cursor: SessionWhereUniqueInput
-    distinct: [SessionScalarFieldEnum!]
-    orderBy: [SessionOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: SessionWhereInput
-  ): [Session!]!
+  sessions(cursor: SessionWhereUniqueInput, distinct: [SessionScalarFieldEnum!], orderBy: [SessionOrderByWithRelationInput!], skip: Int, take: Int, where: SessionWhereInput): [Session!]!
   user(where: UserWhereUniqueInput!): User
-  users(
-    cursor: UserWhereUniqueInput
-    distinct: [UserScalarFieldEnum!]
-    orderBy: [UserOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: UserWhereInput
-  ): [User!]!
+  users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
 enum QueryMode {
@@ -3229,30 +3483,10 @@ input StringWithAggregatesFilter {
 }
 
 type User {
-  Holding(
-    cursor: HoldingWhereUniqueInput
-    distinct: [HoldingScalarFieldEnum!]
-    orderBy: [HoldingOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingWhereInput
-  ): [Holding!]!
-  Holdings(
-    cursor: HoldingsWhereUniqueInput
-    distinct: [HoldingsScalarFieldEnum!]
-    orderBy: [HoldingsOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: HoldingsWhereInput
-  ): [Holdings!]!
-  Session(
-    cursor: SessionWhereUniqueInput
-    distinct: [SessionScalarFieldEnum!]
-    orderBy: [SessionOrderByWithRelationInput!]
-    skip: Int
-    take: Int
-    where: SessionWhereInput
-  ): [Session!]!
+  Holding(cursor: HoldingWhereUniqueInput, distinct: [HoldingScalarFieldEnum!], orderBy: [HoldingOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingWhereInput): [Holding!]!
+  Holdings(cursor: HoldingsWhereUniqueInput, distinct: [HoldingsScalarFieldEnum!], orderBy: [HoldingsOrderByWithRelationInput!], skip: Int, take: Int, where: HoldingsWhereInput): [Holdings!]!
+  Margin(cursor: MarginWhereUniqueInput, distinct: [MarginScalarFieldEnum!], orderBy: [MarginOrderByWithRelationInput!], skip: Int, take: Int, where: MarginWhereInput): [Margin!]!
+  Session(cursor: SessionWhereUniqueInput, distinct: [SessionScalarFieldEnum!], orderBy: [SessionOrderByWithRelationInput!], skip: Int, take: Int, where: SessionWhereInput): [Session!]!
   _count: UserCount
   createdAt: DateTimeISO!
   email: String!
@@ -3265,6 +3499,7 @@ type User {
 type UserCount {
   Holding(where: HoldingWhereInput): Int!
   Holdings(where: HoldingsWhereInput): Int!
+  Margin(where: MarginWhereInput): Int!
   Session(where: SessionWhereInput): Int!
 }
 
@@ -3290,6 +3525,7 @@ input UserCountOrderByAggregateInput {
 input UserCreateInput {
   Holding: HoldingCreateNestedManyWithoutUserInput
   Holdings: HoldingsCreateNestedManyWithoutUserInput
+  Margin: MarginCreateNestedManyWithoutUserInput
   Session: SessionCreateNestedManyWithoutUserInput
   createdAt: DateTimeISO
   email: String!
@@ -3320,6 +3556,12 @@ input UserCreateNestedOneWithoutHoldingsInput {
   create: UserCreateWithoutHoldingsInput
 }
 
+input UserCreateNestedOneWithoutMarginInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutMarginInput
+  create: UserCreateWithoutMarginInput
+}
+
 input UserCreateNestedOneWithoutSessionInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutSessionInput
@@ -3336,6 +3578,11 @@ input UserCreateOrConnectWithoutHoldingsInput {
   where: UserWhereUniqueInput!
 }
 
+input UserCreateOrConnectWithoutMarginInput {
+  create: UserCreateWithoutMarginInput!
+  where: UserWhereUniqueInput!
+}
+
 input UserCreateOrConnectWithoutSessionInput {
   create: UserCreateWithoutSessionInput!
   where: UserWhereUniqueInput!
@@ -3343,6 +3590,7 @@ input UserCreateOrConnectWithoutSessionInput {
 
 input UserCreateWithoutHoldingInput {
   Holdings: HoldingsCreateNestedManyWithoutUserInput
+  Margin: MarginCreateNestedManyWithoutUserInput
   Session: SessionCreateNestedManyWithoutUserInput
   createdAt: DateTimeISO
   email: String!
@@ -3354,6 +3602,19 @@ input UserCreateWithoutHoldingInput {
 
 input UserCreateWithoutHoldingsInput {
   Holding: HoldingCreateNestedManyWithoutUserInput
+  Margin: MarginCreateNestedManyWithoutUserInput
+  Session: SessionCreateNestedManyWithoutUserInput
+  createdAt: DateTimeISO
+  email: String!
+  id: String
+  name: String!
+  password: String!
+  updatedAt: DateTimeISO
+}
+
+input UserCreateWithoutMarginInput {
+  Holding: HoldingCreateNestedManyWithoutUserInput
+  Holdings: HoldingsCreateNestedManyWithoutUserInput
   Session: SessionCreateNestedManyWithoutUserInput
   createdAt: DateTimeISO
   email: String!
@@ -3366,6 +3627,7 @@ input UserCreateWithoutHoldingsInput {
 input UserCreateWithoutSessionInput {
   Holding: HoldingCreateNestedManyWithoutUserInput
   Holdings: HoldingsCreateNestedManyWithoutUserInput
+  Margin: MarginCreateNestedManyWithoutUserInput
   createdAt: DateTimeISO
   email: String!
   id: String
@@ -3437,6 +3699,7 @@ input UserOrderByWithAggregationInput {
 input UserOrderByWithRelationInput {
   Holding: HoldingOrderByRelationAggregateInput
   Holdings: HoldingsOrderByRelationAggregateInput
+  Margin: MarginOrderByRelationAggregateInput
   Session: SessionOrderByRelationAggregateInput
   createdAt: SortOrder
   email: SortOrder
@@ -3475,6 +3738,7 @@ input UserScalarWhereWithAggregatesInput {
 input UserUpdateInput {
   Holding: HoldingUpdateManyWithoutUserNestedInput
   Holdings: HoldingsUpdateManyWithoutUserNestedInput
+  Margin: MarginUpdateManyWithoutUserNestedInput
   Session: SessionUpdateManyWithoutUserNestedInput
   createdAt: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
@@ -3507,6 +3771,14 @@ input UserUpdateOneRequiredWithoutHoldingsNestedInput {
   upsert: UserUpsertWithoutHoldingsInput
 }
 
+input UserUpdateOneRequiredWithoutMarginNestedInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutMarginInput
+  create: UserCreateWithoutMarginInput
+  update: UserUpdateToOneWithWhereWithoutMarginInput
+  upsert: UserUpsertWithoutMarginInput
+}
+
 input UserUpdateOneRequiredWithoutSessionNestedInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutSessionInput
@@ -3525,6 +3797,11 @@ input UserUpdateToOneWithWhereWithoutHoldingsInput {
   where: UserWhereInput
 }
 
+input UserUpdateToOneWithWhereWithoutMarginInput {
+  data: UserUpdateWithoutMarginInput!
+  where: UserWhereInput
+}
+
 input UserUpdateToOneWithWhereWithoutSessionInput {
   data: UserUpdateWithoutSessionInput!
   where: UserWhereInput
@@ -3532,6 +3809,7 @@ input UserUpdateToOneWithWhereWithoutSessionInput {
 
 input UserUpdateWithoutHoldingInput {
   Holdings: HoldingsUpdateManyWithoutUserNestedInput
+  Margin: MarginUpdateManyWithoutUserNestedInput
   Session: SessionUpdateManyWithoutUserNestedInput
   createdAt: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
@@ -3542,6 +3820,18 @@ input UserUpdateWithoutHoldingInput {
 
 input UserUpdateWithoutHoldingsInput {
   Holding: HoldingUpdateManyWithoutUserNestedInput
+  Margin: MarginUpdateManyWithoutUserNestedInput
+  Session: SessionUpdateManyWithoutUserNestedInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input UserUpdateWithoutMarginInput {
+  Holding: HoldingUpdateManyWithoutUserNestedInput
+  Holdings: HoldingsUpdateManyWithoutUserNestedInput
   Session: SessionUpdateManyWithoutUserNestedInput
   createdAt: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
@@ -3553,6 +3843,7 @@ input UserUpdateWithoutHoldingsInput {
 input UserUpdateWithoutSessionInput {
   Holding: HoldingUpdateManyWithoutUserNestedInput
   Holdings: HoldingsUpdateManyWithoutUserNestedInput
+  Margin: MarginUpdateManyWithoutUserNestedInput
   createdAt: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
@@ -3572,6 +3863,12 @@ input UserUpsertWithoutHoldingsInput {
   where: UserWhereInput
 }
 
+input UserUpsertWithoutMarginInput {
+  create: UserCreateWithoutMarginInput!
+  update: UserUpdateWithoutMarginInput!
+  where: UserWhereInput
+}
+
 input UserUpsertWithoutSessionInput {
   create: UserCreateWithoutSessionInput!
   update: UserUpdateWithoutSessionInput!
@@ -3582,6 +3879,7 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   Holding: HoldingListRelationFilter
   Holdings: HoldingsListRelationFilter
+  Margin: MarginListRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   Session: SessionListRelationFilter
@@ -3597,6 +3895,7 @@ input UserWhereUniqueInput {
   AND: [UserWhereInput!]
   Holding: HoldingListRelationFilter
   Holdings: HoldingsListRelationFilter
+  Margin: MarginListRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   Session: SessionListRelationFilter

@@ -11,6 +11,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import AngelOneAuth from "./pages/Auth/AngelOne";
 import HdfcSkyAuth from "./pages/Auth/HdfcSky";
 import UpstoxAuth from "./pages/Auth/Upstox";
+import Margin from "./pages/Margin";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           element={<PrivateRoute Component={Portfolio} />}
         />
         <Route path="/news" element={<PrivateRoute Component={News} />} />
+        <Route path="/margin" element={<PrivateRoute Component={Margin} />} />
       </Routes>
     </Router>
   );

@@ -2,6 +2,7 @@ import express from "express";
 import sessionRouter from "./routes/session.route.js";
 import holdingsRouter from "./routes/holdings.route.js";
 import brokersRouter from "./routes/brokers.route.js";
+import marginRouter from "./routes/margin.route.js";
 import { authMiddleware, prismaMiddleware } from "./middleware/index.js";
 
 const app = express();
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
 app.use("/session", prismaMiddleware, authMiddleware, sessionRouter);
 app.use("/holdings", prismaMiddleware, authMiddleware, holdingsRouter);
 app.use("/brokers", prismaMiddleware, authMiddleware, brokersRouter);
+app.use("/margin", prismaMiddleware, authMiddleware, marginRouter);
 
 const PORT = process.env.PORT || 4002;
 

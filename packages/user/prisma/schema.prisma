@@ -22,6 +22,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Session   Session[]
+  Margin    Margin[]
 }
 
 model Session {
@@ -50,4 +51,22 @@ model Broker {
   imageUrl      String
 
   Session Session[]
+  Margin  Margin[]
+}
+
+model Margin {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @db.ObjectId
+  brokerId String @db.ObjectId
+
+  TotalMargin      Float
+  AvailableMargin  Float
+  UtilizedMargin   Float
+  DPFreeStockValue Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  broker Broker @relation(fields: [brokerId], references: [id])
 }
