@@ -4,7 +4,7 @@ export const getMargin = async (req, res) => {
   try {
     const { userId } = req.user;
 
-    const margin = await getMarginForProvider(req.prisma, "5Paisa", userId);
+    const margin = await getMarginForProvider(req.prisma, "Upstox", userId);
 
     res.status(200).json({ success: true, body: { margin } });
   } catch (error) {

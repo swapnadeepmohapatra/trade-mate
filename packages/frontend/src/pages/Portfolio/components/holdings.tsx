@@ -49,16 +49,13 @@ function Holdings() {
   return (
     <Stack margin={4}>
       <Heading size={"lg"}>Portfolio</Heading>
+      <HoldingSummary
+        totalValue={totalValue}
+        totalCost={totalCost}
+        totalPL={totalPL}
+      />
+      <FilterBar />
       {holdings.length === 0 && <h1>No holdings</h1>}
-      {holdings.length > 0 && (
-        <HoldingSummary
-          totalValue={totalValue}
-          totalCost={totalCost}
-          totalPL={totalPL}
-        />
-      )}
-      {holdings.length > 0 && <FilterBar />}
-
       {!isGroupedByBroker &&
         holdings.map((holding, index) => (
           <HoldingCard

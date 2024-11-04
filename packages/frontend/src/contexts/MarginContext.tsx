@@ -14,13 +14,15 @@ export interface Margin {
   DPFreeStockValue: number;
   broker: Broker;
 }
-
 interface MarginContextProps {
   marginData: Margin[];
+  filteredMarginData: Margin[];
   totalAvailableMargin: number;
   totalUtilizedMargin: number;
   totalDPFreeStockValue: number;
   totalMarginValue: number;
+  setFilter: (brokerNameFilter: string, sortOption: string) => void;
+  clearFilters: () => void;
 }
 
 const MarginContext = createContext<MarginContextProps | undefined>(undefined);
@@ -29,13 +31,66 @@ export const MarginProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [marginData, setMarginData] = useState<Margin[]>([]);
+  const [filteredMarginData, setFilteredMarginData] = useState<Margin[]>([]);
+  const [brokerNameFilter, setBrokerNameFilter] = useState("");
+  const [sortOption, setSortOption] = useState("");
 
   useEffect(() => {
     getMargin().then((data) => {
       const margin = data?.body?.margin || [];
       setMarginData(margin);
+      setFilteredMarginData(margin);
     });
   }, []);
+
+  useEffect(() => {
+    const applyFiltersAndSort = () => {
+      const filtered =
+        brokerNameFilter.trim() !== ""
+          ? marginData.filter((margin) =>
+              margin.broker.name
+                .toLowerCase()
+                .includes(brokerNameFilter.toLowerCase().trim())
+            )
+          : [...marginData];
+
+      switch (sortOption) {
+        case "availableMarginAsc":
+          filtered.sort((a, b) => a.AvailableMargin - b.AvailableMargin);
+          break;
+        case "availableMarginDesc":
+          filtered.sort((a, b) => b.AvailableMargin - a.AvailableMargin);
+          break;
+        case "utilizedMarginAsc":
+          filtered.sort((a, b) => a.UtilizedMargin - b.UtilizedMargin);
+          break;
+        case "utilizedMarginDesc":
+          filtered.sort((a, b) => b.UtilizedMargin - a.UtilizedMargin);
+          break;
+        case "totalMarginAsc":
+          filtered.sort((a, b) => a.TotalMargin - b.TotalMargin);
+          break;
+        case "totalMarginDesc":
+          filtered.sort((a, b) => b.TotalMargin - a.TotalMargin);
+          break;
+      }
+
+      setFilteredMarginData(filtered);
+    };
+
+    applyFiltersAndSort();
+  }, [brokerNameFilter, sortOption, marginData]);
+
+  const setFilter = (brokerName: string, sort: string) => {
+    setBrokerNameFilter(brokerName);
+    setSortOption(sort);
+  };
+
+  const clearFilters = () => {
+    setBrokerNameFilter("");
+    setSortOption("");
+    setFilteredMarginData(marginData);
+  };
 
   const totalAvailableMargin = marginData.reduce(
     (acc, margin) => acc + margin.AvailableMargin,
@@ -60,11 +115,14 @@ export const MarginProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <MarginContext.Provider
       value={{
-        marginData,
+        marginData: filteredMarginData,
+        filteredMarginData,
         totalAvailableMargin,
         totalUtilizedMargin,
         totalDPFreeStockValue,
         totalMarginValue,
+        setFilter,
+        clearFilters,
       }}
     >
       {children}

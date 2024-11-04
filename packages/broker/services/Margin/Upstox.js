@@ -1,9 +1,9 @@
-export const get5PaisaMargin = async (prisma, userId) => {
+export const getUpstoxMargin = async (prisma, userId) => {
   const latestSession = await prisma.session.findFirst({
     where: {
       userId,
       broker: {
-        name: "5Paisa",
+        name: "Upstox",
       },
     },
     orderBy: {
@@ -17,7 +17,7 @@ export const get5PaisaMargin = async (prisma, userId) => {
 
   const broker = await prisma.broker.findFirst({
     where: {
-      name: "5Paisa",
+      name: "Upstox",
     },
   });
 
@@ -25,7 +25,7 @@ export const get5PaisaMargin = async (prisma, userId) => {
     where: {
       userId,
       broker: {
-        name: "5Paisa",
+        name: "Upstox",
       },
     },
     orderBy: {
@@ -61,27 +61,19 @@ export const get5PaisaMargin = async (prisma, userId) => {
   }
 
   const response = await fetch(
-    "https://Openapi.5paisa.com/VendorsAPI/Service1.svc/V4/Margin",
+    `https://api.upstox.com/v2/user/get-funds-and-margin`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${latestSession.accessToken}`,
+        Accept: "application/json",
       },
-      body: JSON.stringify({
-        head: {
-          key: broker.userKey,
-        },
-        body: {
-          ClientCode: latestSession.clientCode,
-        },
-      }),
     }
   );
 
   const data = await response.json();
 
-  if (data.body.EquityMargin) {
+  if (data.status === "success") {
     const res = await prisma.margin.create({
       data: {
         broker: {
@@ -95,15 +87,11 @@ export const get5PaisaMargin = async (prisma, userId) => {
           },
         },
         TotalMargin:
-          parseFloat(data.body.EquityMargin[0].MarginUtilized) +
-          parseFloat(data.body.EquityMargin[0].NetAvailableMargin),
-        AvailableMargin: parseFloat(
-          data.body.EquityMargin[0].NetAvailableMargin
-        ),
-        UtilizedMargin: parseFloat(data.body.EquityMargin[0].MarginUtilized),
-        DPFreeStockValue: parseFloat(
-          data.body.EquityMargin[0].DPFreeStockValue
-        ),
+          parseFloat(data.data.equity.available_margin) +
+          parseFloat(data.data.equity.used_margin),
+        AvailableMargin: parseFloat(data.data.equity.available_margin),
+        UtilizedMargin: parseFloat(data.data.equity.used_margin),
+        DPFreeStockValue: parseFloat(data.data.equity.span_margin),
       },
     });
 

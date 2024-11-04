@@ -1,9 +1,9 @@
-export const get5PaisaMargin = async (prisma, userId) => {
+export const getAngelOneMargin = async (prisma, userId) => {
   const latestSession = await prisma.session.findFirst({
     where: {
       userId,
       broker: {
-        name: "5Paisa",
+        name: "AngelOne",
       },
     },
     orderBy: {
@@ -17,7 +17,7 @@ export const get5PaisaMargin = async (prisma, userId) => {
 
   const broker = await prisma.broker.findFirst({
     where: {
-      name: "5Paisa",
+      name: "AngelOne",
     },
   });
 
@@ -25,7 +25,7 @@ export const get5PaisaMargin = async (prisma, userId) => {
     where: {
       userId,
       broker: {
-        name: "5Paisa",
+        name: "AngelOne",
       },
     },
     orderBy: {
@@ -61,27 +61,25 @@ export const get5PaisaMargin = async (prisma, userId) => {
   }
 
   const response = await fetch(
-    "https://Openapi.5paisa.com/VendorsAPI/Service1.svc/V4/Margin",
+    "https://apiconnect.angelone.in/rest/secure/angelbroking/user/v1/getRMS",
     {
-      method: "POST",
+      method: "GET",
       headers: {
+        "X-PrivateKey": broker.userKey,
+        "X-UserType": "USER",
+        "X-SourceID": "WEB",
+        "X-ClientLocalIP": "",
+        "X-ClientPublicIP": "",
+        "X-MACAddress": "",
         "Content-Type": "application/json",
         Authorization: `Bearer ${latestSession.accessToken}`,
       },
-      body: JSON.stringify({
-        head: {
-          key: broker.userKey,
-        },
-        body: {
-          ClientCode: latestSession.clientCode,
-        },
-      }),
     }
   );
 
   const data = await response.json();
 
-  if (data.body.EquityMargin) {
+  if (data.message === "SUCCESS") {
     const res = await prisma.margin.create({
       data: {
         broker: {
@@ -94,16 +92,10 @@ export const get5PaisaMargin = async (prisma, userId) => {
             id: userId,
           },
         },
-        TotalMargin:
-          parseFloat(data.body.EquityMargin[0].MarginUtilized) +
-          parseFloat(data.body.EquityMargin[0].NetAvailableMargin),
-        AvailableMargin: parseFloat(
-          data.body.EquityMargin[0].NetAvailableMargin
-        ),
-        UtilizedMargin: parseFloat(data.body.EquityMargin[0].MarginUtilized),
-        DPFreeStockValue: parseFloat(
-          data.body.EquityMargin[0].DPFreeStockValue
-        ),
+        TotalMargin: parseFloat(data.data.net),
+        AvailableMargin: parseFloat(data.data.availablecash),
+        UtilizedMargin: parseFloat(data.data.m2mrealized),
+        DPFreeStockValue: parseFloat(data.data.utilisedpayout),
       },
     });
 

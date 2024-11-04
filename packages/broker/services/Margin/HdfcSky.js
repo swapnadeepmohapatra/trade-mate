@@ -1,9 +1,9 @@
-export const get5PaisaMargin = async (prisma, userId) => {
+export const getHdfcSkyMargin = async (prisma, userId) => {
   const latestSession = await prisma.session.findFirst({
     where: {
       userId,
       broker: {
-        name: "5Paisa",
+        name: "HdfcSky",
       },
     },
     orderBy: {
@@ -17,7 +17,7 @@ export const get5PaisaMargin = async (prisma, userId) => {
 
   const broker = await prisma.broker.findFirst({
     where: {
-      name: "5Paisa",
+      name: "HdfcSky",
     },
   });
 
@@ -25,7 +25,7 @@ export const get5PaisaMargin = async (prisma, userId) => {
     where: {
       userId,
       broker: {
-        name: "5Paisa",
+        name: "HdfcSky",
       },
     },
     orderBy: {
@@ -61,27 +61,22 @@ export const get5PaisaMargin = async (prisma, userId) => {
   }
 
   const response = await fetch(
-    "https://Openapi.5paisa.com/VendorsAPI/Service1.svc/V4/Margin",
+    `https://developer.hdfcsky.com/oapi/v1/funds/view?api_key=${broker.userKey}&client_id=${latestSession.clientCode}&type=all`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${latestSession.accessToken}`,
+        Authorization: `${latestSession.accessToken}`,
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
       },
-      body: JSON.stringify({
-        head: {
-          key: broker.userKey,
-        },
-        body: {
-          ClientCode: latestSession.clientCode,
-        },
-      }),
     }
   );
 
   const data = await response.json();
 
-  if (data.body.EquityMargin) {
+  console.log(data.data);
+
+  if (data.status === "success") {
     const res = await prisma.margin.create({
       data: {
         broker: {
@@ -95,14 +90,20 @@ export const get5PaisaMargin = async (prisma, userId) => {
           },
         },
         TotalMargin:
-          parseFloat(data.body.EquityMargin[0].MarginUtilized) +
-          parseFloat(data.body.EquityMargin[0].NetAvailableMargin),
+          parseFloat(
+            data.data.values.find((val) => val[0] === "Available Margin")[1]
+          ) +
+          parseFloat(
+            data.data.values.find((val) => val[0] === "Margin Used")[1]
+          ),
         AvailableMargin: parseFloat(
-          data.body.EquityMargin[0].NetAvailableMargin
+          data.data.values.find((val) => val[0] === "Available Margin")[1]
         ),
-        UtilizedMargin: parseFloat(data.body.EquityMargin[0].MarginUtilized),
+        UtilizedMargin: parseFloat(
+          data.data.values.find((val) => val[0] === "Margin Used")[1]
+        ),
         DPFreeStockValue: parseFloat(
-          data.body.EquityMargin[0].DPFreeStockValue
+          data.data.values.find((val) => val[0] === "Pledge Benefit")[1]
         ),
       },
     });
