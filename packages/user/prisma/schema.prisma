@@ -13,16 +13,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model MarketData {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  exch        String
+  exchType    String
+  scripCode   Int
+  name        String
+  expiry      String
+  scripType   String
+  strikeRate  String
+  fullName    String
+  tickSize    Float
+  lotSize     Int
+  qtyLimit    Int
+  multiplier  Int
+  symbolRoot  String
+  bocoAllowed String
+  isin        String
+  scripData   String
+  series      String
+}
+
 model User {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
   name     String
   password String
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   Session   Session[]
   Margin    Margin[]
+  Holding   Holding[]
+  Holdings  Holdings[]
 }
 
 model Session {
@@ -31,6 +54,48 @@ model Session {
   accessToken  String
   requestToken String
   brokerId     String @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  broker Broker @relation(fields: [brokerId], references: [id])
+}
+
+model Holding {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @db.ObjectId
+  brokerId String @db.ObjectId
+
+  AvgRate         Float
+  BseCode         Int
+  CurrentPrice    Float
+  DPQty           Int
+  Exch            String
+  ExchType        String
+  FullName        String
+  NseCode         Int
+  POASigned       String
+  PoolQty         Int
+  Quantity        Int
+  ScripMultiplier Int
+  Symbol          String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User      @relation(fields: [userId], references: [id])
+  broker     Broker    @relation(fields: [brokerId], references: [id])
+  Holdings   Holdings? @relation(fields: [holdingsId], references: [id])
+  holdingsId String?   @db.ObjectId
+}
+
+model Holdings {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @db.ObjectId
+  brokerId String @db.ObjectId
+
+  holdings Holding[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -50,8 +115,10 @@ model Broker {
   encryptionKey String
   imageUrl      String
 
-  Session Session[]
-  Margin  Margin[]
+  Session  Session[]
+  Margin   Margin[]
+  Holding  Holding[]
+  Holdings Holdings[]
 }
 
 model Margin {

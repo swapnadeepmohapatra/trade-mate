@@ -13,6 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model MarketData {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  exch        String
+  exchType    String
+  scripCode   Int
+  name        String
+  expiry      String
+  scripType   String
+  strikeRate  String
+  fullName    String
+  tickSize    Float
+  lotSize     Int
+  qtyLimit    Int
+  multiplier  Int
+  symbolRoot  String
+  bocoAllowed String
+  isin        String
+  scripData   String
+  series      String
+}
+
 model User {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
@@ -22,9 +43,9 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Session   Session[]
+  Margin    Margin[]
   Holding   Holding[]
   Holdings  Holdings[]
-  Margin    Margin[]
 }
 
 model Session {
@@ -33,30 +54,12 @@ model Session {
   accessToken  String
   requestToken String
   brokerId     String @db.ObjectId
-  clientCode   String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id])
   broker Broker @relation(fields: [brokerId], references: [id])
-}
-
-model Broker {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  appName       String
-  userId        String
-  appSource     String
-  userPassword  String
-  userKey       String
-  encryptionKey String
-  imageUrl      String
-
-  Session  Session[]
-  Holding  Holding[]
-  Holdings Holdings[]
-  Margin   Margin[]
 }
 
 model Holding {
@@ -99,6 +102,23 @@ model Holdings {
 
   user   User   @relation(fields: [userId], references: [id])
   broker Broker @relation(fields: [brokerId], references: [id])
+}
+
+model Broker {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  appName       String
+  userId        String
+  appSource     String
+  userPassword  String
+  userKey       String
+  encryptionKey String
+  imageUrl      String
+
+  Session  Session[]
+  Margin   Margin[]
+  Holding  Holding[]
+  Holdings Holdings[]
 }
 
 model Margin {

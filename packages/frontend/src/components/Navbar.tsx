@@ -11,6 +11,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -81,8 +82,9 @@ function Navbar() {
                 </Tag>
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
                 <MenuItem onClick={() => navigate("/margin")}>Margin</MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Stack>

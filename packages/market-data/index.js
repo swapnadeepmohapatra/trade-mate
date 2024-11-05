@@ -1,28 +1,19 @@
 import "reflect-metadata";
 import express from "express";
-import { createYoga } from "graphql-yoga";
-import { buildSchema } from "type-graphql";
-import { resolvers } from "@generated/type-graphql";
-import { prisma } from "./lib/prisma.js";
+import marketDataRouter from "./routes/market-data.route.js";
+import { authMiddleware, prismaMiddleware } from "./middleware/index.js";
 
 const app = express();
 
-const schema = await buildSchema({
-  resolvers,
-  validate: false,
-  emitSchemaFile: true,
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-const yoga = createYoga({
-  schema,
-  context: async ({ request }) => {
-    return { prisma, request };
-  },
-});
-
-app.use("/graphql", yoga);
+app.use("/market-data", prismaMiddleware, authMiddleware, marketDataRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}/graphql`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
