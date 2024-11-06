@@ -12,6 +12,7 @@ import AngelOneAuth from "./pages/Auth/AngelOne";
 import HdfcSkyAuth from "./pages/Auth/HdfcSky";
 import UpstoxAuth from "./pages/Auth/Upstox";
 import Margin from "./pages/Margin";
+import Broker from "./pages/Broker";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         />
         <Route path="/news" element={<PrivateRoute Component={News} />} />
         <Route path="/margin" element={<PrivateRoute Component={Margin} />} />
+        <Route path="/broker" element={<PrivateRoute Component={Broker} />} />
       </Routes>
     </Router>
   );
