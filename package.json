@@ -28,6 +28,7 @@
     "install-news": "cd packages/news && npm install",
     "install-market": "cd packages/market-data && npm install",
     "install-user": "cd packages/user && npm install",
+    "install-artha-gyan": "cd packages/artha-gyan && npm install",
     "install-all": "npm run install-api && npm run install-broker && npm run install-frontend && npm run install-news && npm run install-market && npm run install-user",
     "dev": "lerna run dev",
     "start": "lerna run start",
