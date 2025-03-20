@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 
 app.use("/fin-data", marketDataRouter);
 
-const PORT = process.env.PORT || 4003;
+const PORT = process.env.PORT || 4004;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -18,7 +18,7 @@ export const privateRoutes = {
   "/api/brokers": "http://localhost:4002/brokers",
   "/api/margin": "http://localhost:4002/margin",
   "/api/market-data": "http://localhost:4000/market-data",
-  "/api/artha-gyan": "http://localhost:4003/fin-data",
+  "/api/artha-gyan": "http://localhost:4004/fin-data",
 };
 
 export const JWT_SECRET = process.env.JWT_SECRET;
