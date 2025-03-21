@@ -31,14 +31,19 @@ function Navbar() {
         alignSelf={"center"}
       />
       <Stack direction="row" alignItems="center" padding={4}>
-        <Heading
-          flex={1}
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          TradeMate
-        </Heading>
+        <Box flex={1}>
+          <Heading
+            style={{
+              width: "fit-content",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            TradeMate
+          </Heading>
+        </Box>
         <Stack direction="row" flex={1} justifyContent={"center"}>
           <Button
             colorScheme={location.pathname === "/home" ? "primary" : "gray"}

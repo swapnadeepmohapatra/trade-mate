@@ -1,5 +1,5 @@
 import express from "express";
-import stockDataRouter from "./routes/fin-data.route.js";
+import aiDataRouter from "./routes/ai-data.route.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -11,9 +11,9 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/fin-data", stockDataRouter);
+app.use("/ai-data", aiDataRouter);
 
-const PORT = process.env.PORT || 4004;
+const PORT = process.env.PORT || 4005;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

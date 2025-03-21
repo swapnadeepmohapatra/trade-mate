@@ -1,5 +1,5 @@
 import redis from "redis";
-import { scrapeScreener } from "../scrape/index.js";
+import { getAiAnalysis } from "../analysis/index.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -12,7 +12,7 @@ const client = redis.createClient({
   },
 });
 
-async function fetchDataWithCache(key) {
+async function fetchDataFromCache(key) {
   try {
     await client.connect();
 
@@ -30,50 +30,45 @@ async function fetchDataWithCache(key) {
         parsedData.data.metadata.currentDate = new Date().toISOString();
         return parsedData.data;
       }
+    } else {
+      throw new Error("No data found in cache");
     }
-
-    const freshData = await fetchFreshData(key);
-
-    const dataToCache = {
-      data: freshData,
-      timestamp: new Date().toISOString(),
-    };
-
-    await client.set(key, JSON.stringify(dataToCache));
-
-    return freshData;
   } catch (error) {
     console.error("Error fetching data with cache:", error);
     throw error;
   }
 }
 
-async function fetchFreshData(symbol) {
-  try {
-    const data = await scrapeScreener(symbol);
-    data.metadata.currentDate = new Date().toISOString();
-    return data;
-  } catch (error) {
-    console.error("Error fetching fresh data:", error);
-    throw error;
-  }
-}
-
 export const getTickerData = async (symbol) => {
   try {
-    const data = await fetchDataWithCache(symbol);
+    const data = await fetchDataFromCache(symbol);
 
     await client.quit();
 
-    return {
-      symbol,
-      data,
-    };
+    return data;
   } catch (error) {
     await client.quit();
     console.error("Error in example:", error);
     return {
       error: error.message,
     };
+  }
+};
+
+export const getAiAnalysisData = async (symbol) => {
+  try {
+    const data = await getTickerData(symbol);
+    console.log(data);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    const aiData = await getAiAnalysis(data);
+
+    return aiData;
+  } catch (error) {
+    console.error("Error getting ai analysis data:", error);
+    throw error;
   }
 };

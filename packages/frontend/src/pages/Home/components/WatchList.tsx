@@ -181,7 +181,7 @@ const Watchlist: React.FC = () => {
 
   return (
     <Flex>
-      <Box padding="4" width="sm" margin="auto">
+      <Box padding="4" width="sm" margin="auto" paddingTop="0">
         <Input
           placeholder="Search stocks..."
           value={query}

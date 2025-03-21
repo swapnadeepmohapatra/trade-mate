@@ -1,10 +1,10 @@
-import { getTickerData } from "../services/fin-data/index.js";
+import { getAiAnalysisData } from "../services/ai-data/index.js";
 
-export const getFinData = async (req, res) => {
+export const getAiData = async (req, res) => {
   try {
     const { ticker } = req.params;
 
-    const data = await getTickerData(ticker);
+    const data = await getAiAnalysisData(ticker);
 
     res.status(200).json({ success: true, body: { data } });
   } catch (error) {
