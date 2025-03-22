@@ -3,19 +3,24 @@ import { getAiAnalysis } from "../analysis/index.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const client = redis.createClient({
-  username: process.env.REDIS_CONFIG_USERNAME,
-  password: process.env.REDIS_CONFIG_PASSWORD,
-  socket: {
-    host: process.env.REDIS_CONFIG_HOST,
-    port: process.env.REDIS_CONFIG_PORT,
-  },
-});
+async function createRedisClient() {
+  const client = redis.createClient({
+    username: process.env.REDIS_CONFIG_USERNAME,
+    password: process.env.REDIS_CONFIG_PASSWORD,
+    socket: {
+      host: process.env.REDIS_CONFIG_HOST,
+      port: process.env.REDIS_CONFIG_PORT,
+    },
+  });
 
-client.connect().catch(console.error);
+  await client.connect();
+  return client;
+}
 
 async function fetchFinDataFromCache(key) {
+  let client;
   try {
+    client = await createRedisClient();
     const cachedData = await client.get(key);
     if (cachedData) {
       return JSON.parse(cachedData);
@@ -24,6 +29,8 @@ async function fetchFinDataFromCache(key) {
   } catch (error) {
     console.error("Error fetching data with cache:", error);
     throw error;
+  } finally {
+    if (client) await client.quit();
   }
 }
 
@@ -37,7 +44,9 @@ export const getTickerData = async (symbol) => {
 };
 
 export const getAiAnalysisData = async (symbol) => {
+  let client;
   try {
+    client = await createRedisClient();
     const cachedData = await client.get(`ai-${symbol}`);
 
     if (cachedData) {
@@ -56,12 +65,9 @@ export const getAiAnalysisData = async (symbol) => {
 
     return aiData;
   } catch (error) {
-    console.error("Error getting ai analysis data:", error);
+    console.error("Error getting AI analysis data:", error);
     throw error;
+  } finally {
+    if (client) await client.quit();
   }
 };
-
-process.on("SIGINT", async () => {
-  await client.quit();
-  process.exit();
-});

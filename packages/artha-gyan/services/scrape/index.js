@@ -3,7 +3,7 @@ const { JSDOM } = jsdom;
 
 export async function scrapeScreener(stockTicker) {
   try {
-    const stockUrl = `https://www.screener.in/company/${stockTicker}/consolidated/`;
+    const stockUrl = `https://www.screener.in/company/${stockTicker}/`;
 
     const response = await fetch(stockUrl);
     if (!response.ok) {

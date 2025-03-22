@@ -11,7 +11,8 @@ export const fetchStockInfo = async (ticker: string) => {
     );
     return response.data;
   } catch (error) {
-    return error;
+    console.log(error);
+    throw new Error("Error fetching stock info");
   }
 };
 
@@ -25,6 +26,7 @@ export const fetchStockAiInfo = async (ticker: string) => {
     );
     return response.data;
   } catch (error) {
-    return error;
+    console.log(error);
+    throw new Error("Error fetching ai analysis info");
   }
 };

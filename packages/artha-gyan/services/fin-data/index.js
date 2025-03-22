@@ -3,19 +3,24 @@ import { scrapeScreener } from "../scrape/index.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const client = redis.createClient({
-  username: process.env.REDIS_CONFIG_USERNAME,
-  password: process.env.REDIS_CONFIG_PASSWORD,
-  socket: {
-    host: process.env.REDIS_CONFIG_HOST,
-    port: process.env.REDIS_CONFIG_PORT,
-  },
-});
+async function createRedisClient() {
+  const client = redis.createClient({
+    username: process.env.REDIS_CONFIG_USERNAME,
+    password: process.env.REDIS_CONFIG_PASSWORD,
+    socket: {
+      host: process.env.REDIS_CONFIG_HOST,
+      port: process.env.REDIS_CONFIG_PORT,
+    },
+  });
 
-client.connect().catch(console.error);
+  await client.connect();
+  return client;
+}
 
 async function fetchDataWithCache(key) {
+  let client;
   try {
+    client = await createRedisClient();
     const cachedData = await client.get(key);
 
     if (cachedData) {
@@ -45,6 +50,8 @@ async function fetchDataWithCache(key) {
   } catch (error) {
     console.error("Error fetching data with cache:", error);
     throw error;
+  } finally {
+    if (client) await client.quit();
   }
 }
 
@@ -73,9 +80,3 @@ export const getTickerData = async (symbol) => {
     };
   }
 };
-
-process.on("SIGINT", async () => {
-  console.log("Closing Redis connection...");
-  await client.quit();
-  process.exit();
-});

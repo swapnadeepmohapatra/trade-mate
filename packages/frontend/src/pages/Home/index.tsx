@@ -8,12 +8,12 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <Stack>
+    <Stack style={{ height: "100vh" }}>
       <Navbar />
       <Divider />
       <WatchList />
-      <Container width={"full"}>
-        <Flex justify="center" py={8}>
+      <Container width={"full"} py={2}>
+        <Flex justify="center">
           <Button colorScheme="primary" onClick={() => navigate("/broker")}>
             Connect Broker
           </Button>
