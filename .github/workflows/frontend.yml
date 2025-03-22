@@ -38,19 +38,18 @@ jobs:
           echo "$SSH_KEY" > /tmp/my-key.pem
           chmod 600 /tmp/my-key.pem
 
-          # Check if the build directory exists before transferring
+          # Check if build directory exists
           if [ -d "./packages/frontend/dist" ]; then
-            # Transfer files to the EC2 instance
-            scp -o StrictHostKeyChecking=no -i /tmp/my-key.pem -r ./packages/frontend/dist/* ec2-user@$INSTANCE_IP:/var/www/html/
+            # Copy files to a temporary location first
+            scp -o StrictHostKeyChecking=no -i /tmp/my-key.pem -r ./packages/frontend/dist/* ec2-user@$INSTANCE_IP:/home/ec2-user/deployment/
           else
             echo "Build directory not found!"
-            exit 1  # Exit with an error if the build directory does not exist
+            exit 1
           fi
 
-          # SSH into EC2 and restart Nginx
+          # SSH into EC2 to move files with sudo
           ssh -o StrictHostKeyChecking=no -i /tmp/my-key.pem ec2-user@$INSTANCE_IP << 'EOF'
-            # Debug: Check if you can connect
-            whoami
+            sudo mv /home/ec2-user/deployment/* /var/www/html/
             sudo systemctl restart nginx
           EOF
 
