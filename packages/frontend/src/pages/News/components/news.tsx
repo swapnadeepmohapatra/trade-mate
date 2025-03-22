@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getNewsList } from "../../../services/news";
 import NewsItem from "./newsItem";
 import { Box, Flex, Grid, Spinner, Text } from "@chakra-ui/react";

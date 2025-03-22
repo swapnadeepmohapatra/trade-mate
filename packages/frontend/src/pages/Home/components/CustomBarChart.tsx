@@ -1,4 +1,3 @@
-import React from "react";
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { colors } from "../../../utils/colors";
 import { Box, Flex, Text } from "@chakra-ui/react";

@@ -1,4 +1,3 @@
-import React from "react";
 import { Divider, Stack } from "@chakra-ui/react";
 import Holdings from "./components/holdings";
 import Navbar from "../../components/Navbar";

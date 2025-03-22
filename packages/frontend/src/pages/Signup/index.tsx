@@ -21,7 +21,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { signup } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
 
