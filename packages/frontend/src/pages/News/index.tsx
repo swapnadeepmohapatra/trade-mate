@@ -1,5 +1,5 @@
 import { Divider, Stack } from "@chakra-ui/react";
-import React from "react";
+
 import NewsList from "./components/news";
 import Navbar from "../../components/Navbar";
 

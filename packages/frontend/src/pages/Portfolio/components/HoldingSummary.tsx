@@ -1,5 +1,4 @@
 import { Card, CardBody, Flex, Stack, Text } from "@chakra-ui/react";
-import React from "react";
 
 interface HoldingSummaryProps {
   totalValue: number;

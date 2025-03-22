@@ -7,7 +7,7 @@ import {
   Text,
   Link,
 } from "@chakra-ui/react";
-import React from "react";
+
 import { Holding } from "../../../contexts/PortfolioContext";
 
 interface HoldingCardProps {

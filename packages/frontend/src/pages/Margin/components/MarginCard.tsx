@@ -7,7 +7,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
 
 interface Broker {
   id: string;

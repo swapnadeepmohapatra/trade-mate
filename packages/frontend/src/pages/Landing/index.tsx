@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Heading, Link, Stack, Text, useColorMode } from "@chakra-ui/react";
 import Hero from "./components/hero";
 import Navbar from "../../components/Navbar";

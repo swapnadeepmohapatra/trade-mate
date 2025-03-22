@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+
 import {
   Cell,
   Legend,
@@ -95,7 +95,7 @@ function CustomPieChart({ data, unit }: CustomPieChartProps) {
           stroke="none"
           paddingAngle={0}
         >
-          {transformedData.map((entry, index) => (
+          {transformedData.map((_, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>

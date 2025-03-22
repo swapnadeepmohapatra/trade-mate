@@ -1,4 +1,3 @@
-import React from "react";
 import FivePaisaLogo from "../../../images/logos/5paisa_logo.jpg";
 import GrowwLogo from "../../../images/logos/groww.png";
 import AngelOneLogo from "../../../images/logos/angel_one_logo.png";

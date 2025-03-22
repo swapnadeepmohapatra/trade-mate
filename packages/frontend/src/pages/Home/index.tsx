@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Container, Divider, Flex, Stack } from "@chakra-ui/react";
 import Navbar from "../../components/Navbar";
 import WatchList from "./components/WatchList";

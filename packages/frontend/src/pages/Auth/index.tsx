@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { get5PaisaAccessToken } from "../../services/broker";
 import { Box, Flex, Heading } from "@chakra-ui/react";

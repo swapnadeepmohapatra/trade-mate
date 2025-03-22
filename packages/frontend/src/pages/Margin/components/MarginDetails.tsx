@@ -1,4 +1,3 @@
-import React from "react";
 import { Stack } from "@chakra-ui/react";
 import MarginSummary from "./MarginSummary";
 import { useMargin } from "../../../contexts/MarginContext";

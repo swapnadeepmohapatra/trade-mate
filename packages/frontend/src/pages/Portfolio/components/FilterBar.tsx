@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Flex, Select, Input, Button } from "@chakra-ui/react";
 import { usePortfolio } from "../../../contexts/PortfolioContext";
 

@@ -1,5 +1,5 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { fetchStockAiInfo } from "../../../services/stockInfo";
 
 // const data = {
