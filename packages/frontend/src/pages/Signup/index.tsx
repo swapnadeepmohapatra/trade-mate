@@ -66,7 +66,6 @@ function Signup() {
 
     try {
       const data = await signup(state.name, state.email, state.password);
-      console.log(data);
 
       if (data.success === true) {
         onOpen();

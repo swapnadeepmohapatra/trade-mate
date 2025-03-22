@@ -121,7 +121,7 @@ const Watchlist: React.FC = () => {
       </Box>
 
       <Box flex={1}>
-        <Tabs style={{ height: "100%" }} colorScheme="primary">
+        <Tabs style={{ height: "100%" }} colorScheme="primary" isLazy>
           <TabList>
             <Tab>Chart</Tab>
             <Tab>Info</Tab>

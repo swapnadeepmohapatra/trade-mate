@@ -83,9 +83,6 @@ function CustomPieChart({ data, unit }: CustomPieChartProps) {
     }))
     .filter((row) => row.name !== "No. of Shareholders");
 
-  console.log(transformedData);
-  console.log(data);
-
   return (
     <ResponsiveContainer width="100%" height={400}>
       <PieChart width={400} height={400}>

@@ -1,16 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { getNewsList } from "../../../services/news";
 import NewsItem from "./newsItem";
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Flex, Grid, Spinner, Text } from "@chakra-ui/react";
 
 function NewsList() {
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getNewsList().then((data) => {
-      setNews(data.data);
-    });
+    setLoading(true);
+    getNewsList()
+      .then((data) => {
+        setLoading(false);
+        setNews(data.data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
   }, []);
+
+  if (loading) {
+    return (
+      <Flex
+        alignItems={"center"}
+        justifyContent={"center"}
+        height={"calc(100vh - 8rem)"}
+        width={"100%"}
+        flexDirection={"column"}
+      >
+        <Spinner />
+        <Text marginTop={6} textAlign={"center"}>
+          Please wait... We are gathering all the latest news for you{" "}
+        </Text>
+      </Flex>
+    );
+  }
 
   return (
     <Box padding={4}>
