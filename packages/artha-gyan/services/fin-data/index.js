@@ -12,10 +12,10 @@ const client = redis.createClient({
   },
 });
 
+client.connect().catch(console.error);
+
 async function fetchDataWithCache(key) {
   try {
-    await client.connect();
-
     const cachedData = await client.get(key);
 
     if (cachedData) {
@@ -62,18 +62,20 @@ async function fetchFreshData(symbol) {
 export const getTickerData = async (symbol) => {
   try {
     const data = await fetchDataWithCache(symbol);
-
-    await client.quit();
-
     return {
       symbol,
       data,
     };
   } catch (error) {
-    await client.quit();
-    console.error("Error in example:", error);
+    console.error("Error in getTickerData:", error);
     return {
       error: error.message,
     };
   }
 };
+
+process.on("SIGINT", async () => {
+  console.log("Closing Redis connection...");
+  await client.quit();
+  process.exit();
+});
