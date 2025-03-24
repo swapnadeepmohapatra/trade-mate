@@ -298,7 +298,7 @@ const Watchlist: React.FC = () => {
                 padding: 0,
               }}
             >
-              <StockInfo symbol={selectedStock?.name || "NIFTYBEES"} />
+              <StockInfo symbol={selectedStock?.name || "NIFTY"} />
             </TabPanel>
           </TabPanels>
         </Tabs>
