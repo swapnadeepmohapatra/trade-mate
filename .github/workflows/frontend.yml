@@ -51,7 +51,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i /tmp/my-key.pem ec2-user@$INSTANCE_IP << 'EOF'
             sudo mv /home/ec2-user/deployment/* /var/www/html/
             sudo systemctl restart nginx
-            sudo pm2 restart all
           EOF
 
           # Cleanup
