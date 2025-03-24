@@ -49,6 +49,7 @@ jobs:
 
           # SSH into EC2 to move files with sudo
           ssh -o StrictHostKeyChecking=no -i /tmp/my-key.pem ec2-user@$INSTANCE_IP << 'EOF'
+            sudo rm -rf /var/www/html/assets
             sudo mv /home/ec2-user/deployment/* /var/www/html/
             sudo systemctl restart nginx
           EOF
