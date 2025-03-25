@@ -6,7 +6,6 @@ TradeMate is a web application that allows users to track their stock portfolio 
 
 ![trade_mate_diagram](https://github.com/user-attachments/assets/405a9707-ac92-4dd6-a87d-b6b5d77704c5)
 
-
 ## Features
 
 - **Real-time Portfolio**: Users can connect their brokerage account to the app and view their portfolio in real-time. They can see the current value of their portfolio, the percentage change, and the individual stocks in their portfolio.
@@ -39,7 +38,7 @@ It is a monorepo project with the following tech stack:
 
 ## Deployed Link
 
-[TradeMate](https://trademate.swapnadeep.me/)
+[TradeMate](https://trademate.swapnadeep.com/)
 
 ## Screenshots
 
@@ -56,7 +55,6 @@ It is a monorepo project with the following tech stack:
 ![image](https://github.com/user-attachments/assets/131a2e1c-ce8a-481c-8bd5-ccdb84bbc254)
 
 ![image](https://github.com/user-attachments/assets/1d5ed96f-aa66-4283-a3f7-c018005b9b63)
-
 
 ## Installation
 
@@ -98,6 +96,4 @@ npm dev
 npm start
 ```
 
-
 ## Thank You
-

@@ -58,7 +58,7 @@ const makeAccessTokenRequest = async (RequestToken, brokerDetails) => {
           code: RequestToken,
           client_id: brokerDetails.userKey,
           client_secret: brokerDetails.encryptionKey,
-          redirect_uri: "https://trademate.swapnadeep.me/auth/upstox",
+          redirect_uri: "https://trademate.swapnadeep.com/auth/upstox",
           grant_type: "authorization_code",
         }),
       }

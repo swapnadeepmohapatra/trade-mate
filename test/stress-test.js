@@ -19,7 +19,7 @@ export let options = {
 
 function login() {
   let loginRes = http.post(
-    "https://trademate.swapnadeep.me/api/auth/login",
+    "https://trademate.swapnadeep.com/api/auth/login",
     JSON.stringify({
       username: "",
       password: "",
@@ -38,7 +38,7 @@ function login() {
 export default function () {
   let cookies = login();
 
-  let res = http.get("https://trademate.swapnadeep.me/api/brokers/", {
+  let res = http.get("https://trademate.swapnadeep.com/api/brokers/", {
     headers: {
       Cookie: `session=${cookies.jwt[0].value}`,
     },
