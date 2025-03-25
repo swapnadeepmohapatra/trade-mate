@@ -31,24 +31,23 @@ function Hero() {
         />
         <Text textAlign="center" fontSize="xl" color="whiteAlpha.700">
           Why juggle between multiple platforms? Get a single, seamless view of
-          your investments and place orders with ease, all in one place.
+          your investments get company financials and AI-powered
+          recommendations, all in one place.
         </Text>
         <Stack direction="row" justifyContent="center" marginTop={8}>
-          {[
-            "Consolidated Portfolio",
-            "Consolidated Margin",
-            "Trading View Charts",
-          ].map((feature) => (
-            <Tag
-              size={"lg"}
-              borderRadius="full"
-              variant="solid"
-              colorScheme="surfaceMixed"
-              key={feature}
-            >
-              <TagLabel>{feature}</TagLabel>
-            </Tag>
-          ))}
+          {["Consolidated Portfolio", "Company Financials", "AI Insights"].map(
+            (feature) => (
+              <Tag
+                size={"lg"}
+                borderRadius="full"
+                variant="solid"
+                colorScheme="surfaceMixed"
+                key={feature}
+              >
+                <TagLabel>{feature}</TagLabel>
+              </Tag>
+            )
+          )}
         </Stack>
         <Button
           colorScheme="primary"
