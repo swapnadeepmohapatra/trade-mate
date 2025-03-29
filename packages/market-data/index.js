@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import express from "express";
 import marketDataRouter from "./routes/market-data.route.js";
-import { authMiddleware, prismaMiddleware } from "./middleware/index.js";
+import { prismaMiddleware } from "./middleware/index.js";
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/market-data", prismaMiddleware, authMiddleware, marketDataRouter);
+app.use("/market-data", prismaMiddleware, marketDataRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

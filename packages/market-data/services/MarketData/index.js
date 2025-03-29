@@ -1,4 +1,4 @@
-export const getMarketDataList = async (prisma, userId, symbol) => {
+export const getMarketDataList = async (prisma, symbol) => {
   const marketData = await prisma.marketData.findMany({
     where: {
       OR: [
