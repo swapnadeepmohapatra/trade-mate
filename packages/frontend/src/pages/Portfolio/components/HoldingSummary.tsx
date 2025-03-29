@@ -54,7 +54,7 @@ function HoldingSummary({
                 fontSize={"lg"}
                 color={totalPL > 0 ? "success.100" : "error.100"}
               >
-                {((totalPL / totalCost) * 100).toFixed(2)} %
+                {((totalPL / totalCost) * 100).toFixed(2) ?? "-"} %
               </Text>
             </Flex>
           </Stack>

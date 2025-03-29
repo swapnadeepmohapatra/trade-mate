@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   Heading,
   Stack,
   Tag,
@@ -49,17 +50,30 @@ function Hero() {
             )
           )}
         </Stack>
-        <Button
-          colorScheme="primary"
-          size={"lg"}
-          alignSelf={"center"}
-          marginTop={16}
-          onClick={() => {
-            navigate("/home");
-          }}
-        >
-          Connect Broker
-        </Button>
+        <Flex alignItems="center" justifyContent="center" gap={4}>
+          <Button
+            colorScheme="primary"
+            size={"lg"}
+            alignSelf={"center"}
+            marginTop={16}
+            onClick={() => {
+              navigate("/broker");
+            }}
+          >
+            Connect Broker
+          </Button>
+          <Button
+            colorScheme="primary"
+            size={"lg"}
+            alignSelf={"center"}
+            marginTop={16}
+            onClick={() => {
+              navigate("/home");
+            }}
+          >
+            Explore Stocks
+          </Button>
+        </Flex>
       </Stack>
     </Container>
   );

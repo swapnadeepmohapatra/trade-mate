@@ -8,6 +8,8 @@ export const publicRoutes = {
   "/api/auth/login": "http://localhost:4001/auth/login",
   "/api/auth/logout": "http://localhost:4001/auth/logout",
   "/api/auth/signup": "http://localhost:4001/auth/signup",
+  "/api/auth/google/callback": "http://localhost:4001/auth/google/callback",
+  "/api/auth/google": "http://localhost:4001/auth/google",
   "/api/news": "http://localhost:4003/news",
 };
 

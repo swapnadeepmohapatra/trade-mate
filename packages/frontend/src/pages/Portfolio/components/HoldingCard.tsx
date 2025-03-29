@@ -76,7 +76,7 @@ function HoldingCard({
                     ((holding.CurrentPrice - holding.AvgRate) /
                       holding.AvgRate) *
                     100
-                  ).toFixed(2)}
+                  ).toFixed(2) || "-"}
                   %
                 </Text>
               </Flex>
@@ -120,7 +120,7 @@ function HoldingCard({
                       ((holding.CurrentPrice - holding.AvgRate) /
                         holding.AvgRate) *
                       100
-                    ).toFixed(2)}
+                    ).toFixed(2) || "-"}
                     %)
                   </Text>
                 </Stack>

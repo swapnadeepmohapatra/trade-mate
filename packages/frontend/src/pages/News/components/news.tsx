@@ -47,11 +47,15 @@ function NewsList() {
         }}
         gap={6}
       >
-        {news.length > 0
-          ? news.map((newsItem, index) => (
-              <NewsItem key={index} news={newsItem} />
-            ))
-          : null}
+        {news?.length > 0 ? (
+          news?.map((newsItem, index) => (
+            <NewsItem key={index} news={newsItem} />
+          ))
+        ) : (
+          <Text marginTop={6} textAlign={"center"}>
+            Failed to gather the latest news. Please try again
+          </Text>
+        )}
       </Grid>
     </Box>
   );

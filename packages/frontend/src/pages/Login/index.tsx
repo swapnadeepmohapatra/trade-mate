@@ -1,6 +1,7 @@
 import {
   Button,
   Container,
+  Divider,
   Flex,
   FormControl,
   FormHelperText,
@@ -13,6 +14,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../contexts/UserContext";
+import GoogleSignInButton from "../../components/GoogleSignInButton";
 
 function Login() {
   const [state, setState] = useState({
@@ -137,13 +139,19 @@ function Login() {
                 </Text>
               </Text>
               <Button
-                mt={4}
+                my={4}
                 colorScheme="primary"
                 isLoading={isLoading}
                 type="submit"
               >
                 Submit
               </Button>
+              <Flex alignItems="center" gap={4}>
+                <Divider />
+                <Text>or</Text>
+                <Divider />
+              </Flex>
+              <GoogleSignInButton />
             </Stack>
           </form>
         </Stack>

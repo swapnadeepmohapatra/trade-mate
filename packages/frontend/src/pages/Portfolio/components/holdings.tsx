@@ -13,6 +13,7 @@ import FilterBar from "./FilterBar";
 import { usePortfolio } from "../../../contexts/PortfolioContext";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import HoldingCard from "./HoldingCard";
+import { useNavigate } from "react-router-dom";
 
 function Holdings() {
   const {
@@ -23,6 +24,8 @@ function Holdings() {
     groupedByBroker,
     isGroupedByBroker,
   } = usePortfolio();
+
+  const navigate = useNavigate();
 
   const [collapsedBrokers, setCollapsedBrokers] = useState<{
     [key: string]: boolean;
@@ -55,7 +58,21 @@ function Holdings() {
         totalPL={totalPL}
       />
       <FilterBar />
-      {holdings.length === 0 && <h1>No holdings</h1>}
+      {holdings.length === 0 && (
+        <Flex
+          justifyContent={"center"}
+          alignItems={"center"}
+          height={"50vh"}
+          fontSize={"xl"}
+          flexDirection={"column"}
+          gap={4}
+        >
+          No Holdings Found
+          <Button colorScheme="primary" onClick={() => navigate("/broker")}>
+            Connect Broker
+          </Button>
+        </Flex>
+      )}
       {!isGroupedByBroker &&
         holdings.map((holding, index) => (
           <HoldingCard

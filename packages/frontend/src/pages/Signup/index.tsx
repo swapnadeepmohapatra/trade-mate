@@ -7,6 +7,7 @@ import {
   Button,
   CloseButton,
   Container,
+  Divider,
   Flex,
   FormControl,
   FormHelperText,
@@ -24,6 +25,7 @@ import {
 import { useEffect, useState } from "react";
 import { signup } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
+import GoogleSignInButton from "../../components/GoogleSignInButton";
 
 function Signup() {
   const [state, setState] = useState({
@@ -210,13 +212,19 @@ function Signup() {
                 </Text>
               </Text>
               <Button
-                mt={4}
+                my={4}
                 colorScheme="primary"
                 isLoading={isLoading}
                 type="submit"
               >
                 Submit
-              </Button>
+              </Button>{" "}
+              <Flex alignItems="center" gap={4}>
+                <Divider />
+                <Text>or</Text>
+                <Divider />
+              </Flex>
+              <GoogleSignInButton />
             </Stack>
           </form>
         </Stack>

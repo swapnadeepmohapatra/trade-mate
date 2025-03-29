@@ -59,3 +59,5 @@ export const getUser = async () => {
     return error;
   }
 };
+
+export const googleLoginUrl = `${BACKEND_URL}/auth/google`;
