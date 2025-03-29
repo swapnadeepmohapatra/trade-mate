@@ -11,6 +11,9 @@ export const publicRoutes = {
   "/api/auth/google/callback": "http://localhost:4001/auth/google/callback",
   "/api/auth/google": "http://localhost:4001/auth/google",
   "/api/news": "http://localhost:4003/news",
+  "/api/market-data": "http://localhost:4000/market-data",
+  "/api/artha-gyan": "http://localhost:4004/fin-data",
+  "/api/nivesh-gyaan": "http://localhost:4005/ai-data",
 };
 
 export const privateRoutes = {
@@ -19,9 +22,6 @@ export const privateRoutes = {
   "/api/holdings": "http://localhost:4002/holdings",
   "/api/brokers": "http://localhost:4002/brokers",
   "/api/margin": "http://localhost:4002/margin",
-  "/api/market-data": "http://localhost:4000/market-data",
-  "/api/artha-gyan": "http://localhost:4004/fin-data",
-  "/api/nivesh-gyaan": "http://localhost:4005/ai-data",
 };
 
 export const JWT_SECRET = process.env.JWT_SECRET;

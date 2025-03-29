@@ -10,7 +10,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ Component }) => {
 
   if (loading) return <div>Loading...</div>;
 
-  return user ? <Component /> : <Navigate to="/login" />;
+  return user ? <Component /> : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

@@ -24,7 +24,7 @@ function App() {
         <Route path="/auth/upstox" element={<UpstoxAuth />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<PrivateRoute Component={Home} />} />
+        <Route path="/home" element={<Home />} />
         <Route
           path="/portfolio"
           element={<PrivateRoute Component={Portfolio} />}

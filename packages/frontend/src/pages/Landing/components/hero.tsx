@@ -57,10 +57,10 @@ function Hero() {
             alignSelf={"center"}
             marginTop={16}
             onClick={() => {
-              navigate("/broker");
+              navigate("/home");
             }}
           >
-            Connect Broker
+            Explore Stocks
           </Button>
           <Button
             colorScheme="primary"
@@ -68,10 +68,10 @@ function Hero() {
             alignSelf={"center"}
             marginTop={16}
             onClick={() => {
-              navigate("/home");
+              navigate("/broker");
             }}
           >
-            Explore Stocks
+            Connect Broker
           </Button>
         </Flex>
       </Stack>
