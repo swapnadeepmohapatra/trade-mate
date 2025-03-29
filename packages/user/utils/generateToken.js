@@ -12,6 +12,7 @@ const generateJWTTokenAndSetCookie = (userId, res) => {
     httpOnly: true,
     sameSite: "none",
     secure: true,
+    domain: ".swapnadeep.com",
   });
 };
 
