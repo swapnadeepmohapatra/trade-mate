@@ -14,14 +14,14 @@ function Landing() {
   }, [colorMode, toggleColorMode]);
 
   return (
-    <Stack>
+    <Stack px={2}>
       <Navbar />
       <Hero />
       <Heading textAlign="center" size="lg" marginTop={"16"} marginBottom={"8"}>
         Our Broker Partners
       </Heading>
       <Scroll />
-      <Text textAlign="center" size="lg" marginTop={"8"}>
+      <Text textAlign="center" size="lg" my={"8"}>
         Don&apos;t have a broker account?{" "}
         <Link
           href="https://zerodha.com/open-account?c=LR5499"

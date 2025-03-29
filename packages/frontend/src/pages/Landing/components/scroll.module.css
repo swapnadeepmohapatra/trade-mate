@@ -17,7 +17,7 @@
 
 .marquee__content img {
   height: 8rem;
-  width: 100%;
+  width: 8rem;
   object-fit: fill;
   border-radius: 0.5rem;
 }
@@ -81,4 +81,11 @@ ul:after {
   width: 16rem;
   height: 100%;
   z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .marquee__fade_start,
+  .marquee__fade_end {
+    width: 4rem;
+  }
 }

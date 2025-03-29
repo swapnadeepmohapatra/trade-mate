@@ -1,4 +1,11 @@
-import { Card, CardBody, Flex, Stack, Text } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Flex,
+  Stack,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 
 interface HoldingSummaryProps {
   totalValue: number;
@@ -11,6 +18,8 @@ function HoldingSummary({
   totalCost,
   totalPL,
 }: HoldingSummaryProps) {
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
+
   return (
     <Card
       margin={2}
@@ -20,7 +29,7 @@ function HoldingSummary({
       padding={2}
     >
       <CardBody>
-        <Flex>
+        <Flex direction={isSmallScreen ? "column" : "row"}>
           <Stack flex={1} gap={2}>
             <Flex gap={2} alignItems={"baseline"}>
               <Text fontSize={"lg"}>Present Value:</Text>
@@ -33,7 +42,7 @@ function HoldingSummary({
               <Text fontSize={"lg"}>₹ {totalCost.toLocaleString()}</Text>
             </Flex>
           </Stack>
-          <Stack gap={2} alignItems={"flex-end"}>
+          <Stack gap={2} alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
             <Flex gap={2}>
               <Text fontSize={"lg"}>
                 Overall {totalPL > 0 ? "Gain" : "Loss"}:{" "}
@@ -48,7 +57,9 @@ function HoldingSummary({
             </Flex>
             <Flex gap={2}>
               <Text fontSize={"lg"}>
-                {/* Total {totalPL > 0 ? "Gain" : "Loss"} %:{" "} */}
+                {isSmallScreen
+                  ? `Total ${totalPL > 0 ? "Gain" : "Loss"} %: `
+                  : ""}
               </Text>
               <Text
                 fontSize={"lg"}

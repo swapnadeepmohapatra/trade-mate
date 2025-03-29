@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Flex, Select, Input, Button } from "@chakra-ui/react";
+import { Flex, Select, Input, Button, useMediaQuery } from "@chakra-ui/react";
 import { usePortfolio } from "../../../contexts/PortfolioContext";
 
 const FilterBar: React.FC = () => {
@@ -7,6 +7,8 @@ const FilterBar: React.FC = () => {
     usePortfolio();
   const [symbolFilter, setSymbolFilter] = useState("");
   const [sortOption, setSortOption] = useState("");
+
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSymbolFilter(e.target.value);
@@ -25,7 +27,12 @@ const FilterBar: React.FC = () => {
   };
 
   return (
-    <Flex gap={4} align="center" p={4}>
+    <Flex
+      gap={4}
+      align="center"
+      p={4}
+      direction={isSmallScreen ? "column" : "row"}
+    >
       <Input
         placeholder="Filter by Symbol"
         value={symbolFilter}
@@ -52,7 +59,13 @@ const FilterBar: React.FC = () => {
         <option value="plAsc">Profit/Loss % (Low to High)</option>
         <option value="plDesc">Profit/Loss % (High to Low)</option>
       </Select>
-      <Button onClick={clearAllFilters} colorScheme="primary" pl={6} pr={6}>
+      <Button
+        onClick={clearAllFilters}
+        colorScheme="primary"
+        pl={6}
+        pr={6}
+        w={isSmallScreen ? "100%" : "auto"}
+      >
         Clear
       </Button>
       <Button
@@ -60,6 +73,7 @@ const FilterBar: React.FC = () => {
         colorScheme="primary"
         pl={12}
         pr={12}
+        w={isSmallScreen ? "100%" : "auto"}
       >
         {isGroupedByBroker ? "Ungroup" : "Group"} by Broker
       </Button>

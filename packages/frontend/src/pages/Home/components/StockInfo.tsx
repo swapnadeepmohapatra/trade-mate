@@ -19,6 +19,7 @@ import {
   Spinner,
   Text,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import AiAnalysis from "./AiAnalysis";
 import Chart from "./CustomBarChart";
@@ -127,6 +128,8 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
+
   useEffect(() => {
     if (symbol) {
       setLoading(true);
@@ -191,7 +194,11 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
         width={"100%"}
       >
         <CardBody>
-          <Flex alignItems={"center"} justifyContent={"space-between"}>
+          <Flex
+            alignItems={"center"}
+            justifyContent={"space-between"}
+            flexWrap={"wrap"}
+          >
             <Text fontSize={"2xl"} fontWeight={"bold"}>
               {stockInfo?.data?.companyInfo.name}
             </Text>
@@ -210,11 +217,17 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
         width={"100%"}
       >
         <CardBody>
-          <Flex alignItems={"center"} justifyContent={"space-between"}>
+          <Flex
+            alignItems={isSmallScreen ? "" : "center"}
+            justifyContent={"space-between"}
+            direction={isSmallScreen ? "column" : "row"}
+            gap={isSmallScreen ? 1 : 0}
+          >
             <Flex
               alignItems={"flex-start"}
               justifyContent={"space-between"}
               flexDirection={"column"}
+              gap={isSmallScreen ? 1 : 0}
             >
               <Flex justifyContent={"space-between"} width={"100%"} gap={8}>
                 <Text color={"surface.600"}>Market Cap</Text>
@@ -239,6 +252,7 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
               alignItems={"flex-start"}
               justifyContent={"space-between"}
               flexDirection={"column"}
+              gap={isSmallScreen ? 1 : 0}
             >
               <Flex justifyContent={"space-between"} width={"100%"} gap={8}>
                 <Text color={"surface.600"}>Stock P/E</Text>
@@ -263,6 +277,7 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
               alignItems={"flex-start"}
               justifyContent={"space-between"}
               flexDirection={"column"}
+              gap={isSmallScreen ? 1 : 0}
             >
               <Flex justifyContent={"space-between"} width={"100%"} gap={8}>
                 <Text color={"surface.600"}>ROCE</Text>
@@ -287,6 +302,7 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
               alignItems={"flex-start"}
               justifyContent={"space-between"}
               flexDirection={"column"}
+              gap={isSmallScreen ? 1 : 0}
             >
               <Flex justifyContent={"space-between"} width={"100%"} gap={8}>
                 <Text color={"surface.600"}>Price</Text>
@@ -312,7 +328,7 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
               </Flex>
             </Flex>
             <Flex
-              alignItems={"flex-start"}
+              alignItems={isSmallScreen ? "center" : "flex-start"}
               justifyContent={"space-between"}
               flexDirection={"column"}
             >
@@ -324,7 +340,10 @@ const StockInfoComponent = memo(function StockInfo({ symbol }: StockInfoProps) {
           </Flex>
         </CardBody>
       </Card>
-      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+      <Grid
+        templateColumns={isSmallScreen ? "repeat(1, 1fr)" : "repeat(2, 1fr)"}
+        gap={6}
+      >
         {(
           [
             "quarterlyResults",

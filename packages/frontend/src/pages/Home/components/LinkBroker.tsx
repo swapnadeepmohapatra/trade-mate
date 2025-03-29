@@ -10,6 +10,7 @@ import {
   Image,
   Stack,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import {
   get5PaisaOAuthUrl,
@@ -30,6 +31,8 @@ interface Broker {
 
 function LinkBroker() {
   const [brokers, setBrokers] = useState([]);
+
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     getAllBrokers().then((response) => {
@@ -73,7 +76,11 @@ function LinkBroker() {
 
   return (
     <Container maxWidth={"container.lg"} mb={8}>
-      <Grid templateColumns="repeat(3, 1fr)" gap={8} alignItems={"stretch"}>
+      <Grid
+        templateColumns={isSmallScreen ? "repeat(1, 1fr)" : "repeat(3, 1fr)"}
+        gap={8}
+        alignItems={"stretch"}
+      >
         {brokers.map((broker: Broker) => (
           <GridItem key={broker.id}>
             <Box height="100%">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import {
   Box,
   Input,
@@ -14,6 +14,7 @@ import {
   TabPanels,
   TabPanel,
   IconButton,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { fetchSymbols } from "../../../services/marketData";
 import TradingViewWidget from "./TradingViewWidget";
@@ -39,6 +40,8 @@ const Watchlist: React.FC = () => {
   const [watchList, setWatchList] = useState<Stock[]>([]);
 
   const [debouncedQuery, setDebouncedQuery] = useState(query);
+
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -71,9 +74,26 @@ const Watchlist: React.FC = () => {
     setWatchList(watchList.filter((s) => s.id !== stock.id));
   };
 
+  const changeStockSelection = (stock: SetStateAction<Stock | null>) => () => {
+    setSelectedStock(stock);
+    if (isSmallScreen) {
+      setQuery("");
+      setStocks([]);
+      setDebouncedQuery("");
+      setSelectedTab(0);
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
-    <Flex>
-      <Box padding="4" width="sm" margin="auto" paddingTop="0">
+    <Flex direction={isSmallScreen ? "column" : "row"}>
+      <Box
+        padding="4"
+        width={isSmallScreen ? "full" : "sm"}
+        margin={isSmallScreen ? "0" : "auto"}
+        paddingTop="0"
+      >
         <Input
           placeholder="Search stocks..."
           value={query}
@@ -85,8 +105,7 @@ const Watchlist: React.FC = () => {
             align="start"
             position={"absolute"}
             h={"50vh"}
-            width="22rem"
-            // w={"100%"}
+            width={isSmallScreen ? "calc(100% - 2rem)" : "22rem"}
             overflowY={"auto"}
             backgroundColor="surface.100"
             marginTop={"-4"}
@@ -123,7 +142,7 @@ const Watchlist: React.FC = () => {
                     px="4"
                     border="1px"
                     borderColor="surface.200"
-                    onClick={() => setSelectedStock(stock)}
+                    onClick={changeStockSelection(stock)}
                     _hover={{
                       cursor: "pointer",
                       backgroundColor: "surfaceMixed.100",
@@ -166,96 +185,102 @@ const Watchlist: React.FC = () => {
                 ))}
           </VStack>
         )}
-        <Container
-          height={"calc(100vh - 18rem)"}
-          overflowY={"auto"}
-          padding={0}
-        >
-          {watchList.length === 0 && (
-            <Flex
-              p="4"
-              w="100%"
-              justify="center"
-              flexDirection={"column"}
-              align={"center"}
+        {!isSmallScreen && (
+          <>
+            <Container
+              height={"calc(100vh - 18rem)"}
+              overflowY={"auto"}
+              padding={0}
             >
-              <Text>No stocks in watchlist</Text>
-              <Text>Search and add stocks</Text>
-            </Flex>
-          )}
-          {watchList.map((stock) => (
-            <Box
-              key={stock.id}
-              w="100%"
-              py="3"
-              px="4"
-              border="1px"
-              borderColor="surface.200"
-              onClick={() => setSelectedStock(stock)}
-              _hover={{
-                cursor: "pointer",
-                backgroundColor: "surfaceMixed.200",
-              }}
-              backgroundColor={
-                selectedStock?.id === stock?.id
-                  ? "surfaceMixed.100"
-                  : "transparent"
-              }
-            >
-              <Flex justify="space-between">
-                <Stack
-                  justify="space-between"
-                  flex={1}
-                  alignItems={"flex-start"}
+              {watchList.length === 0 && (
+                <Flex
+                  p="4"
+                  w="100%"
+                  justify="center"
+                  flexDirection={"column"}
+                  align={"center"}
                 >
-                  <Text fontWeight="bold">{stock.symbolRoot}</Text>
-                  <Text height={"30px"}>{stock.fullName}</Text>
-                </Stack>
-                <Stack justify="space-between" alignItems={"center"}>
-                  <Text
-                    backgroundColor="surfaceMixed.200"
-                    px="2"
-                    py="0.5"
-                    borderRadius={"sm"}
-                  >
-                    {stock.exch === "N" ? "NSE" : "BSE"}
-                  </Text>
-                  <IconButton
-                    aria-label="Remove from watchlist"
-                    icon={<FaTrash />}
-                    variant={"ghost"}
-                    onClick={() => {
-                      removeFromWatchList(stock);
-                    }}
-                  />
-                </Stack>
-              </Flex>
-            </Box>
-          ))}
-        </Container>
-        <Flex
-          style={{ width: "100%" }}
-          flexDirection={"row"}
-          backgroundColor="surface.100"
-        >
-          {["1", "2", "3", "4", "5", "6"].map((i) => (
-            <Text
-              key={i}
-              flex={1}
-              style={{ cursor: "pointer" }}
-              textAlign="center"
-              py="2"
-              border={1}
-              borderColor="gray.200"
-              onClick={() => setSelectedTab(parseInt(i) - 1)}
-              backgroundColor={
-                selectedTab === parseInt(i) - 1 ? "surface.200" : "transparent"
-              }
+                  <Text>No stocks in watchlist</Text>
+                  <Text>Search and add stocks</Text>
+                </Flex>
+              )}
+              {watchList.map((stock) => (
+                <Box
+                  key={stock.id}
+                  w="100%"
+                  py="3"
+                  px="4"
+                  border="1px"
+                  borderColor="surface.200"
+                  onClick={() => setSelectedStock(stock)}
+                  _hover={{
+                    cursor: "pointer",
+                    backgroundColor: "surfaceMixed.200",
+                  }}
+                  backgroundColor={
+                    selectedStock?.id === stock?.id
+                      ? "surfaceMixed.100"
+                      : "transparent"
+                  }
+                >
+                  <Flex justify="space-between">
+                    <Stack
+                      justify="space-between"
+                      flex={1}
+                      alignItems={"flex-start"}
+                    >
+                      <Text fontWeight="bold">{stock.symbolRoot}</Text>
+                      <Text height={"30px"}>{stock.fullName}</Text>
+                    </Stack>
+                    <Stack justify="space-between" alignItems={"center"}>
+                      <Text
+                        backgroundColor="surfaceMixed.200"
+                        px="2"
+                        py="0.5"
+                        borderRadius={"sm"}
+                      >
+                        {stock.exch === "N" ? "NSE" : "BSE"}
+                      </Text>
+                      <IconButton
+                        aria-label="Remove from watchlist"
+                        icon={<FaTrash />}
+                        variant={"ghost"}
+                        onClick={() => {
+                          removeFromWatchList(stock);
+                        }}
+                      />
+                    </Stack>
+                  </Flex>
+                </Box>
+              ))}
+            </Container>
+            <Flex
+              style={{ width: "100%" }}
+              flexDirection={"row"}
+              backgroundColor="surface.100"
             >
-              {i}
-            </Text>
-          ))}
-        </Flex>
+              {["1", "2", "3", "4", "5", "6"].map((i) => (
+                <Text
+                  key={i}
+                  flex={1}
+                  style={{ cursor: "pointer" }}
+                  textAlign="center"
+                  py="2"
+                  border={1}
+                  borderColor="gray.200"
+                  onClick={() => setSelectedTab(parseInt(i) - 1)}
+                  backgroundColor={
+                    selectedTab === parseInt(i) - 1
+                      ? "surface.200"
+                      : "transparent"
+                  }
+                >
+                  {i}
+                </Text>
+              ))}
+            </Flex>
+          </>
+        )}
       </Box>
 
       <Box

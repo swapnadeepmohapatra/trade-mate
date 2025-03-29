@@ -35,7 +35,13 @@ function Hero() {
           your investments get company financials and AI-powered
           recommendations, all in one place.
         </Text>
-        <Stack direction="row" justifyContent="center" marginTop={8}>
+
+        <Stack
+          direction="row"
+          justifyContent="center"
+          marginTop={8}
+          flexWrap={"wrap"}
+        >
           {["Consolidated Portfolio", "Company Financials", "AI Insights"].map(
             (feature) => (
               <Tag
