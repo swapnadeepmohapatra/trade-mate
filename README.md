@@ -6,6 +6,12 @@ TradeMate is a web application that allows users to track their stock portfolio 
 
 ![trade_mate_diagram](https://github.com/user-attachments/assets/405a9707-ac92-4dd6-a87d-b6b5d77704c5)
 
+## Demo Video
+
+YouTubeLink: [https://www.youtube.com/watch?v=hwkys1rqMdI](https://www.youtube.com/watch?v=hwkys1rqMdI)
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hwkys1rqMdI/0.jpg)](https://www.youtube.com/watch?v=hwkys1rqMdI)
+
 ## Features
 
 - **Real-time Portfolio**: Users can connect their brokerage account to the app and view their portfolio in real-time. They can see the current value of their portfolio, the percentage change, and the individual stocks in their portfolio.
