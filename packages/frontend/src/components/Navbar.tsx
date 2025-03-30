@@ -118,7 +118,7 @@ function Navbar() {
               >
                 <Button
                   onClick={() => {
-                    navigate("/home");
+                    navigate("/broker");
                   }}
                 >
                   Connect Broker

@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import { signup } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
 import GoogleSignInButton from "../../components/GoogleSignInButton";
+import Navbar from "../../components/Navbar";
 
 function Signup() {
   const [state, setState] = useState({
@@ -146,89 +147,92 @@ function Signup() {
   };
 
   return (
-    <Container>
-      <Stack justifyContent={"center"} height={"100vh"}>
-        <Heading textAlign="center" size="lg">
-          Sign Up
-        </Heading>
-        <Text textAlign="center" fontSize="md" color="alphaWhite.400">
-          Create a new account
-        </Text>
+    <Stack>
+      <Navbar />
+      <Container>
+        <Stack height={"calc(100vh - 6rem)"} justifyContent={"center"}>
+          <Heading textAlign="center" size="lg">
+            Sign Up
+          </Heading>
+          <Text textAlign="center" fontSize="md" color="alphaWhite.400">
+            Create a new account
+          </Text>
 
-        <form onSubmit={handleSubmit}>
-          <Stack>
-            <FormControl isInvalid={error.name} marginBottom={4}>
-              <FormLabel>Name</FormLabel>
-              <Input
-                type="text"
-                value={name}
-                onChange={handleInputChange("name")}
-                placeholder="Enter your name"
-              />
-              {error.name && (
-                <FormHelperText color="error.400">
-                  Name is required.
-                </FormHelperText>
-              )}
-            </FormControl>
-            <FormControl isInvalid={error.email} marginBottom={4}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                type="email"
-                value={email}
-                onChange={handleInputChange("email")}
-                placeholder="Enter your email"
-              />
-              {error.email && (
-                <FormHelperText color="error.400">
-                  Email is required.
-                </FormHelperText>
-              )}
-            </FormControl>
-            <FormControl isInvalid={error.password} marginBottom={4}>
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                value={password}
-                onChange={handleInputChange("password")}
-                placeholder="Enter your password"
-              />
-              {error.password && (
-                <FormHelperText color="error.400">
-                  Password is required.
-                </FormHelperText>
-              )}
-            </FormControl>
-            <Text textAlign={"center"}>
-              Already have an account?{" "}
-              <Text
-                as="span"
-                color="primary.500"
-                cursor="pointer"
-                onClick={() => navigate("/login")}
-              >
-                Log in
+          <form onSubmit={handleSubmit}>
+            <Stack>
+              <FormControl isInvalid={error.name} marginBottom={4}>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  type="text"
+                  value={name}
+                  onChange={handleInputChange("name")}
+                  placeholder="Enter your name"
+                />
+                {error.name && (
+                  <FormHelperText color="error.400">
+                    Name is required.
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <FormControl isInvalid={error.email} marginBottom={4}>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={handleInputChange("email")}
+                  placeholder="Enter your email"
+                />
+                {error.email && (
+                  <FormHelperText color="error.400">
+                    Email is required.
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <FormControl isInvalid={error.password} marginBottom={4}>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={handleInputChange("password")}
+                  placeholder="Enter your password"
+                />
+                {error.password && (
+                  <FormHelperText color="error.400">
+                    Password is required.
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <Text textAlign={"center"}>
+                Already have an account?{" "}
+                <Text
+                  as="span"
+                  color="primary.500"
+                  cursor="pointer"
+                  onClick={() => navigate("/login")}
+                >
+                  Log in
+                </Text>
               </Text>
-            </Text>
-            <Button
-              my={4}
-              colorScheme="primary"
-              isLoading={isLoading}
-              type="submit"
-            >
-              Submit
-            </Button>{" "}
-            <Flex alignItems="center" gap={4}>
-              <Divider />
-              <Text>or</Text>
-              <Divider />
-            </Flex>
-            <GoogleSignInButton />
-          </Stack>
-        </form>
-      </Stack>
-      {successModal()}
-    </Container>
+              <Button
+                my={4}
+                colorScheme="primary"
+                isLoading={isLoading}
+                type="submit"
+              >
+                Submit
+              </Button>{" "}
+              <Flex alignItems="center" gap={4}>
+                <Divider />
+                <Text>or</Text>
+                <Divider />
+              </Flex>
+              <GoogleSignInButton />
+            </Stack>
+          </form>
+        </Stack>
+        {successModal()}
+      </Container>
+    </Stack>
   );
 }
 

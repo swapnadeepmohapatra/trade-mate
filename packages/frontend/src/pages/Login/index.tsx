@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../contexts/UserContext";
 import GoogleSignInButton from "../../components/GoogleSignInButton";
+import Navbar from "../../components/Navbar";
 
 function Login() {
   const [state, setState] = useState({
@@ -81,80 +82,83 @@ function Login() {
   const { email, password } = state;
 
   return (
-    <Container>
-      <Stack height={"100vh"} justifyContent={"center"}>
-        <Heading textAlign="center" size="lg">
-          Log In
-        </Heading>
-        <Text textAlign="center" fontSize="md" color="alphaWhite.400">
-          Log in to your account
-        </Text>
-
-        {error.message && (
-          <Text color="red.500" textAlign="center" marginBottom={4}>
-            {error.message}
+    <Stack>
+      <Navbar />
+      <Container>
+        <Stack height={"calc(100vh - 6rem)"} justifyContent={"center"}>
+          <Heading textAlign="center" size="lg">
+            Log In
+          </Heading>
+          <Text textAlign="center" fontSize="md" color="alphaWhite.400">
+            Log in to your account
           </Text>
-        )}
 
-        <form onSubmit={handleSubmit}>
-          <Stack>
-            <FormControl isInvalid={error.email} marginBottom={4}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                type="email"
-                value={email}
-                onChange={handleInputChange("email")}
-                placeholder="Enter your email"
-              />
-              {error.email && (
-                <FormHelperText color="error.400">
-                  Email is required.
-                </FormHelperText>
-              )}
-            </FormControl>
-            <FormControl isInvalid={error.password} marginBottom={4}>
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                value={password}
-                onChange={handleInputChange("password")}
-                placeholder="Enter your password"
-              />
-              {error.password && (
-                <FormHelperText color="error.400">
-                  Password is required.
-                </FormHelperText>
-              )}
-            </FormControl>
-            <Text textAlign={"center"}>
-              Don&apos;t have an account?{" "}
-              <Text
-                as="span"
-                color="primary.500"
-                cursor="pointer"
-                onClick={() => navigate("/signup")}
-              >
-                Register
-              </Text>
+          {error.message && (
+            <Text color="red.500" textAlign="center" marginBottom={4}>
+              {error.message}
             </Text>
-            <Button
-              my={4}
-              colorScheme="primary"
-              isLoading={isLoading}
-              type="submit"
-            >
-              Submit
-            </Button>
-            <Flex alignItems="center" gap={4}>
-              <Divider />
-              <Text>or</Text>
-              <Divider />
-            </Flex>
-            <GoogleSignInButton />
-          </Stack>
-        </form>
-      </Stack>
-    </Container>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <Stack>
+              <FormControl isInvalid={error.email} marginBottom={4}>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={handleInputChange("email")}
+                  placeholder="Enter your email"
+                />
+                {error.email && (
+                  <FormHelperText color="error.400">
+                    Email is required.
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <FormControl isInvalid={error.password} marginBottom={4}>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={handleInputChange("password")}
+                  placeholder="Enter your password"
+                />
+                {error.password && (
+                  <FormHelperText color="error.400">
+                    Password is required.
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <Text textAlign={"center"}>
+                Don&apos;t have an account?{" "}
+                <Text
+                  as="span"
+                  color="primary.500"
+                  cursor="pointer"
+                  onClick={() => navigate("/signup")}
+                >
+                  Register
+                </Text>
+              </Text>
+              <Button
+                my={4}
+                colorScheme="primary"
+                isLoading={isLoading}
+                type="submit"
+              >
+                Submit
+              </Button>
+              <Flex alignItems="center" gap={4}>
+                <Divider />
+                <Text>or</Text>
+                <Divider />
+              </Flex>
+              <GoogleSignInButton />
+            </Stack>
+          </form>
+        </Stack>
+      </Container>
+    </Stack>
   );
 }
 
