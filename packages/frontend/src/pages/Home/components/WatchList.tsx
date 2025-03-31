@@ -43,19 +43,17 @@ const Watchlist: React.FC = () => {
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
   const [selectedTab, setSelectedTab] = useState(0);
   const [watchLists, setWatchLists] = useState<WatchList[]>(() => {
-    // Initialize 6 watchlists from localStorage if available
     const savedWatchLists = localStorage.getItem("watchLists");
     if (savedWatchLists) {
       return JSON.parse(savedWatchLists);
     }
-    // Create 6 empty watchlists if none exist
+
     return Array.from({ length: 6 }, (_, index) => ({
       id: index + 1,
       items: [],
     }));
   });
 
-  // Save watchLists to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("watchLists", JSON.stringify(watchLists));
   }, [watchLists]);
@@ -87,11 +85,10 @@ const Watchlist: React.FC = () => {
     setQuery("");
     setStocks([]);
     setDebouncedQuery("");
-    // Add to the current watchlist if it has less than 6 items and the stock isn't already in the list
+
     setWatchLists((prevLists) => {
       const newLists = [...prevLists];
       const currentList = newLists[selectedTab];
-      // Check if stock is already in the current list
       if (
         currentList.items.length < 6 &&
         !currentList.items.some((item) => item.id === stock.id)
@@ -113,7 +110,6 @@ const Watchlist: React.FC = () => {
 
   const handleTabChange = (index: number) => {
     setSelectedTab(index);
-    // Clear search results when switching tabs
     setQuery("");
     setStocks([]);
     setDebouncedQuery("");
@@ -357,7 +353,7 @@ const Watchlist: React.FC = () => {
                 padding: 0,
               }}
             >
-              <TradingViewWidget symbol={selectedStock?.name || "NIFTYBEES"} />
+              <TradingViewWidget symbol={selectedStock?.name || "SBIN"} />
             </TabPanel>
             <TabPanel
               style={{
@@ -365,7 +361,7 @@ const Watchlist: React.FC = () => {
                 padding: 0,
               }}
             >
-              <StockInfo symbol={selectedStock?.name || "NIFTY"} />
+              <StockInfo symbol={selectedStock?.name || "SBIN"} />
             </TabPanel>
           </TabPanels>
         </Tabs>
