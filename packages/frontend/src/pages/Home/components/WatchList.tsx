@@ -31,16 +31,36 @@ interface Stock {
   symbolRoot: string;
 }
 
+interface WatchList {
+  id: number;
+  items: Stock[];
+}
+
 const Watchlist: React.FC = () => {
   const [query, setQuery] = useState("");
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [watchList, setWatchList] = useState<Stock[]>([]);
+  const [watchLists, setWatchLists] = useState<WatchList[]>(() => {
+    // Initialize 6 watchlists from localStorage if available
+    const savedWatchLists = localStorage.getItem("watchLists");
+    if (savedWatchLists) {
+      return JSON.parse(savedWatchLists);
+    }
+    // Create 6 empty watchlists if none exist
+    return Array.from({ length: 6 }, (_, index) => ({
+      id: index + 1,
+      items: [],
+    }));
+  });
+
+  // Save watchLists to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("watchLists", JSON.stringify(watchLists));
+  }, [watchLists]);
 
   const [debouncedQuery, setDebouncedQuery] = useState(query);
-
   const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
@@ -67,11 +87,36 @@ const Watchlist: React.FC = () => {
     setQuery("");
     setStocks([]);
     setDebouncedQuery("");
-    setWatchList([...watchList, stock]);
+    // Add to the current watchlist if it has less than 6 items and the stock isn't already in the list
+    setWatchLists((prevLists) => {
+      const newLists = [...prevLists];
+      const currentList = newLists[selectedTab];
+      // Check if stock is already in the current list
+      if (
+        currentList.items.length < 6 &&
+        !currentList.items.some((item) => item.id === stock.id)
+      ) {
+        currentList.items = [...currentList.items, stock];
+      }
+      return newLists;
+    });
   };
 
   const removeFromWatchList = (stock: Stock) => {
-    setWatchList(watchList.filter((s) => s.id !== stock.id));
+    setWatchLists((prevLists) => {
+      const newLists = [...prevLists];
+      const currentList = newLists[selectedTab];
+      currentList.items = currentList.items.filter((s) => s.id !== stock.id);
+      return newLists;
+    });
+  };
+
+  const handleTabChange = (index: number) => {
+    setSelectedTab(index);
+    // Clear search results when switching tabs
+    setQuery("");
+    setStocks([]);
+    setDebouncedQuery("");
   };
 
   const changeStockSelection = (stock: SetStateAction<Stock | null>) => () => {
@@ -81,7 +126,6 @@ const Watchlist: React.FC = () => {
       setStocks([]);
       setDebouncedQuery("");
       setSelectedTab(0);
-
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -192,7 +236,7 @@ const Watchlist: React.FC = () => {
               overflowY={"auto"}
               padding={0}
             >
-              {watchList.length === 0 && (
+              {watchLists[selectedTab].items.length === 0 && (
                 <Flex
                   p="4"
                   w="100%"
@@ -200,11 +244,11 @@ const Watchlist: React.FC = () => {
                   flexDirection={"column"}
                   align={"center"}
                 >
-                  <Text>No stocks in watchlist</Text>
+                  <Text>No stocks in watchlist {selectedTab + 1}</Text>
                   <Text>Search and add stocks</Text>
                 </Flex>
               )}
-              {watchList.map((stock) => (
+              {watchLists[selectedTab].items.map((stock) => (
                 <Box
                   key={stock.id}
                   w="100%"
@@ -259,23 +303,21 @@ const Watchlist: React.FC = () => {
               flexDirection={"row"}
               backgroundColor="surface.100"
             >
-              {["1", "2", "3", "4", "5", "6"].map((i) => (
+              {watchLists.map((list, index) => (
                 <Text
-                  key={i}
+                  key={list.id}
                   flex={1}
                   style={{ cursor: "pointer" }}
                   textAlign="center"
                   py="2"
                   border={1}
                   borderColor="gray.200"
-                  onClick={() => setSelectedTab(parseInt(i) - 1)}
+                  onClick={() => handleTabChange(index)}
                   backgroundColor={
-                    selectedTab === parseInt(i) - 1
-                      ? "surface.200"
-                      : "transparent"
+                    selectedTab === index ? "surface.200" : "transparent"
                   }
                 >
-                  {i}
+                  {list.id}
                 </Text>
               ))}
             </Flex>
