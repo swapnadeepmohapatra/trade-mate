@@ -56,9 +56,9 @@ function Scroll() {
           <div className={styles.marquee__item}>
             <img src={AngelOneLogo} alt="" />
           </div>
-          <div className={styles.marquee__item}>
+          {/* <div className={styles.marquee__item}>
             <img src={GrowwLogo} alt="" />
-          </div>
+          </div> */}
           <div className={styles.marquee__item}>
             <img src={UpstoxLogo} alt="" />
           </div>
