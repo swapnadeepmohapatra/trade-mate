@@ -1,5 +1,4 @@
 import FivePaisaLogo from "../../../images/logos/5paisa_logo.jpg";
-import GrowwLogo from "../../../images/logos/groww.png";
 import AngelOneLogo from "../../../images/logos/angel_one_logo.png";
 import UpstoxLogo from "../../../images/logos/upstox.png";
 import KiteLogo from "../../../images/logos/kite.png";
@@ -23,9 +22,9 @@ function Scroll() {
           <div className={styles.marquee__item}>
             <img src={AngelOneLogo} alt="" />
           </div>
-          <div className={styles.marquee__item}>
+          {/* <div className={styles.marquee__item}>
             <img src={GrowwLogo} alt="" />
-          </div>
+          </div> */}
           <div className={styles.marquee__item}>
             <img src={UpstoxLogo} alt="" />
           </div>
