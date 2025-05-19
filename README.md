@@ -42,6 +42,8 @@ It is a monorepo project with the following tech stack:
 - **Deployment**: AWS EC2, pm2, Nginx
 - **Testing**: Grafana k6
 
+  Update: Due to high infra costs, we have moved to a different service provider. The backend is hosted in a Linode instance by Akamai Cloud. And the frontend is hosted on Netlify 
+
 ## Deployed Link
 
 [TradeMate](https://trademate.swapnadeep.com/)
