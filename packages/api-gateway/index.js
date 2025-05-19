@@ -16,7 +16,7 @@ app.use(
   cors({
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie"],
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://trademate.swapnadeep.com"],
   })
 );
 
