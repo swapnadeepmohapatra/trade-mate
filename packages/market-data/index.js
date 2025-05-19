@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import express from "express";
 import marketDataRouter from "./routes/market-data.route.js";
 import { prismaMiddleware } from "./middleware/index.js";
