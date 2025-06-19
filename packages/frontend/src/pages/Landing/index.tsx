@@ -18,7 +18,7 @@ function Landing() {
       <Navbar />
       <Hero />
       <Heading textAlign="center" size="lg" marginTop={"16"} marginBottom={"8"}>
-        Our Broker Partners
+        Brokers You Can Use
       </Heading>
       <Scroll />
       <Text textAlign="center" size="lg" my={"8"}>
